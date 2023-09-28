@@ -1,7 +1,52 @@
+:root {
+  --content-padding: calc(0.5rem + 0.5vh);
+
+  --section-padding: clamp(1rem, calc(1.5rem + 1vw), 3vw);
+  --section-gap: calc(3rem + 0.5vh);
+  --section-item-gap: calc(1rem + 0.5vw);
+
+  --main-font-size: calc(0.75rem + 1vw);
+
+  --btn-min-w: calc(3rem + 1vw);
+}
+
 *,
 *::before,
 *::after {
   margin: 0;
   padding: 0;
   border: 0;
+
+  font-size: var(--main-font-size);
+}
+
+body {
+  display: grid;
+  grid-template-columns: 0.2fr 1fr 0.2fr;
+  place-items: center;
+
+  min-height: 100svh;
+}
+
+button {
+  border: 1px solid black;
+  padding: var(--content-padding);
+  cursor: pointer;
+  min-width: var(--btn-min-w);
+  min-height: var(--btn-min-w);
+}
+
+button:hover {
+  background-color: #ffb6b624;
+}
+
+.console {
+  display: grid;
+  grid-area: 1 / 2;
+}
+
+.screen {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
 }
