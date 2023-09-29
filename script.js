@@ -1,45 +1,61 @@
-const gameboard = (() => {
-  const gameContent = [];
+const gameBoard = (function () {
+  const rows = 3;
+  const columns = 3;
+  const board = [];
 
-  const gameNode = (btn) => {
-    const link = btn;
-    const textContent = btn.textContent;
+  for (let i = 0; i < rows; i++) {
+    board[i] = [];
+    for (let j = 0; j < columns; j++) {
+      board[i].push(gameNode());
+    }
+  }
 
-    return {
-      link,
-      textContent,
-    };
+  const getBoard = () => board;
+
+  const makeMark = (row, column, choice) => {
+    // The main idea is to use this big ass condition for rows and columns:
+    // - Other conditions lose the `choice` return statement.
+    // - Row and column return messages appears only after the `choice` value is typed.
+
+    if (row !== 0 && row !== 1 && row !== 2)
+      return "available row values: 0, 1, 2";
+
+    if (column !== 0 && column !== 1 && column !== 2)
+      return "available column values: 0, 1, 2";
+
+    if (parseInt(choice) !== 0 && parseInt(choice) !== 1)
+      return "available choice values: 0, 1";
+
+    if (board[row][column].getMark() !== "") return "cell is full";
+
+    board[row][column].pickMark(choice);
   };
 
-  function getBtns() {
-    const buttons = document.querySelectorAll(".screen > button");
+  const printBoardValues = () => {
+    const boardValues = gameBoard
+      .getBoard()
+      .map((row) => row.map((node) => node.getMark()));
 
-    buttons.forEach((btn) => {
-      gameContent.push(gameNode(btn));
-    });
-  }
-
-  function fillBtns() {
-    for (let node of gameContent) {
-      const randomMark = ["X", "O"][Math.floor(Math.random() * 2)];
-
-      node.textContent = randomMark;
-    }
-  }
-
-  function updateBtns() {
-    for (let node of gameContent) {
-      node.link.textContent = node.textContent;
-    }
-  }
-
-  (function _render() {
-    getBtns();
-    fillBtns();
-    updateBtns();
-  })();
+    return boardValues;
+  };
 
   return {
-    gameContent,
+    getBoard,
+    printBoardValues,
+    makeMark,
   };
 })();
+
+function gameNode() {
+  let mark = "";
+
+  const getMark = () => mark;
+
+  const pickMark = (choice) => {
+    const marks = ["X", "O"];
+
+    mark = marks[choice];
+  };
+
+  return { getMark, pickMark };
+}
