@@ -44,7 +44,7 @@ const game = (function () {
       mark = marks[choice];
     };
 
-    const setPlayerId = (playerName) => (playerId = playerName);
+    const setPlayerId = (id) => (playerId = id);
     const getPlayerId = () => playerId;
 
     return {
