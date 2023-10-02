@@ -13,7 +13,7 @@ const gameBoard = (function () {
 
   const getBoard = () => board;
 
-  const printBoardValues = () => {
+  const getBoardValues = () => {
     const boardValues = gameBoard
       .getBoard()
       .map((row) => row.map((node) => node.getMark()));
@@ -21,9 +21,37 @@ const gameBoard = (function () {
     return boardValues;
   };
 
+  const emptyCells = (boardState) => {
+    const cells = [];
+
+    for (let x = 0; x < 3; x++) {
+      for (let y = 0; y < 3; y++) {
+        if (boardState[x][y] === 0) cells.push([x, y]);
+      }
+    }
+
+    return cells;
+  };
+
+  const checkCell = (x, y) =>
+    emptyCells(getBoardValues()).some((cell) =>
+      cell.every((item, i) => item === [x, y][i]),
+    );
+
+  const makeMark = (x, y, playerMark) => {
+    if (checkCell(x, y) && playerMark) {
+      board[x][y].setMark(playerMark);
+
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   return {
     getBoard,
-    printBoardValues,
+    getBoardValues,
+    makeMark,
   };
 })();
 
@@ -31,18 +59,20 @@ function gameNode() {
   let mark = 0;
 
   const getMark = () => mark;
+  const setMark = (playerMark) => (mark = playerMark);
 
   return {
     getMark,
+    setMark,
   };
 }
 
 function gamePlayer(initName, initMark) {
   let name = initName;
-  let mark = initMark;
+  let playerMark = initMark;
 
   const getName = () => name;
-  const getMark = () => mark;
+  const getMark = () => playerMark;
 
   return {
     getName,
@@ -51,26 +81,43 @@ function gamePlayer(initName, initMark) {
 }
 
 const gameController = (function () {
-  const players = [gamePlayer("juh", 1), gamePlayer("bluh", -1)];
-
-  const gameOver = (state, playerMark) => {
-    const winState = [
-      [state[0][0], state[0][1], state[0][2]],
-      [state[1][0], state[1][1], state[1][2]],
-      [state[2][0], state[2][1], state[2][2]],
-      [state[0][0], state[1][0], state[2][0]],
-      [state[0][1], state[1][1], state[2][1]],
-      [state[0][2], state[1][2], state[2][2]],
-      [state[0][0], state[1][1], state[2][2]],
-      [state[2][0], state[1][1], state[0][2]],
+  const gameOver = (boardState, playerMark) => {
+    const winboardState = [
+      [boardState[0][0], boardState[0][1], boardState[0][2]],
+      [boardState[1][0], boardState[1][1], boardState[1][2]],
+      [boardState[2][0], boardState[2][1], boardState[2][2]],
+      [boardState[0][0], boardState[1][0], boardState[2][0]],
+      [boardState[0][1], boardState[1][1], boardState[2][1]],
+      [boardState[0][2], boardState[1][2], boardState[2][2]],
+      [boardState[0][0], boardState[1][1], boardState[2][2]],
+      [boardState[2][0], boardState[1][1], boardState[0][2]],
     ];
 
-    return winState.some(
+    return winboardState.some(
       (line) => line.filter((item) => item === playerMark).length === 3,
     );
   };
 
+  const gameOverAll = (boardState, firstPlayerMark, secondPlayerMark) =>
+    gameOver(boardState, firstPlayerMark) ||
+    gameOver(boardState, secondPlayerMark);
+
+  const evaluateScore = (boardState, playerMark) => {
+    let score = 0;
+
+    switch (true) {
+      case gameOver(boardState, playerMark):
+        score = -playerMark;
+        break;
+      default:
+        score = 0;
+    }
+
+    return score;
+  };
+
   return {
-    gameOver,
+    gameOverAll,
+    evaluateScore,
   };
 })();
