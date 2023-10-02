@@ -51,6 +51,7 @@ const gameBoard = (function () {
   return {
     getBoard,
     getBoardValues,
+    emptyCells,
     makeMark,
   };
 })();
@@ -98,26 +99,68 @@ const gameController = (function () {
     );
   };
 
-  const gameOverAll = (boardState, firstPlayerMark, secondPlayerMark) =>
-    gameOver(boardState, firstPlayerMark) ||
-    gameOver(boardState, secondPlayerMark);
+  const gameOverAll = (boardState, playerMark) =>
+    gameOver(boardState, playerMark) || gameOver(boardState, -playerMark);
 
   const evaluateScore = (boardState, playerMark) => {
     let score = 0;
 
     switch (true) {
-      case gameOver(boardState, playerMark):
+      case gameOver(boardState, -playerMark):
         score = -playerMark;
         break;
       default:
         score = 0;
+        break;
     }
 
     return score;
   };
 
+  function minimax(boardState, depth, playerMark) {
+    let best;
+
+    switch (playerMark) {
+      case 1:
+        best = [-1, -1, -Infinity];
+        break;
+      case -1:
+        best = [-1, -1, +Infinity];
+        break;
+    }
+
+    if (depth === 0 || gameOverAll(boardState, playerMark)) {
+      const score = evaluateScore(boardState, playerMark);
+
+      return [-1, -1, score];
+    }
+
+    gameBoard.emptyCells(boardState).forEach((cell) => {
+      const x = cell[0];
+      const y = cell[1];
+
+      boardState[x][y] = playerMark;
+      const score = minimax(boardState, depth - 1, -playerMark);
+      boardState[x][y] = 0;
+
+      score[0] = x;
+      score[1] = y;
+
+      switch (playerMark) {
+        case 1:
+          if (score[2] > best[2]) best = score;
+          break;
+        case -1:
+          if (score[2] < best[2]) best = score;
+          break;
+      }
+    });
+
+    return best;
+  }
+
   return {
     gameOverAll,
-    evaluateScore,
+    minimax,
   };
 })();
