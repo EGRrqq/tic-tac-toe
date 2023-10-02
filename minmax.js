@@ -21,7 +21,7 @@ const gameBoard = (function () {
     return boardValues;
   };
 
-  const emptyCells = (boardState) => {
+  const getEmptyCells = (boardState) => {
     const cells = [];
 
     for (let x = 0; x < 3; x++) {
@@ -34,7 +34,7 @@ const gameBoard = (function () {
   };
 
   const checkCell = (x, y) =>
-    emptyCells(getBoardValues()).some((cell) =>
+    getEmptyCells(getBoardValues()).some((cell) =>
       cell.every((item, i) => item === [x, y][i]),
     );
 
@@ -51,7 +51,7 @@ const gameBoard = (function () {
   return {
     getBoard,
     getBoardValues,
-    emptyCells,
+    getEmptyCells,
     makeMark,
   };
 })();
@@ -74,10 +74,42 @@ function gamePlayer(initName, initMark) {
 
   const getName = () => name;
   const getMark = () => playerMark;
+  const playRound = (x, y) => gameBoard.makeMark(x, y, initMark);
 
   return {
     getName,
     getMark,
+    playRound,
+  };
+}
+
+function aiPlayer(initName, initMark) {
+  const { getName, getMark } = gamePlayer(initName, initMark);
+
+  const aiTurn = () => {
+    let x = Math.floor(Math.random() * 3);
+    let y = Math.floor(Math.random() * 3);
+
+    if (gameBoard.getEmptyCells(gameBoard.getBoardValues()).length !== 9) {
+      const move = gameController.minimax(
+        gameBoard.getBoardValues(),
+        gameBoard.getEmptyCells(gameBoard.getBoardValues()).length,
+        initMark,
+      );
+
+      x = move[0];
+      y = move[1];
+    }
+
+    return [x, y, initMark];
+  };
+
+  const playRound = () => gameBoard.makeMark(...aiTurn());
+
+  return {
+    getName,
+    getMark,
+    playRound,
   };
 }
 
@@ -135,7 +167,7 @@ const gameController = (function () {
       return [-1, -1, score];
     }
 
-    gameBoard.emptyCells(boardState).forEach((cell) => {
+    gameBoard.getEmptyCells(boardState).forEach((cell) => {
       const x = cell[0];
       const y = cell[1];
 
