@@ -74,7 +74,17 @@ function gamePlayer(initName, initMark) {
 
   const getName = () => name;
   const getMark = () => playerMark;
-  const playRound = (x, y) => gameBoard.makeMark(x, y, initMark);
+
+  const playerTurn = (x, y) => {
+    if (gameController.gameOverAll(gameBoard.getBoardValues(), initMark)) {
+      x = -1;
+      y = -1;
+    }
+
+    return [x, y, initMark];
+  };
+
+  const playRound = (x, y) => gameBoard.makeMark(...playerTurn(x, y));
 
   return {
     getName,
