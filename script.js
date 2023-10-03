@@ -211,13 +211,14 @@ const game = (function () {
   const playController = (function () {
     const players = [gamePlayer("juh", -1), aiPlayer("cortana", 1)];
 
-    console.log(gameBoard.getBoardValues());
+    console.log("board:", gameBoard.getBoardValues());
 
     const playRound = (row, col) => {
-      players[0].makeTurn(row, col);
-      players[1].makeTurn();
+      if (players[0].makeTurn(row, col)) {
+        players[1].makeTurn();
+      }
 
-      console.log(gameBoard.getBoardValues());
+      console.log("board:", gameBoard.getBoardValues());
     };
 
     return {
