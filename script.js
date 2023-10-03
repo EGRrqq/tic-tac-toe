@@ -14,10 +14,7 @@ const game = (function () {
 
     const getBoard = () => board;
 
-    const makeMark = (row, column, choice) =>
-      board[row][column].pickMark(choice);
-
-    const printBoardValues = () => {
+    const getBoardValues = () => {
       const boardValues = gameBoard
         .getBoard()
         .map((row) => row.map((node) => node.getMark()));
@@ -25,127 +22,210 @@ const game = (function () {
       return boardValues;
     };
 
+    const getEmptyCells = (boardState) => {
+      const cells = [];
+
+      for (let x = 0; x < 3; x++) {
+        for (let y = 0; y < 3; y++) {
+          if (boardState[x][y] === 0) cells.push([x, y]);
+        }
+      }
+
+      return cells;
+    };
+
+    const checkCell = (x, y) =>
+      getEmptyCells(getBoardValues()).some((cell) =>
+        cell.every((item, i) => item === [x, y][i]),
+      );
+
+    const makeMark = (x, y, playerMark) => {
+      if (checkCell(x, y) && playerMark) {
+        board[x][y].setMark(playerMark);
+
+        return true;
+      } else {
+        return false;
+      }
+    };
+
     return {
       getBoard,
-      printBoardValues,
+      getBoardValues,
+      getEmptyCells,
       makeMark,
     };
   })();
 
   function gameNode() {
-    let mark = "";
-    let playerId = "";
+    let mark = 0;
 
     const getMark = () => mark;
-
-    const pickMark = (choice) => {
-      const marks = ["X", "O"];
-
-      mark = marks[choice];
-    };
-
-    const setPlayerId = (id) => (playerId = id);
-    const getPlayerId = () => playerId;
+    const setMark = (playerMark) => (mark = playerMark);
 
     return {
       getMark,
-      pickMark,
-      setPlayerId,
-      getPlayerId,
+      setMark,
     };
   }
 
-  function gamePlayer(initName) {
+  function gamePlayer(initName, initMark) {
     let name = initName;
-    const gameHistory = [];
+    let playerMark = initMark;
 
     const getName = () => name;
-    const changeName = (newName) => (name = newName);
+    const getMark = () => playerMark;
 
-    const addToGameHistory = (row, column) =>
-      gameHistory.push(gameBoard.getBoard()[row][column].getMark());
+    const playerTurn = (x, y) => {
+      if (gameController.gameOverAll(gameBoard.getBoardValues(), initMark)) {
+        x = -1;
+        y = -1;
+      }
 
-    const resetPlayerHistory = () => gameHistory.splice(0, gameHistory.length);
-    const getFullHistory = () => gameHistory;
-    const getLastHistory = () => gameHistory[gameHistory.length - 1];
+      return [x, y, initMark];
+    };
+
+    const makeTurn = (x, y) => gameBoard.makeMark(...playerTurn(x, y));
 
     return {
       getName,
-      changeName,
-      addToGameHistory,
-      resetPlayerHistory,
-      getFullHistory,
-      getLastHistory,
+      getMark,
+      makeTurn,
+    };
+  }
+
+  function aiPlayer(initName, initMark) {
+    const { getName, getMark } = gamePlayer(initName, initMark);
+
+    const aiTurn = () => {
+      let x = Math.floor(Math.random() * 3);
+      let y = Math.floor(Math.random() * 3);
+
+      if (gameBoard.getEmptyCells(gameBoard.getBoardValues()).length !== 9) {
+        const move = gameController.minimax(
+          gameBoard.getBoardValues(),
+          gameBoard.getEmptyCells(gameBoard.getBoardValues()).length,
+          initMark,
+        );
+
+        x = move[0];
+        y = move[1];
+      }
+
+      return [x, y, initMark];
+    };
+
+    const makeTurn = () => gameBoard.makeMark(...aiTurn());
+
+    return {
+      getName,
+      getMark,
+      makeTurn,
     };
   }
 
   const gameController = (function () {
-    const players = [gamePlayer("juh"), gamePlayer("bluh")];
-    let activePlayer = players[0];
+    const gameOver = (boardState, playerMark) => {
+      const winboardState = [
+        [boardState[0][0], boardState[0][1], boardState[0][2]],
+        [boardState[1][0], boardState[1][1], boardState[1][2]],
+        [boardState[2][0], boardState[2][1], boardState[2][2]],
+        [boardState[0][0], boardState[1][0], boardState[2][0]],
+        [boardState[0][1], boardState[1][1], boardState[2][1]],
+        [boardState[0][2], boardState[1][2], boardState[2][2]],
+        [boardState[0][0], boardState[1][1], boardState[2][2]],
+        [boardState[2][0], boardState[1][1], boardState[0][2]],
+      ];
 
-    const switchActivePlayer = () =>
-      (activePlayer = activePlayer === players[0] ? players[1] : players[0]);
-
-    const getActivePlayer = () => activePlayer;
-
-    const printNewRound = () => {
-      console.log("Current board state: ", gameBoard.printBoardValues());
-      console.log(`Player ${getActivePlayer().getName()} turn.`);
-      console.log("----------------");
-    };
-
-    const playRound = (row, column, choice) => {
-      // Why are you using these big ass conditions to validate rows and columns?
-      // - Other conditions lose the `choice` return statement.
-      // - Row and column return messages appears only after the `choice` value is typed.
-      //
-      // Why not put this validation in a separate function?
-      // - I want to have some kind of validation "on type" and on submit.
-      // - If I move the validation to a separate function, I will only have validation on submit.
-      // - It`s possible to make a separate validation function with a separate console.log that will contain all the requirements, but I don't want to do that
-
-      if (row !== 0 && row !== 1 && row !== 2)
-        return "available row values: 0, 1, 2";
-
-      if (column !== 0 && column !== 1 && column !== 2)
-        return "available column values: 0, 1, 2";
-
-      if (parseInt(choice) !== 0 && parseInt(choice) !== 1)
-        return "available choice values: 0 for X, 1 for O";
-
-      if (gameBoard.getBoard()[row][column].getMark() !== "")
-        return "cell is full";
-
-      gameBoard
-        .getBoard()
-        [row][column].setPlayerId(getActivePlayer().getName());
-
-      gameBoard.makeMark(row, column, choice);
-      getActivePlayer().addToGameHistory(row, column);
-
-      console.log("----------------");
-      console.log(
-        `Player ${getActivePlayer().getName()} place ${getActivePlayer().getLastHistory()} mark to (${row}, ${column}) `,
+      return winboardState.some(
+        (line) => line.filter((item) => item === playerMark).length === 3,
       );
-
-      switchActivePlayer();
-      printNewRound();
     };
 
-    console.log("----------------");
-    console.info("To play, use the game.playRound() method");
-    console.log("----------------");
-    console.log("Current board state: ", gameBoard.printBoardValues());
-    console.log("----------------");
+    const gameOverAll = (boardState, playerMark) =>
+      gameOver(boardState, playerMark) || gameOver(boardState, -playerMark);
+
+    const evaluateScore = (boardState, playerMark) => {
+      let score = 0;
+
+      switch (true) {
+        case gameOver(boardState, -playerMark):
+          score = -playerMark;
+          break;
+        default:
+          score = 0;
+          break;
+      }
+
+      return score;
+    };
+
+    function minimax(boardState, depth, playerMark) {
+      let best;
+
+      switch (playerMark) {
+        case 1:
+          best = [-1, -1, -Infinity];
+          break;
+        case -1:
+          best = [-1, -1, +Infinity];
+          break;
+      }
+
+      if (depth === 0 || gameOverAll(boardState, playerMark)) {
+        const score = evaluateScore(boardState, playerMark);
+
+        return [-1, -1, score];
+      }
+
+      gameBoard.getEmptyCells(boardState).forEach((cell) => {
+        const x = cell[0];
+        const y = cell[1];
+
+        boardState[x][y] = playerMark;
+        const score = minimax(boardState, depth - 1, -playerMark);
+        boardState[x][y] = 0;
+
+        score[0] = x;
+        score[1] = y;
+
+        switch (playerMark) {
+          case 1:
+            if (score[2] > best[2]) best = score;
+            break;
+          case -1:
+            if (score[2] < best[2]) best = score;
+            break;
+        }
+      });
+
+      return best;
+    }
+
+    return {
+      gameOverAll,
+      minimax,
+    };
+  })();
+
+  const playController = (function () {
+    const players = [gamePlayer("juh", -1), aiPlayer("cortana", 1)];
+
+    console.log(gameBoard.getBoardValues());
+
+    const playRound = (row, col) => {
+      players[0].makeTurn(row, col);
+      players[1].makeTurn();
+
+      console.log(gameBoard.getBoardValues());
+    };
 
     return {
       playRound,
-      getActivePlayer,
     };
   })();
 
   return {
-    playRound: gameController.playRound,
-    getActivePlayer: gameController.getActivePlayer,
+    playRound: playController.playRound,
   };
 })();
