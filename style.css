@@ -8,6 +8,8 @@
   --main-font-size: calc(0.75rem + 1vw);
 
   --btn-min-w: calc(3rem + 1vw);
+
+  --bg-color: #ffe5f3;
 }
 
 *,
@@ -26,12 +28,16 @@ body {
   place-items: center;
 
   min-height: 100svh;
+  background-color: var(--bg-color);
 }
 
 button {
   border: 1px solid black;
   padding: var(--content-padding);
   cursor: pointer;
+}
+
+.xl {
   min-width: var(--btn-min-w);
   min-height: var(--btn-min-w);
 }
@@ -43,10 +49,46 @@ button:hover {
 .console {
   display: grid;
   grid-area: 1 / 2;
+  grid-template-columns: 1fr 3fr 1fr;
+  gap: var(--section-item-gap);
+  padding: var(--section-padding);
+  background-color: indianred;
+}
+
+.move-side {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  place-self: center;
+}
+
+button[data-position="left"] {
+  grid-area: 2 / 1;
+}
+
+button[data-position="top"] {
+  grid-area: 1 / 2;
+}
+
+button[data-position="middle"] {
+  grid-area: 2 / 2;
+}
+
+button[data-position="right"] {
+  grid-area: 2 / 3;
+}
+
+button[data-position="bottom"] {
+  grid-area: 3 / 2;
 }
 
 .screen {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
+}
+
+.submit-side {
+  display: grid;
+  place-self: center;
 }
