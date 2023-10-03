@@ -226,6 +226,51 @@ const game = (function () {
     };
   })();
 
+  const screenController = (function () {
+    const btns = document.querySelectorAll(".move-side button");
+    let currentFocus = 0;
+
+    btns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const position = btn.getAttribute("data-position");
+        const screen = document.querySelector(".screen");
+        let newFocus;
+
+        switch (position) {
+          case "left":
+            newFocus = screen.children[currentFocus - 1];
+            break;
+          case "top":
+            newFocus = screen.children[currentFocus - 3];
+            break;
+          case "right":
+            newFocus = screen.children[currentFocus + 1];
+            break;
+          case "bottom":
+            newFocus = screen.children[currentFocus + 3];
+            break;
+        }
+
+        if (newFocus) {
+          currentFocus = Array.from(screen.children).indexOf(newFocus);
+          newFocus.focus();
+        }
+      });
+    });
+
+    const submitButton = document.querySelector(".submit-side button");
+
+    submitButton.addEventListener("click", () => {
+      const screen = document.querySelector(".screen");
+      const currentButton = screen.children[currentFocus];
+
+      if (currentButton) {
+        currentButton.click();
+        console.log(currentButton, "clicked");
+      }
+    });
+  })();
+
   return {
     playRound: playController.playRound,
   };
