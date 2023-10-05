@@ -220,14 +220,10 @@ const game = (function () {
 
     const getPlayers = () => players;
 
-    console.log("board:", gameBoard.getBoardValues());
-
     const playRound = (row, col) => {
       if (players[0].makeTurn(row, col)) {
         players[1].makeTurn();
       }
-
-      console.log("board:", gameBoard.getBoardValues());
     };
 
     return {
@@ -270,14 +266,18 @@ const game = (function () {
           node.getBtn().addEventListener("click", () => {
             playController.playRound(i, j);
 
-            setPlayerTextContent(node);
-            setAiTextContent();
+            setTextContent(node);
           });
         }),
       );
     })();
 
-    function markPlayerValidation(mark) {
+    function setTextContent(node) {
+      setPlayerTextContent(node);
+      setAiTextContent();
+    }
+
+    function markValidation(mark) {
       switch (mark) {
         case playController.playerOne.getMark():
           return "X";
@@ -291,7 +291,7 @@ const game = (function () {
     function setPlayerTextContent(node) {
       const mark = node.getMark();
 
-      node.getBtn().textContent = markPlayerValidation(mark);
+      node.getBtn().textContent = markValidation(mark);
     }
 
     function setAiTextContent() {
@@ -302,14 +302,33 @@ const game = (function () {
         const node = gameBoard.getBoard()[x][y];
 
         const mark = node.getMark();
-        node.getBtn().textContent = markPlayerValidation(mark);
+        node.getBtn().textContent = markValidation(mark);
       }
     }
 
-    return {};
+    return {
+      setTextContent,
+    };
+  })();
+
+  const consoleController = (function () {
+    console.info("To play, use the game.playConsole() method");
+
+    function playConsole(x, y) {
+      playController.playRound(x, y);
+
+      const node = gameBoard.getBoard()[x][y];
+      screenController.setTextContent(node);
+
+      console.log("board:", gameBoard.getBoardValues());
+    }
+
+    return {
+      playConsole,
+    };
   })();
 
   return {
-    playRound: playController.playRound,
+    playConsole: consoleController.playConsole,
   };
 })();
