@@ -231,6 +231,16 @@ const game = (function () {
       getPlayerTwo().changeMark();
     };
 
+    const restartRound = () => {
+      gameBoard.getBoard().forEach((row) =>
+        row.forEach((node) => {
+          node.setMark(0);
+
+          screenController.setTextContent(node);
+        }),
+      );
+    };
+
     const playRound = (row, col) => {
       if (players[0].makeTurn(row, col)) {
         players[1].makeTurn();
@@ -242,6 +252,7 @@ const game = (function () {
       getPlayerOne,
       getPlayerTwo,
       reverseMark,
+      restartRound,
     };
   })();
 
@@ -343,5 +354,6 @@ const game = (function () {
   return {
     playConsole: consoleController.playConsole,
     reverseMark: playController.reverseMark,
+    restartRound: playController.restartRound,
   };
 })();
