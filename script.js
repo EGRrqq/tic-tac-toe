@@ -227,48 +227,43 @@ const game = (function () {
   })();
 
   const screenController = (function () {
-    const btns = document.querySelectorAll(".move-side button");
-    let currentFocus = 0;
+    const rows = 3;
+    const columns = 3;
+    const screenBtns = [];
 
-    btns.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const position = btn.getAttribute("data-position");
-        const screen = document.querySelector(".screen");
-        let newFocus;
+    const getScreenBtns = () => screenBtns;
 
-        switch (position) {
-          case "left":
-            newFocus = screen.children[currentFocus - 1];
-            break;
-          case "top":
-            newFocus = screen.children[currentFocus - 3];
-            break;
-          case "right":
-            newFocus = screen.children[currentFocus + 1];
-            break;
-          case "bottom":
-            newFocus = screen.children[currentFocus + 3];
-            break;
+    (function fillScreenBtns() {
+      const btns = document.querySelectorAll(".screen button");
+
+      for (let i = 0; i < rows; i++) {
+        screenBtns[i] = [];
+
+        for (let j = 0; j < columns; j++) {
+          screenBtns[i].push(btns[i * rows + j]);
         }
-
-        if (newFocus) {
-          currentFocus = Array.from(screen.children).indexOf(newFocus);
-          newFocus.focus();
-        }
-      });
-    });
-
-    const submitButton = document.querySelector(".submit-side button");
-
-    submitButton.addEventListener("click", () => {
-      const screen = document.querySelector(".screen");
-      const currentButton = screen.children[currentFocus];
-
-      if (currentButton) {
-        currentButton.click();
-        console.log(currentButton, "clicked");
       }
-    });
+    })();
+
+    (function addBtnToBoard() {
+      gameBoard.getBoard().forEach((row, i) =>
+        row.forEach((node, j) => {
+          node.getBtn = () => getScreenBtns()[i][j];
+        }),
+      );
+    })();
+
+    (function setMarkOnClick() {
+      getScreenBtns().forEach((row, i) =>
+        row.forEach((node, j) => {
+          node.addEventListener("click", () => playController.playRound(i, j));
+        }),
+      );
+    })();
+
+    return {
+      getScreenBtns,
+    };
   })();
 
   return {
