@@ -96,6 +96,7 @@ const game = (function () {
 
   function aiPlayer(initName, initMark) {
     const { getName, getMark } = gamePlayer(initName, initMark);
+    let turn = [];
 
     const aiTurn = () => {
       let x = Math.floor(Math.random() * 3);
@@ -112,15 +113,21 @@ const game = (function () {
         y = move[1];
       }
 
-      return [x, y, initMark];
+      turn = [x, y, initMark];
+
+      return turn;
     };
 
     const makeTurn = () => gameBoard.makeMark(...aiTurn());
+    const getTurn = () => {
+      return turn.slice(0, 2);
+    };
 
     return {
       getName,
       getMark,
       makeTurn,
+      getTurn,
     };
   }
 
@@ -211,6 +218,8 @@ const game = (function () {
   const playController = (function () {
     const players = [gamePlayer("juh", -1), aiPlayer("cortana", 1)];
 
+    const getPlayers = () => players;
+
     console.log("board:", gameBoard.getBoardValues());
 
     const playRound = (row, col) => {
@@ -223,6 +232,8 @@ const game = (function () {
 
     return {
       playRound,
+      playerOne: getPlayers()[0],
+      playerTwo: getPlayers()[1],
     };
   })();
 
@@ -253,17 +264,49 @@ const game = (function () {
       );
     })();
 
-    (function setMarkOnClick() {
-      getScreenBtns().forEach((row, i) =>
+    (function renderMark() {
+      gameBoard.getBoard().forEach((row, i) =>
         row.forEach((node, j) => {
-          node.addEventListener("click", () => playController.playRound(i, j));
+          node.getBtn().addEventListener("click", () => {
+            playController.playRound(i, j);
+
+            setPlayerTextContent(node);
+            setAiTextContent();
+          });
         }),
       );
     })();
 
-    return {
-      getScreenBtns,
-    };
+    function markPlayerValidation(mark) {
+      switch (mark) {
+        case playController.playerOne.getMark():
+          return "X";
+        case playController.playerTwo.getMark():
+          return "O";
+        default:
+          return "";
+      }
+    }
+
+    function setPlayerTextContent(node) {
+      const mark = node.getMark();
+
+      node.getBtn().textContent = markPlayerValidation(mark);
+    }
+
+    function setAiTextContent() {
+      const x = playController.playerTwo.getTurn()[0];
+      const y = playController.playerTwo.getTurn()[1];
+
+      if (x >= 0 && y >= 0) {
+        const node = gameBoard.getBoard()[x][y];
+
+        const mark = node.getMark();
+        node.getBtn().textContent = markPlayerValidation(mark);
+      }
+    }
+
+    return {};
   })();
 
   return {
