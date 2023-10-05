@@ -75,6 +75,7 @@ const game = (function () {
 
     const getName = () => name;
     const getMark = () => playerMark;
+    const changeMark = () => (playerMark = -getMark());
 
     const playerTurn = (x, y) => {
       if (gameController.gameOverAll(gameBoard.getBoardValues(), initMark)) {
@@ -82,7 +83,7 @@ const game = (function () {
         y = -1;
       }
 
-      return [x, y, initMark];
+      return [x, y, getMark()];
     };
 
     const makeTurn = (x, y) => gameBoard.makeMark(...playerTurn(x, y));
@@ -91,11 +92,12 @@ const game = (function () {
       getName,
       getMark,
       makeTurn,
+      changeMark,
     };
   }
 
   function aiPlayer(initName, initMark) {
-    const { getName, getMark } = gamePlayer(initName, initMark);
+    const { getName, getMark, changeMark } = gamePlayer(initName, initMark);
     let turn = [];
 
     const aiTurn = () => {
@@ -106,14 +108,14 @@ const game = (function () {
         const move = gameController.minimax(
           gameBoard.getBoardValues(),
           gameBoard.getEmptyCells(gameBoard.getBoardValues()).length,
-          initMark,
+          getMark(),
         );
 
         x = move[0];
         y = move[1];
       }
 
-      turn = [x, y, initMark];
+      turn = [x, y, getMark()];
 
       return turn;
     };
@@ -126,6 +128,7 @@ const game = (function () {
     return {
       getName,
       getMark,
+      changeMark,
       makeTurn,
       getTurn,
     };
@@ -219,6 +222,14 @@ const game = (function () {
     const players = [gamePlayer("juh", -1), aiPlayer("cortana", 1)];
 
     const getPlayers = () => players;
+    const getPlayerOne = () => getPlayers()[0];
+    const getPlayerTwo = () => getPlayers()[1];
+
+    const reverseMark = () => {
+      getPlayerOne().changeMark();
+
+      getPlayerTwo().changeMark();
+    };
 
     const playRound = (row, col) => {
       if (players[0].makeTurn(row, col)) {
@@ -228,8 +239,9 @@ const game = (function () {
 
     return {
       playRound,
-      playerOne: getPlayers()[0],
-      playerTwo: getPlayers()[1],
+      getPlayerOne,
+      getPlayerTwo,
+      reverseMark,
     };
   })();
 
@@ -279,9 +291,9 @@ const game = (function () {
 
     function markValidation(mark) {
       switch (mark) {
-        case playController.playerOne.getMark():
+        case -1:
           return "X";
-        case playController.playerTwo.getMark():
+        case 1:
           return "O";
         default:
           return "";
@@ -295,8 +307,8 @@ const game = (function () {
     }
 
     function setAiTextContent() {
-      const x = playController.playerTwo.getTurn()[0];
-      const y = playController.playerTwo.getTurn()[1];
+      const x = playController.getPlayerTwo().getTurn()[0];
+      const y = playController.getPlayerTwo().getTurn()[1];
 
       if (x >= 0 && y >= 0) {
         const node = gameBoard.getBoard()[x][y];
@@ -330,5 +342,6 @@ const game = (function () {
 
   return {
     playConsole: consoleController.playConsole,
+    reverseMark: playController.reverseMark,
   };
 })();
