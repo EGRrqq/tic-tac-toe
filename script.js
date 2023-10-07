@@ -226,26 +226,29 @@ const game = (function () {
 
   const playController = (function () {
     const players = [];
-    let playRound = (row, col) => {};
+    let playRound = () => {};
+
+    const getPlayRound = () => playRound;
+    const getPlayers = () => players;
+    const getAiPlayer = () =>
+      getPlayers().find((player) => player.getType() === "AI");
+
+    let activePlayer = getPlayers()[0];
+
+    const switchPlayerTurn = () =>
+      (activePlayer =
+        activePlayer === getPlayers()[0] ? getPlayers()[1] : getPlayers()[0]);
+
+    const getActivePlayer = () => activePlayer;
 
     (function init() {
       playerVsPlayer();
     })();
 
-    const getPlayers = () => players;
-    const getAiPlayer = () =>
-      players.find((player) => player.getType() === "AI");
-
-    let activePlayer = players[0];
-
-    const switchPlayerTurn = () =>
-      (activePlayer = activePlayer === players[0] ? players[1] : players[0]);
-
-    const getActivePlayer = () => activePlayer;
-
     function playerVsPlayer() {
-      players.splice(0);
-      players.push(gamePlayer("juh", -1), gamePlayer("wuh", 1));
+      getPlayers().splice(0);
+      getPlayers().push(gamePlayer("juh", -1), gamePlayer("wuh", 1));
+      activePlayer = getPlayers()[0];
 
       const playerVsPlayerRound = (row, col) => {
         if (getActivePlayer().makeTurn(row, col)) {
@@ -257,8 +260,9 @@ const game = (function () {
     }
 
     function playerVsAi() {
-      players.splice(0);
-      players.push(gamePlayer("juh", -1), aiPlayer("cortana", 1));
+      getPlayers().splice(0);
+      getPlayers().push(gamePlayer("juh", -1), aiPlayer("cortana", 1));
+      activePlayer = getPlayers()[0];
 
       const playerVsAIRound = (row, col) => {
         if (getActivePlayer().makeTurn(row, col)) {
@@ -283,6 +287,8 @@ const game = (function () {
           screenController.setTextContent(node);
         }),
       );
+
+      activePlayer = getPlayers()[0];
     };
 
     function aiPlay() {
@@ -300,6 +306,7 @@ const game = (function () {
       reverseMark,
       restartRound,
       getActivePlayer,
+      getPlayRound,
     };
   })();
 
@@ -334,7 +341,7 @@ const game = (function () {
       gameBoard.getBoard().forEach((row, i) =>
         row.forEach((node, j) => {
           node.getBtn().addEventListener("click", () => {
-            playController.playRound(i, j);
+            playController.getPlayRound()(i, j);
 
             setTextContent(node);
           });
@@ -390,7 +397,7 @@ const game = (function () {
     (function init() {})();
 
     function playConsole(x, y) {
-      playController.playRound(x, y);
+      playController.getPlayRound()(x, y);
 
       const node = gameBoard.getBoard()[x][y];
       screenController.setTextContent(node);
@@ -414,5 +421,7 @@ const game = (function () {
     reverseMark: playController.reverseMark,
     restartRound: playController.restartRound,
     aiFirstPlay: consoleController.aiFirstPlay,
+    playerVsAi: playController.playerVsAi,
+    playerVsPlayer: playController.playerVsPlayer,
   };
 })();
