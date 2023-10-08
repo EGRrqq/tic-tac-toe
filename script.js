@@ -388,21 +388,37 @@ const game = (function () {
     return {
       setTextContent,
       setAiTextContent,
+      markValidation,
     };
   })();
 
   const consoleController = (function () {
-    console.info("To play, use the game.playConsole() method");
+    console.info("To play, use the game.play() method");
 
-    (function init() {})();
+    const getConsoleBoardValues = () =>
+      gameBoard
+        .getBoardValues()
+        .map((row) => row.map((mark) => screenController.markValidation(mark)));
 
-    function playConsole(x, y) {
-      playController.getPlayRound()(x, y);
+    function playConsole(row, column) {
+      // validation only for users who prefer to play via console,
+      // to help them with available values
 
-      const node = gameBoard.getBoard()[x][y];
+      if (row !== 0 && row !== 1 && row !== 2)
+        return "available row values: 0, 1, 2";
+
+      if (column !== 0 && column !== 1 && column !== 2)
+        return "available column values: 0, 1, 2";
+
+      if (gameBoard.getBoard()[row][column].getMark() !== 0)
+        return "cell is full";
+
+      playController.getPlayRound()(row, column);
+
+      const node = gameBoard.getBoard()[row][column];
       screenController.setTextContent(node);
 
-      console.log("board:", gameBoard.getBoardValues());
+      console.log("board:", getConsoleBoardValues());
     }
 
     function aiFirstPlay() {
@@ -417,7 +433,7 @@ const game = (function () {
   })();
 
   return {
-    playConsole: consoleController.playConsole,
+    play: consoleController.playConsole,
     reverseMark: playController.reverseMark,
     restartRound: playController.restartRound,
     aiFirstPlay: consoleController.aiFirstPlay,
