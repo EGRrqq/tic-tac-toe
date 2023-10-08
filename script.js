@@ -220,6 +220,7 @@ const game = (function () {
 
     return {
       gameOverAll,
+      gameOver,
       minimax,
     };
   })();
@@ -306,6 +307,7 @@ const game = (function () {
       reverseMark,
       restartRound,
       getActivePlayer,
+      getPlayers,
       getPlayRound,
     };
   })();
@@ -395,8 +397,21 @@ const game = (function () {
   const consoleController = (function () {
     // all validation are only for users who prefer to play via console,
     // to help them with available values
+    console.log("-------------");
 
-    console.info("To play, use the game.play() method");
+    console.info(
+      `available methods:
+
+      - To play, use the game.play() method
+      - To restart, use the game.restart() method
+      - To change init mark, use the game.reverseMark() method
+      - To play vs player, use the game.playVsPlayer() method
+      - To play vs ai, use the game.playVsAi() method
+      - - To make ai first turn, use the game.aiFirstTurn() method
+      `,
+    );
+
+    console.log("-------------");
 
     const getConsoleBoardValues = () =>
       gameBoard
@@ -453,7 +468,9 @@ const game = (function () {
       const node = gameBoard.getBoard()[row][column];
       screenController.setTextContent(node);
 
-      console.log("board:", getConsoleBoardValues());
+      getBoardResult();
+
+      return getConsoleBoardValues();
     }
 
     function aiFirstTurn() {
@@ -467,6 +484,35 @@ const game = (function () {
 
       playController.aiPlay();
       screenController.setAiTextContent();
+    }
+
+    function getBoardResult() {
+      if (
+        !gameController.gameOverAll(
+          gameBoard.getBoardValues(),
+          playController.getActivePlayer().getMark(),
+        )
+      ) {
+        console.log("-------------");
+        console.log("Tie!");
+        console.log("-------------");
+      }
+
+      if (
+        gameController.gameOver(
+          gameBoard.getBoardValues(),
+          -playController.getActivePlayer().getMark(),
+        )
+      ) {
+        console.log("-------------");
+        console.log(
+          `player ${playController
+            .getPlayers()
+            .find((player) => player !== playController.getActivePlayer())
+            .getName()} wins`,
+        );
+        console.log("-------------");
+      }
     }
 
     return {
