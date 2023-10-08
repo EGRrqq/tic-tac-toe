@@ -393,6 +393,9 @@ const game = (function () {
   })();
 
   const consoleController = (function () {
+    // all validation are only for users who prefer to play via console,
+    // to help them with available values
+
     console.info("To play, use the game.play() method");
 
     const getConsoleBoardValues = () =>
@@ -400,18 +403,50 @@ const game = (function () {
         .getBoardValues()
         .map((row) => row.map((mark) => screenController.markValidation(mark)));
 
-    function playConsole(row, column) {
-      // validation only for users who prefer to play via console,
-      // to help them with available values
+    const consoleReverseMark = () => {
+      if (gameBoard.getEmptyCells(gameBoard.getBoardValues()).length !== 9) {
+        return "use game.restart() first";
+      }
 
-      if (row !== 0 && row !== 1 && row !== 2)
+      return playController.reverseMark();
+    };
+
+    const consolePlayerVsAi = () => {
+      if (gameBoard.getEmptyCells(gameBoard.getBoardValues()).length !== 9) {
+        return "use game.restart() first";
+      }
+
+      if (playController.getAiPlayer()) {
+        return "you`re already playing vs ai";
+      }
+
+      return playController.playerVsAi();
+    };
+
+    const consolePlayerVsPlayer = () => {
+      if (gameBoard.getEmptyCells(gameBoard.getBoardValues()).length !== 9) {
+        return "use game.restart() first";
+      }
+
+      if (!playController.getAiPlayer()) {
+        return "you`re already playing vs player";
+      }
+
+      return playController.playerVsPlayer();
+    };
+
+    function consolePlayRound(row, column) {
+      if (row !== 0 && row !== 1 && row !== 2) {
         return "available row values: 0, 1, 2";
+      }
 
-      if (column !== 0 && column !== 1 && column !== 2)
+      if (column !== 0 && column !== 1 && column !== 2) {
         return "available column values: 0, 1, 2";
+      }
 
-      if (gameBoard.getBoard()[row][column].getMark() !== 0)
+      if (gameBoard.getBoard()[row][column].getMark() !== 0) {
         return "cell is full";
+      }
 
       playController.getPlayRound()(row, column);
 
@@ -421,23 +456,34 @@ const game = (function () {
       console.log("board:", getConsoleBoardValues());
     }
 
-    function aiFirstPlay() {
+    function aiFirstTurn() {
+      if (!playController.getAiPlayer()) {
+        return "use game.playerVsAi() first";
+      }
+
+      if (gameBoard.getEmptyCells(gameBoard.getBoardValues()).length !== 9) {
+        return "use game.restart() first";
+      }
+
       playController.aiPlay();
       screenController.setAiTextContent();
     }
 
     return {
-      playConsole,
-      aiFirstPlay,
+      consolePlayRound,
+      consoleReverseMark,
+      consolePlayerVsAi,
+      consolePlayerVsPlayer,
+      aiFirstTurn,
     };
   })();
 
   return {
-    play: consoleController.playConsole,
-    reverseMark: playController.reverseMark,
-    restartRound: playController.restartRound,
-    aiFirstPlay: consoleController.aiFirstPlay,
-    playerVsAi: playController.playerVsAi,
-    playerVsPlayer: playController.playerVsPlayer,
+    play: consoleController.consolePlayRound,
+    reverseMark: consoleController.consoleReverseMark,
+    restart: playController.restartRound,
+    aiFirstTurn: consoleController.aiFirstTurn,
+    playerVsAi: consoleController.consolePlayerVsAi,
+    playerVsPlayer: consoleController.consolePlayerVsPlayer,
   };
 })();
