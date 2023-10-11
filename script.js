@@ -488,6 +488,7 @@ const game = (function () {
 
     function getBoardResult() {
       if (
+        gameBoard.getEmptyCells(gameBoard.getBoardValues()).length === 0 &&
         !gameController.gameOverAll(
           gameBoard.getBoardValues(),
           playController.getActivePlayer().getMark(),
