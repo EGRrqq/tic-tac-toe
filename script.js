@@ -243,7 +243,7 @@ const game = (function () {
     const getActivePlayer = () => activePlayer;
 
     (function init() {
-      playerVsPlayer();
+      playerVsAi();
     })();
 
     function playerVsPlayer() {
