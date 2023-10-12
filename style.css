@@ -10,6 +10,8 @@
   --btn-min-w: min(calc(3rem + 1vw), 10svw);
 
   --bg-color: #ffe5f3;
+
+  --blue-800: #00001c;
 }
 
 *,
@@ -53,8 +55,19 @@ button:focus-within {
   gap: var(--section-item-gap);
 
   padding: var(--section-padding);
-  background-color: indianred;
-  border-radius: 0.5rem;
+  border-radius: 2rem;
+  border: 0.08rem solid var(--blue-800);
+
+  background: linear-gradient(
+      278deg,
+      rgba(142, 92, 250, 0.2) 12.18%,
+      rgba(239, 91, 206, 0) 85.73%
+    ),
+    #ff9494;
+
+  box-shadow:
+    -4px -4px 10px 4px rgba(0, 0, 0, 0.25) inset,
+    4px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
 .move-side {
