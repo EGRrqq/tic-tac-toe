@@ -11,7 +11,10 @@
 
   --bg-color: #ffe5f3;
 
-  --blue-800: #00001c;
+  --blue-100: #e6edf0;
+  --blue-600: #586177;
+  --blue-800: #020e13;
+  --blue-800_alpha: color-mix(in srgb, var(--blue-800), transparent 66%);
 }
 
 *,
@@ -77,34 +80,44 @@ button:focus-within {
   place-self: center;
 }
 
-button[data-position="left"] {
-  grid-area: 2 / 1;
-
-  border-right: 0;
+.move-side > button {
+  background: var(--blue-600);
+  border: 3px solid var(--blue-600);
+  box-shadow: 1.5px 2px 2px rgba(0, 0, 0, 0.7);
 }
 
 button[data-position="top"] {
   grid-area: 1 / 2;
+  border-top-color: var(--blue-100);
 
   border-bottom: 0;
 }
 
-div[data-position="middle"] {
-  grid-area: 2 / 2;
-  background-color: rgb(239, 239, 239);
-  border-radius: 0.1rem;
-}
-
 button[data-position="right"] {
   grid-area: 2 / 3;
+  border-top-color: var(--blue-100);
+  border-bottom-color: var(--blue-800_alpha, #020e1369);
 
-  border-left: 0;
+  /* to cover the gap between right and bottom btns */
+  box-shadow: 0.5px 1px 2px 1px rgba(0, 0, 0, 0.7);
+}
+
+div[data-position="middle"] {
+  background: var(--blue-600);
+  grid-area: 2 / 2;
+
+  z-index: 1;
 }
 
 button[data-position="bottom"] {
   grid-area: 3 / 2;
+  border-bottom-color: var(--blue-800_alpha, #020e1369);
+}
 
-  border-top: 0;
+button[data-position="left"] {
+  grid-area: 2 / 1;
+  border-top-color: var(--blue-100);
+  border-bottom-color: var(--blue-800_alpha, #020e1369);
 }
 
 .screen {
