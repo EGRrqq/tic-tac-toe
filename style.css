@@ -7,7 +7,7 @@
 
   --main-font-size: calc(0.75rem + 1vw);
 
-  --btn-min-w: min(calc(3rem + 1vw), 10svw);
+  --btn-min-h: min(calc(3rem + 1vw), 10svh);
 
   --bg-color: #ffe5f3;
 
@@ -43,7 +43,7 @@ button {
 }
 
 .xl {
-  min-height: var(--btn-min-w);
+  min-height: var(--btn-min-h);
 }
 
 button:hover,
@@ -133,7 +133,7 @@ button[data-position="left"] {
 
 @media screen and (max-width: 540px) {
   .console {
-    grid-template-columns: repeat(2, 0.5fr);
+    grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
   }
 
