@@ -29,7 +29,7 @@
     #1891c6 45% 50%,
     #1a9ed8 50% 55%,
     #1ca9e7 55% 60%,
-    var(--blue-400) 65% 75%,
+    #1cb0f1 65% 75%,
     transparent
   );
 
@@ -44,7 +44,7 @@
     #1891c6 48% 50%,
     #1a9ed8 53% 55%,
     #1ca9e7 58% 60%,
-    var(--blue-400) 65% 75%,
+    #1cb0f1 65% 75%,
     transparent
   );
 }
@@ -91,7 +91,7 @@ button:focus-within {
 
   padding: var(--section-padding);
   border-radius: 1rem;
-  border: 0.08rem solid var(--blue-800);
+  border: 3px solid var(--blue-800);
 
   background-color: var(--blue-400);
 
@@ -109,6 +109,8 @@ button:focus-within {
   grid-template-rows: repeat(3, 1fr);
   place-self: center;
 
+  box-shadow: 0px 0px 1px 1px rgb(0, 0, 0, 0.35);
+  border: 3px solid var(--blue-800);
   background: var(--blue-shading);
   border-radius: 50%;
   padding: 1rem;
@@ -180,11 +182,16 @@ button[data-position="left"] {
   min-height: var(--btn-md);
   min-width: var(--btn-md);
   border-radius: 50%;
-  border: none;
   display: flex;
   padding: 3px;
+  border: 3px solid var(--blue-800);
 
-  background: linear-gradient(1deg, var(--blue-600) 70%, var(--blue-100) 71%);
+  background: linear-gradient(1deg, var(--blue-600) 80%, var(--blue-100) 81%);
+
+  box-shadow:
+    inset -1px -2px 1px rgb(0, 0, 0, 0.35),
+    inset 0px 4px 0px 0px var(--blue-100),
+    0px 0px 1px 1px rgb(0, 0, 0, 0.35);
 }
 
 .click-btn-inner {
@@ -195,7 +202,7 @@ button[data-position="left"] {
   background-color: var(--blue-700);
 }
 
-@media screen and (max-width: 712px) {
+@media screen and (max-width: 1200px) {
   .console {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
