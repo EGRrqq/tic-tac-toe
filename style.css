@@ -8,13 +8,45 @@
   --main-font-size: calc(0.75rem + 1vw);
 
   --btn-min-h: min(calc(3rem + 1vw), 10svh);
+  --d-pad-btn-size: calc(var(--content-padding) * 2 + 6px);
 
   --bg-color: #ffe5f3;
 
   --blue-100: #e6edf0;
+  --blue-400: #0a8dfb;
   --blue-600: #586177;
+  --blue-700: #3b4554;
   --blue-800: #020e13;
-  --blue-800_alpha: color-mix(in srgb, var(--blue-800), transparent 66%);
+
+  --blue-shading: repeating-radial-gradient(
+    #020e13 0 15%,
+    #051f2a 0 20%,
+    #083244 20% 25%,
+    #0b455e 25% 30%,
+    #0f5c7e 30% 35%,
+    #126e97 35% 40%,
+    #1581b1 40% 45%,
+    #1891c6 45% 50%,
+    #1a9ed8 50% 55%,
+    #1ca9e7 55% 60%,
+    var(--blue-400) 65% 75%,
+    transparent
+  );
+
+  --blue-smooth-shading: repeating-radial-gradient(
+    #020e13 0 15%,
+    #051f2a 0 20%,
+    #083244 23% 25%,
+    #0b455e 28% 30%,
+    #0f5c7e 33% 35%,
+    #126e97 38% 40%,
+    #1581b1 43% 45%,
+    #1891c6 48% 50%,
+    #1a9ed8 53% 55%,
+    #1ca9e7 58% 60%,
+    var(--blue-400) 65% 75%,
+    transparent
+  );
 }
 
 *,
@@ -58,18 +90,16 @@ button:focus-within {
   gap: var(--section-item-gap);
 
   padding: var(--section-padding);
-  border-radius: 2rem;
+  border-radius: 1rem;
   border: 0.08rem solid var(--blue-800);
 
-  background: linear-gradient(
-      278deg,
-      rgba(142, 92, 250, 0.2) 12.18%,
-      rgba(239, 91, 206, 0) 85.73%
-    ),
-    #ff9494;
+  background-color: var(--blue-400);
 
   box-shadow:
-    -4px -4px 10px 4px rgba(0, 0, 0, 0.25) inset,
+    -1px -1px 1px 1px rgba(0, 0, 0, 0.05) inset,
+    -2px -2px 2px 2px rgba(0, 0, 0, 0.1) inset,
+    -4px -4px 2px 3px rgba(0, 0, 0, 0.15) inset,
+    -8px -8px 2px 4px rgba(0, 0, 0, 0.2) inset,
     4px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
@@ -78,10 +108,14 @@ button:focus-within {
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
   place-self: center;
+
+  background: var(--blue-shading);
+  border-radius: 50%;
+  padding: 1rem;
 }
 
 .move-side > button {
-  background: var(--blue-600);
+  background-color: var(--blue-600);
   border: 3px solid var(--blue-600);
   box-shadow: 1.5px 2px 2px rgba(0, 0, 0, 0.7);
 }
@@ -96,7 +130,7 @@ button[data-position="top"] {
 button[data-position="right"] {
   grid-area: 2 / 3;
   border-top-color: var(--blue-100);
-  border-bottom-color: var(--blue-800_alpha, #020e1369);
+  border-bottom-color: var(--blue-700);
 
   /* to cover the gap between right and bottom btns */
   box-shadow: 0.5px 1px 2px 1px rgba(0, 0, 0, 0.7);
@@ -106,18 +140,27 @@ div[data-position="middle"] {
   background: var(--blue-600);
   grid-area: 2 / 2;
 
+  display: flex;
+
   z-index: 1;
+}
+
+div.circle {
+  height: 100%;
+  flex: 1;
+  background-color: var(--blue-700);
+  border-radius: 50%;
 }
 
 button[data-position="bottom"] {
   grid-area: 3 / 2;
-  border-bottom-color: var(--blue-800_alpha, #020e1369);
+  border-bottom-color: var(--blue-700);
 }
 
 button[data-position="left"] {
   grid-area: 2 / 1;
   border-top-color: var(--blue-100);
-  border-bottom-color: var(--blue-800_alpha, #020e1369);
+  border-bottom-color: var(--blue-700);
 }
 
 .screen {
@@ -131,7 +174,28 @@ button[data-position="left"] {
   place-self: center;
 }
 
-@media screen and (max-width: 540px) {
+.submit-side > .click-btn-outer {
+  --btn-md: calc(var(--d-pad-btn-size) + 6px * 2);
+
+  min-height: var(--btn-md);
+  min-width: var(--btn-md);
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  padding: 3px;
+
+  background: linear-gradient(1deg, var(--blue-600) 70%, var(--blue-100) 71%);
+}
+
+.click-btn-inner {
+  height: 100%;
+  flex: 1;
+  border-radius: 50%;
+
+  background-color: var(--blue-700);
+}
+
+@media screen and (max-width: 712px) {
   .console {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
