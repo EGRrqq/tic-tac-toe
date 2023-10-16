@@ -18,6 +18,8 @@
   --blue-700: #3b4554;
   --blue-800: #020e13;
 
+  --purple-600: #5634b4;
+
   --blue-shading: repeating-radial-gradient(
     #020e13 0 15%,
     #051f2a 0 20%,
@@ -240,6 +242,17 @@ button[data-position="left"]:active {
 }
 
 .screen {
+  display: grid;
+
+  background-color: var(--blue-600);
+  padding: calc(var(--section-padding) / 2) var(--section-padding);
+
+  border: 3px solid var(--blue-800);
+  border-radius: 0.5rem;
+  border-bottom-right-radius: 2rem;
+}
+
+.screen-content-wrapper {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
