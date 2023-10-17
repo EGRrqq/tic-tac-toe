@@ -133,9 +133,6 @@ button[data-position="top"]:hover {
   border-left-color: color-mix(in srgb, var(--blue-700), var(--blue-600));
   border-right-color: color-mix(in srgb, var(--blue-700), var(--blue-600));
 
-  border-top: 2px solid var(--blue-100);
-  border-bottom: 4px solid var(--blue-600);
-
   box-shadow:
     1.5px 2px 2px rgba(0, 0, 0, 0.7),
     inset 0px -5px 5px 2px color-mix(in srgb, var(--blue-700), var(--blue-600));
@@ -144,9 +141,6 @@ button[data-position="top"]:hover {
 button[data-position="top"]:active {
   border-left-color: var(--blue-600);
   border-right-color: var(--blue-600);
-
-  border-top: 3px solid var(--blue-100);
-  border-bottom: 3px solid var(--blue-600);
 
   box-shadow: 1.5px 2px 2px rgba(0, 0, 0, 0.7);
 }
@@ -161,18 +155,12 @@ button[data-position="right"] {
 }
 
 button[data-position="right"]:hover {
-  border-left: 4px solid var(--blue-600);
-  border-right: 2px solid var(--blue-600);
-
   box-shadow:
     0.5px 1px 2px 1px rgba(0, 0, 0, 0.7),
     inset 5px 0px 5px 2px color-mix(in srgb, var(--blue-700), var(--blue-600));
 }
 
 button[data-position="right"]:active {
-  border-left: 3px solid var(--blue-600);
-  border-right: 3px solid var(--blue-600);
-
   box-shadow: 0.5px 1px 2px 1px rgba(0, 0, 0, 0.7);
 }
 
@@ -201,9 +189,6 @@ button[data-position="bottom"]:hover {
   border-left-color: color-mix(in srgb, var(--blue-700), var(--blue-600));
   border-right-color: color-mix(in srgb, var(--blue-700), var(--blue-600));
 
-  border-top: 4px solid var(--blue-600);
-  border-bottom: 2px solid var(--blue-700);
-
   box-shadow:
     1.5px 2px 2px rgba(0, 0, 0, 0.7),
     inset 0px 5px 5px 2px color-mix(in srgb, var(--blue-700), var(--blue-600));
@@ -212,9 +197,6 @@ button[data-position="bottom"]:hover {
 button[data-position="bottom"]:active {
   border-left-color: var(--blue-600);
   border-right-color: var(--blue-600);
-
-  border-top: 3px solid var(--blue-600);
-  border-bottom: 3px solid var(--blue-700);
 
   box-shadow: 1.5px 2px 2px rgba(0, 0, 0, 0.7);
 }
@@ -226,18 +208,12 @@ button[data-position="left"] {
 }
 
 button[data-position="left"]:hover {
-  border-left: 2px solid var(--blue-600);
-  border-right: 4px solid var(--blue-600);
-
   box-shadow:
     1.5px 2px 2px rgba(0, 0, 0, 0.7),
     inset -5px 0px 5px 2px color-mix(in srgb, var(--blue-700), var(--blue-600));
 }
 
 button[data-position="left"]:active {
-  border-left: 3px solid var(--blue-600);
-  border-right: 3px solid var(--blue-600);
-
   box-shadow: 1.5px 2px 2px rgba(0, 0, 0, 0.7);
 }
 
