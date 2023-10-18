@@ -2,13 +2,12 @@
   --content-padding: calc(0.5rem + 0.5vh);
 
   --section-padding: clamp(1rem, calc(1.5rem + 1vw), 3vw);
-  --section-gap: calc(3rem + 0.5vh);
   --section-item-gap: calc(1rem + 0.5vw);
 
   --main-font-size: calc(0.75rem + 1vw);
 
   --btn-min-h: clamp(min(5svw, 5svh), 3rem + 1vw, max(10svw, 10svh));
-  --d-pad-btn-size: calc(var(--content-padding) * 2 + 6px);
+  --d-pad-btn-size: calc(var(--content-padding) * 2 + 0.3rem);
 
   --bg-color: #ffe5f3;
 
@@ -18,7 +17,12 @@
   --blue-700: #3b4554;
   --blue-800: #020e13;
 
-  --purple-600: #5634b4;
+  --purple-400: #5634b4;
+  --purple-500: #412491;
+
+  --green-400: #4fc59a;
+
+  --red-400: #c13b39;
 
   --blue-shading: repeating-radial-gradient(
     #020e13 0 15%,
@@ -71,13 +75,17 @@ body {
 }
 
 button {
-  border: 1px solid black;
+  border: 0.05rem solid black;
   padding: var(--content-padding);
   cursor: pointer;
 }
 
 .xl {
   min-height: var(--btn-min-h);
+}
+
+.display-none {
+  display: none !important;
 }
 
 button:hover,
@@ -93,7 +101,7 @@ button:focus-within {
 
   padding: var(--section-padding);
   border-radius: 1rem;
-  border: 3px solid var(--blue-800);
+  border: 0.15rem solid var(--blue-800);
 
   background-color: var(--blue-400);
 
@@ -102,7 +110,7 @@ button:focus-within {
     -0.1rem -0.1rem 0.1rem 0.1rem rgba(0, 0, 0, 0.1) inset,
     -0.2rem -0.2rem 0.1rem 0.15rem rgba(0, 0, 0, 0.15) inset,
     -0.4rem -0.4rem 0.1rem 0.2rem rgba(0, 0, 0, 0.2) inset,
-    0.2rem 0.2rem 0.2rem 0px rgba(0, 0, 0, 0.25);
+    0.2rem 0.2rem 0.2rem 0rem rgba(0, 0, 0, 0.25);
 }
 
 .move-side {
@@ -111,8 +119,8 @@ button:focus-within {
   grid-template-rows: repeat(3, 1fr);
   place-self: center;
 
-  box-shadow: 0px 0px 1px 1px rgb(0, 0, 0, 0.35);
-  border: 3px solid var(--blue-800);
+  box-shadow: 0rem 0rem 0.05rem 0.05rem rgb(0, 0, 0, 0.35);
+  border: 0.15rem solid var(--blue-800);
   background: var(--blue-shading);
   border-radius: 50%;
   padding: 1rem;
@@ -120,8 +128,8 @@ button:focus-within {
 
 .move-side > button {
   background-color: var(--blue-600);
-  border: 3px solid var(--blue-600);
-  box-shadow: 1.5px 2px 2px rgba(0, 0, 0, 0.7);
+  border: 0.15rem solid var(--blue-600);
+  box-shadow: 0.075rem 0.1rem 0.1rem rgba(0, 0, 0, 0.7);
 }
 
 button[data-position="top"] {
@@ -134,15 +142,15 @@ button[data-position="top"]:hover {
   border-right-color: color-mix(in srgb, var(--blue-700), var(--blue-600));
 
   box-shadow:
-    1.5px 2px 2px rgba(0, 0, 0, 0.7),
-    inset 0px -5px 5px 2px color-mix(in srgb, var(--blue-700), var(--blue-600));
+    0.075rem 0.1rem 0.1rem rgba(0, 0, 0, 0.7),
+    inset 0rem -0.25rem 0.25rem 0.1rem color-mix(in srgb, var(--blue-700), var(--blue-600));
 }
 
 button[data-position="top"]:active {
   border-left-color: var(--blue-600);
   border-right-color: var(--blue-600);
 
-  box-shadow: 1.5px 2px 2px rgba(0, 0, 0, 0.7);
+  box-shadow: 0.075rem 0.1rem 0.1rem rgba(0, 0, 0, 0.7);
 }
 
 button[data-position="right"] {
@@ -151,17 +159,18 @@ button[data-position="right"] {
   border-bottom-color: var(--blue-700);
 
   /* to cover the gap between right and bottom btns */
-  box-shadow: 0.5px 1px 2px 1px rgba(0, 0, 0, 0.7);
+  box-shadow: 0.025rem 0.05rem 0.1rem 0.05rem rgba(0, 0, 0, 0.7);
 }
 
 button[data-position="right"]:hover {
   box-shadow:
-    0.5px 1px 2px 1px rgba(0, 0, 0, 0.7),
-    inset 5px 0px 5px 2px color-mix(in srgb, var(--blue-700), var(--blue-600));
+    0.025rem 0.05rem 0.1rem 0.05rem rgba(0, 0, 0, 0.7),
+    inset 0.25rem 0rem 0.25rem 0.1rem
+      color-mix(in srgb, var(--blue-700), var(--blue-600));
 }
 
 button[data-position="right"]:active {
-  box-shadow: 0.5px 1px 2px 1px rgba(0, 0, 0, 0.7);
+  box-shadow: 0.025rem 0.05rem 0.1rem 0.05rem rgba(0, 0, 0, 0.7);
 }
 
 div[data-position="middle"] {
@@ -190,15 +199,16 @@ button[data-position="bottom"]:hover {
   border-right-color: color-mix(in srgb, var(--blue-700), var(--blue-600));
 
   box-shadow:
-    1.5px 2px 2px rgba(0, 0, 0, 0.7),
-    inset 0px 5px 5px 2px color-mix(in srgb, var(--blue-700), var(--blue-600));
+    0.075rem 0.1rem 0.1rem rgba(0, 0, 0, 0.7),
+    inset 0rem 0.25rem 0.25rem 0.1rem
+      color-mix(in srgb, var(--blue-700), var(--blue-600));
 }
 
 button[data-position="bottom"]:active {
   border-left-color: var(--blue-600);
   border-right-color: var(--blue-600);
 
-  box-shadow: 1.5px 2px 2px rgba(0, 0, 0, 0.7);
+  box-shadow: 0.075rem 0.1rem 0.1rem rgba(0, 0, 0, 0.7);
 }
 
 button[data-position="left"] {
@@ -209,32 +219,70 @@ button[data-position="left"] {
 
 button[data-position="left"]:hover {
   box-shadow:
-    1.5px 2px 2px rgba(0, 0, 0, 0.7),
-    inset -5px 0px 5px 2px color-mix(in srgb, var(--blue-700), var(--blue-600));
+    0.075rem 0.1rem 0.1rem rgba(0, 0, 0, 0.7),
+    inset -0.25rem 0rem 0.25rem 0.1rem color-mix(in srgb, var(--blue-700), var(--blue-600));
 }
 
 button[data-position="left"]:active {
-  box-shadow: 1.5px 2px 2px rgba(0, 0, 0, 0.7);
+  box-shadow: 0.075rem 0.1rem 0.1rem rgba(0, 0, 0, 0.7);
 }
 
-.screen {
+.screen-frame {
   display: grid;
 
   background-color: var(--blue-600);
   padding: calc(var(--section-padding) / 2) var(--section-padding);
 
-  border: 3px solid var(--blue-800);
+  border: 0.15rem solid var(--blue-800);
   border-radius: 0.5rem;
   border-bottom-right-radius: 2rem;
 }
 
-.screen-content-wrapper {
+.screen {
+  position: relative;
+  display: grid;
+
+  min-height: calc(var(--btn-min-h) * 3);
+  border: 0.15rem solid var(--blue-800);
+  border-radius: 0.25rem;
+
+  background-color: var(--purple-500);
+}
+
+.focus-item {
+}
+
+.play-screen {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
+}
 
-  border: 3px solid var(--blue-800);
+.menu-screen {
+  display: grid;
+  gap: var(--section-item-gap);
+  margin: 1rem;
+
+  border: 0.15rem solid var(--green-400);
   border-radius: 0.25rem;
+  align-content: center;
+
+  text-align: center;
+  color: var(--blue-100);
+}
+
+.title {
+  font-size: calc(var(--main-font-size) / 1.5);
+  text-align: center;
+
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+
+  border: 0.15rem solid var(--green-400);
+  border-radius: 0.25rem;
+  padding: calc(var(--content-padding) / 2);
+  background-color: var(--red-400);
 }
 
 .submit-side {
@@ -243,37 +291,37 @@ button[data-position="left"]:active {
 }
 
 .submit-side > .click-btn-outer {
-  --btn-md: calc(var(--d-pad-btn-size) + 6px * 2);
+  --btn-md: calc(var(--d-pad-btn-size) + 0.3rem * 2);
 
   min-height: var(--btn-md);
   min-width: var(--btn-md);
   border-radius: 50%;
   display: flex;
-  padding: 3px;
-  border: 3px solid var(--blue-800);
+  padding: 0.15rem;
+  border: 0.15rem solid var(--blue-800);
 
   background-color: var(--blue-600);
 
   box-shadow:
-    inset -1px -2px 1px rgb(0, 0, 0, 0.35),
-    inset 0px 4px 0px 0px var(--blue-100),
-    0px 0px 1px 1px rgb(0, 0, 0, 0.35);
+    inset -0.05rem -0.1rem 0.05rem rgb(0, 0, 0, 0.35),
+    inset 0rem 0.2rem 0rem 0rem var(--blue-100),
+    0rem 0rem 0.05rem 0.05rem rgb(0, 0, 0, 0.35);
 }
 
 .submit-side > .click-btn-outer:hover {
   background-color: var(--blue-600);
 
   box-shadow:
-    inset -1px -2px 1px rgb(0, 0, 0, 0.75),
-    inset 0px 2px 0px 0px var(--blue-100),
-    0px 0px 1px 1px rgb(0, 0, 0, 0.35);
+    inset -0.05rem -0.1rem 0.05rem rgb(0, 0, 0, 0.75),
+    inset 0rem 0.1rem 0rem 0rem var(--blue-100),
+    0rem 0rem 0.05rem 0.05rem rgb(0, 0, 0, 0.35);
 }
 
 .submit-side > .click-btn-outer:active {
   box-shadow:
-    inset -1px -2px 1px rgb(0, 0, 0, 0.35),
-    inset 0px 4px 0px 0px var(--blue-100),
-    0px 0px 1px 1px rgb(0, 0, 0, 0.35);
+    inset -0.05rem -0.1rem 0.05rem rgb(0, 0, 0, 0.35),
+    inset 0rem 0.2rem 0rem 0rem var(--blue-100),
+    0rem 0rem 0.05rem 0.05rem rgb(0, 0, 0, 0.35);
 }
 
 .click-btn-inner {
@@ -290,7 +338,7 @@ button[data-position="left"]:active {
     grid-template-rows: repeat(2, 1fr);
   }
 
-  .screen {
+  .screen-frame {
     grid-area: 1 / span 2;
   }
 }
