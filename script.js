@@ -525,6 +525,97 @@ const game = (function () {
     };
   })();
 
+  const visualController = (function () {
+    (function changeInterface() {
+      const interfaces = Array.from(document.querySelectorAll(".screen > div"));
+      const getInterfaces = () => interfaces;
+
+      let hiddenInterface = getInterfaces()[0];
+      const getHiddenInterface = () => hiddenInterface;
+
+      const toggleActiveInterface = () =>
+        (hiddenInterface =
+          getHiddenInterface() === getInterfaces()[0]
+            ? getInterfaces()[1]
+            : getInterfaces()[0]);
+
+      const toggleClass = () => {
+        getHiddenInterface().classList.remove("display-none");
+
+        getInterfaces()
+          .find((interface) => interface !== getHiddenInterface())
+          .classList.add("display-none");
+      };
+
+      const changeScreenMenu = () => {
+        const getBtn = () => document.querySelector(".submit-side button");
+
+        getBtn().addEventListener("click", () => {
+          toggleClass();
+          toggleActiveInterface();
+        });
+      };
+
+      (function init() {
+        getHiddenInterface().classList.add("display-none");
+
+        changeScreenMenu();
+      })();
+    })();
+
+    (function changeFocus() {
+      const screenItems = Array.from(
+        document.querySelectorAll(".menu-screen > button"),
+      );
+
+      const getBottomBtn = () =>
+        document.querySelector('button[data-position="bottom"]');
+
+      const getUpperBtn = () =>
+        document.querySelector('button[data-position="top"]');
+
+      const getItems = () => screenItems;
+
+      let i = 0;
+      let focusItem = getItems()[i];
+
+      const getFocusItem = () => focusItem;
+
+      const scrollDown = () => {
+        if (i === 3) i = -1;
+
+        getFocusItem().classList.remove("screen-focus-item");
+
+        i++;
+        focusItem = getItems()[i];
+
+        getFocusItem().classList.add("screen-focus-item");
+      };
+
+      const scrollUp = () => {
+        if (i === 0) i = 4;
+
+        getFocusItem().classList.remove("screen-focus-item");
+
+        i--;
+        focusItem = getItems()[i];
+
+        getFocusItem().classList.add("screen-focus-item");
+      };
+
+      (function init() {
+        getFocusItem().classList.add("screen-focus-item");
+
+        getBottomBtn().addEventListener("click", scrollDown);
+        getUpperBtn().addEventListener("click", scrollUp);
+        window.addEventListener("keydown", (event) => {
+          if (event.key === "ArrowUp") scrollUp();
+          if (event.key === "ArrowDown") scrollDown();
+        });
+      })();
+    })();
+  })();
+
   return {
     play: consoleController.consolePlayRound,
     reverseMark: consoleController.consoleReverseMark,
