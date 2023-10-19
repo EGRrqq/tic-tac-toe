@@ -1,56 +1,60 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <script src="./script.js" defer></script>
+    <title>Tic Tac Toe</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="./style.css" />
-  <script src="./script.js" defer></script>
-  <title>Tic Tac Toe</title>
-</head>
-
-<body>
-  <article class="console">
-    <section class="move-side">
-      <button data-position="left"></button>
-      <button data-position="top"></button>
-      <div data-position="middle">
-        <div class="circle"></div>
-      </div>
-      <button data-position="right"></button>
-      <button data-position="bottom"></button>
-    </section>
-
-    <section class="screen-frame">
-      <div class="screen">
-        <div class="play-screen">
-          <button type="button" class="xl"></button>
-          <button type="button" class="xl"></button>
-          <button type="button" class="xl"></button>
-          <button type="button" class="xl"></button>
-          <button type="button" class="xl"></button>
-          <button type="button" class="xl"></button>
-          <button type="button" class="xl"></button>
-          <button type="button" class="xl"></button>
-          <button type="button" class="xl"></button>
+  <body>
+    <article class="console">
+      <section class="move-side">
+        <button data-position="left"></button>
+        <button data-position="top"></button>
+        <div data-position="middle">
+          <div class="circle"></div>
         </div>
+        <button data-position="right"></button>
+        <button data-position="bottom"></button>
+      </section>
 
-        <div class="menu-screen">
-          <h1 class="title">settings</h1>
-          <button class="screen-item-1">game-mode</button>
-          <button class="screen-item-2">game-restart</button>
-          <button class="screen-item-3">change-mark</button>
-          <button class="screen-item-4">ai-first-turn</button>
+      <section class="screen-frame">
+        <div class="screen">
+          <div class="play-screen">
+            <button type="button" class="xl"></button>
+            <button type="button" class="xl"></button>
+            <button type="button" class="xl"></button>
+            <button type="button" class="xl"></button>
+            <button type="button" class="xl"></button>
+            <button type="button" class="xl"></button>
+            <button type="button" class="xl"></button>
+            <button type="button" class="xl"></button>
+            <button type="button" class="xl"></button>
+          </div>
+
+          <div class="menu-screen">
+            <h1 class="absolute title">settings</h1>
+            <button class="absolute close-btn-modal">X</button>
+
+            <button class="screen-item-1">game-mode</button>
+            <button class="screen-item-2">game-restart</button>
+            <button class="screen-item-3">change-mark</button>
+            <button class="screen-item-4">ai-first-turn</button>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="submit-side">
-      <button type="button" class="click-btn-outer">
-        <div class="click-btn-inner"></div>
-      </button>
-    </section>
-  </article>
-</body>
+      <section class="submit-side">
+        <button
+          type="button"
+          class="close-btn-console"
+          aria-label="close window"
+        ></button>
 
+        <button type="button" class="click-btn-console"></button>
+      </section>
+    </article>
+  </body>
 </html>

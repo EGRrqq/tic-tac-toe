@@ -548,7 +548,8 @@ const game = (function () {
       };
 
       const changeScreenMenu = () => {
-        const getBtn = () => document.querySelector(".submit-side button");
+        const getBtn = () =>
+          document.querySelector(".submit-side .click-btn-console");
 
         getBtn().addEventListener("click", () => {
           toggleClass();
@@ -565,7 +566,7 @@ const game = (function () {
 
     (function changeFocus() {
       const screenItems = Array.from(
-        document.querySelectorAll(".menu-screen > button"),
+        document.querySelectorAll(".menu-screen > button:not(:first-of-type)"),
       );
 
       const getBottomBtn = () =>
