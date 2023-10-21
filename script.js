@@ -527,7 +527,11 @@ const game = (function () {
 
   const visualController = (function () {
     (function changeInterface() {
-      const interfaces = Array.from(document.querySelectorAll(".screen > div"));
+      const interfaces = [
+        document.querySelector(".play-screen"),
+        document.querySelector(".menu-screen"),
+      ];
+
       const getInterfaces = () => interfaces;
 
       let hiddenInterface = getInterfaces()[0];
@@ -566,7 +570,7 @@ const game = (function () {
 
     (function changeFocus() {
       const screenItems = Array.from(
-        document.querySelectorAll(".menu-screen > button:not(:first-of-type)"),
+        document.querySelectorAll(".menu-screen > section"),
       );
 
       const getBottomBtn = () =>
