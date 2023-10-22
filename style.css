@@ -290,23 +290,27 @@ form > section {
   gap: var(--content-padding);
 }
 
-.toggle > input {
+.screen-toggle-btn > input {
   visibility: hidden;
 
   width: 100%;
   height: 100%;
 }
 
-.toggle > input:checked + label {
+.screen-toggle-btn > input:checked + label {
   background: indianred;
+  border-radius: 0.25rem;
+  transition: all 0.1s;
 }
 
-.toggle > input:checked + label::after {
+.screen-toggle-btn > input:checked + label::after {
   transform: translate(-100%, 0);
   left: 98%;
 }
 
-.toggle {
+.screen-toggle-btn,
+.screen-btn {
+  display: inline-grid;
   position: relative;
 
   border: 0.05rem solid transparent;
@@ -314,7 +318,17 @@ form > section {
   width: calc(var(--content-padding) * 4);
 }
 
-.toggle > label {
+.screen-btn > button {
+  padding: 0;
+  border: 0;
+
+  width: 50%;
+  height: 100%;
+
+  justify-self: center;
+}
+
+.screen-toggle-btn > label {
   position: absolute;
   right: 0;
 
@@ -329,7 +343,7 @@ form > section {
   background: pink;
 }
 
-.toggle > label::after {
+.screen-toggle-btn > label::after {
   position: absolute;
   left: 2%;
   content: "";
