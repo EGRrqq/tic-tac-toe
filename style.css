@@ -44,6 +44,7 @@
   --purple-500: #412491;
 
   --green-400: #4fc59a;
+  --green-500: #2c9670;
 
   --red-400: #c13b39;
 
@@ -290,6 +291,39 @@ form > section {
   gap: var(--content-padding);
 }
 
+#game-restart {
+  background:
+    url(./public/icons/return_figma16x16.svg) center/75% no-repeat,
+    indianred;
+}
+
+#ai-turn {
+  background:
+    url(./public/icons/wrist_figma16x16.svg) center/75% no-repeat,
+    indianred;
+}
+
+#game-restart:hover,
+#ai-turn:hover {
+  background-color: pink;
+}
+
+#game-mode + label::after {
+  background: url(./public/icons/person16x16.svg) center/96% no-repeat;
+}
+
+#game-mode:checked + label::after {
+  background: url(./public/icons/robo16x16.svg) center/98% no-repeat;
+}
+
+#change-mark + label::after {
+  background: url(./public/icons/o_temp16x16.svg) center/75% no-repeat;
+}
+
+#change-mark:checked + label::after {
+  background: url(./public/icons/x_temp16x16.svg) center/75% no-repeat;
+}
+
 .screen-toggle-btn > input {
   visibility: hidden;
 
@@ -351,9 +385,6 @@ form > section {
 
   width: 45%;
   height: 90%;
-  border-radius: 50%;
-
-  background: chartreuse;
 
   transition: all 0.1s;
 }
