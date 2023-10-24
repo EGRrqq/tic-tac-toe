@@ -27,6 +27,10 @@
       var(--modal-padding) + var(--modal-margin) * 3
   );
 
+  --console-btn-w: calc(var(--content-padding) * 2 + 0.15rem * 2);
+  --console-section: calc(var(--console-btn-w) * 3 + 1rem * 2 + 0.15rem * 2);
+  --console-w: calc(var(--console-section) * 2 + var(--section-item-gap));
+
   --btn-min-h: clamp(min(5svw, 5svh), 3rem + 1vw, max(10svw, 10svh));
   --d-pad-btn-size: calc(var(--content-padding) * 2 + 0.3rem);
   --btn-md: calc(var(--d-pad-btn-size) + 0.3rem * 2);
@@ -126,6 +130,7 @@ button:focus-within {
   padding: var(--section-padding);
   border-radius: 1rem;
   border: 0.15rem solid var(--blue-800);
+  min-width: var(--console-w);
 
   background-color: var(--blue-400);
 
@@ -280,6 +285,11 @@ button[data-position="left"]:active {
   background-color: var(--blue-500);
 }
 
+.screen-cursor-btn {
+  background: url(./public/icons/cursor16x16.svg) center/75% no-repeat;
+  border-color: transparent;
+}
+
 form > section {
   display: flex;
   color: var(--blue-100);
@@ -418,7 +428,8 @@ form > section {
   border: 0.15rem solid var(--green-400);
   border-radius: 0.25rem;
   background-color: color-mix(in srgb, var(--blue-800), transparent);
-  padding: var(--modal-top-padding) 0 var(--modal-padding) 0;
+  padding-top: var(--modal-top-padding);
+  padding-bottom: var(--modal-padding);
 }
 
 .title {

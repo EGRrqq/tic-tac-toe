@@ -1,89 +1,102 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <script src="./script.js" defer></script>
+    <title>Tic Tac Toe</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="./style.css" />
-  <script src="./script.js" defer></script>
-  <title>Tic Tac Toe</title>
-</head>
+  <body>
+    <article class="console">
+      <section class="move-side">
+        <button data-position="left" aria-label="move left"></button>
+        <button data-position="top" aria-label="move up"></button>
 
-<body>
-  <article class="console">
-    <section class="move-side">
-      <button data-position="left"></button>
-      <button data-position="top"></button>
-
-      <div data-position="middle">
-        <div class="circle"></div>
-      </div>
-
-      <button data-position="right"></button>
-      <button data-position="bottom"></button>
-    </section>
-
-    <section class="screen-frame">
-      <div class="screen">
-        <div class="play-screen">
-          <button type="button" class="xl"></button>
-          <button type="button" class="xl"></button>
-          <button type="button" class="xl"></button>
-          <button type="button" class="xl"></button>
-          <button type="button" class="xl"></button>
-          <button type="button" class="xl"></button>
-          <button type="button" class="xl"></button>
-          <button type="button" class="xl"></button>
-          <button type="button" class="xl"></button>
+        <div data-position="middle">
+          <div class="circle"></div>
         </div>
 
-        <form class="menu-screen" method="dialog">
-          <h2 class="absolute title">settings</h2>
-          <button type="button" class="absolute close-btn-modal" formnovalidate>
-            X
-          </button>
+        <button data-position="right" aria-label="move right"></button>
+        <button data-position="bottom" aria-label="move down"></button>
+      </section>
 
-          <section class="screen-item-1">
-            <label for="game-mode">mode</label>
+      <section class="screen-frame">
+        <div class="screen">
+          <div class="play-screen">
+            <button type="button" class="xl"></button>
+            <button type="button" class="xl"></button>
+            <button type="button" class="xl"></button>
+            <button type="button" class="xl"></button>
+            <button type="button" class="xl"></button>
+            <button type="button" class="xl"></button>
+            <button type="button" class="xl"></button>
+            <button type="button" class="xl"></button>
+            <button type="button" class="xl"></button>
+          </div>
 
-            <div class="screen-toggle-btn">
-              <input id="game-mode" type="checkbox" checked />
-              <label for="game-mode"></label>
-            </div>
-          </section>
+          <form class="menu-screen" method="dialog">
+            <h2 class="absolute title">settings</h2>
+            <button
+              type="button"
+              class="absolute close-btn-modal"
+              formnovalidate
+            >
+              X
+            </button>
 
-          <section class="screen-item-2">
-            <label for="game-restart">restart</label>
-            <div class="screen-btn">
-              <button id="game-restart" type="submit"></button>
-            </div>
-          </section>
+            <label
+              type="submit"
+              class="screen-cursor-btn"
+              for="game-mode"
+              aria-hidden="true"
+            ></label>
 
-          <section class="screen-item-3">
-            <span>mark</span>
+            <section class="screen-item-1">
+              <label for="game-mode">mode</label>
 
-            <div class="screen-toggle-btn">
-              <input id="change-mark" type="checkbox" />
-              <label for="change-mark"></label>
-            </div>
-          </section>
+              <div class="screen-toggle-btn">
+                <input id="game-mode" type="checkbox" checked />
+                <label for="game-mode" aria-hidden="true"></label>
+              </div>
+            </section>
 
-          <section class="screen-item-4">
-            <label for="ai-turn">ai-turn</label>
-            <div class="screen-btn">
-              <button id="ai-turn" type="submit"></button>
-            </div>
-          </section>
-        </form>
-      </div>
-    </section>
+            <section class="screen-item-2">
+              <label for="game-restart">restart</label>
+              <div class="screen-btn">
+                <button id="game-restart" type="submit"></button>
+              </div>
+            </section>
 
-    <section class="submit-side">
-      <button type="button" class="close-btn-console" aria-label="close window"></button>
+            <section class="screen-item-3">
+              <span>mark</span>
 
-      <button type="button" class="click-btn-console"></button>
-    </section>
-  </article>
-</body>
+              <div class="screen-toggle-btn">
+                <input id="change-mark" type="checkbox" />
+                <label for="change-mark" aria-hidden="true"></label>
+              </div>
+            </section>
 
+            <section class="screen-item-4">
+              <label for="ai-turn">ai-turn</label>
+              <div class="screen-btn">
+                <button id="ai-turn" type="submit"></button>
+              </div>
+            </section>
+          </form>
+        </div>
+      </section>
+
+      <section class="submit-side">
+        <button
+          type="button"
+          class="close-btn-console"
+          aria-label="close window"
+        ></button>
+
+        <button type="button" class="click-btn-console"></button>
+      </section>
+    </article>
+  </body>
 </html>

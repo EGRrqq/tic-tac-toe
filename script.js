@@ -579,6 +579,9 @@ const game = (function () {
       const getUpperBtn = () =>
         document.querySelector('button[data-position="top"]');
 
+      const getScreenCursor = () =>
+        document.querySelector(".screen-cursor-btn");
+
       const getItems = () => screenItems;
 
       let i = 0;
@@ -595,6 +598,7 @@ const game = (function () {
         focusItem = getItems()[i];
 
         getFocusItem().classList.add("screen-focus-item");
+        getScreenCursor().style.cssText = `grid-area: ${i + 1} / 1`;
       };
 
       const scrollUp = () => {
@@ -606,6 +610,7 @@ const game = (function () {
         focusItem = getItems()[i];
 
         getFocusItem().classList.add("screen-focus-item");
+        getScreenCursor().style.cssText = `grid-area: ${i + 1} / 1`;
       };
 
       (function init() {
