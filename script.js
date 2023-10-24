@@ -613,6 +613,47 @@ const game = (function () {
         getScreenCursor().style.cssText = `grid-area: ${i + 1} / 1`;
       };
 
+      const colorGameMode = () => {
+        const getMode = () => document.querySelector("#game-mode");
+        const getToggles = () =>
+          document.querySelectorAll(".screen-toggle-btn > label");
+        const getBtns = () => document.querySelectorAll(".screen-btn > button");
+
+        const getPurple300 = () =>
+          getComputedStyle(document.documentElement).getPropertyValue(
+            "--purple-300",
+          );
+
+        const getYellow200 = () =>
+          getComputedStyle(document.documentElement).getPropertyValue(
+            "--yellow-200",
+          );
+
+        if (getMode().checked) {
+          document.documentElement.style.setProperty(
+            "--gamemode-color",
+            `${getPurple300()}`,
+          );
+        } else {
+          document.documentElement.style.setProperty(
+            "--gamemode-color",
+            `${getYellow200()}`,
+          );
+        }
+
+        getMode().addEventListener("change", (e) => {
+          if (e.target.checked) {
+            [...getToggles(), ...getBtns()].forEach(
+              (item) => (item.style.backgroundColor = "var(--purple-300)"),
+            );
+          } else {
+            [...getToggles(), ...getBtns()].forEach(
+              (item) => (item.style.backgroundColor = "var(--yellow-200)"),
+            );
+          }
+        });
+      };
+
       (function init() {
         getFocusItem().classList.add("screen-focus-item");
 
@@ -622,6 +663,7 @@ const game = (function () {
           if (event.key === "ArrowUp") scrollUp();
           if (event.key === "ArrowDown") scrollDown();
         });
+        colorGameMode();
       })();
     })();
   })();

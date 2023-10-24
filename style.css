@@ -44,6 +44,7 @@
   --blue-700: #3b4554;
   --blue-800: #020e13;
 
+  --purple-300: #ae70df;
   --purple-400: #5634b4;
   --purple-500: #412491;
 
@@ -51,6 +52,10 @@
   --green-500: #2c9670;
 
   --red-400: #c13b39;
+
+  --yellow-200: #fff3a0;
+
+  --gamemode-color: pink;
 
   --blue-shading: repeating-radial-gradient(
     #020e13 0 15%,
@@ -288,6 +293,8 @@ button[data-position="left"]:active {
 .screen-cursor-btn {
   background: url(./public/icons/cursor16x16.svg) center/75% no-repeat;
   border-color: transparent;
+  width: 75%;
+  justify-self: center;
 }
 
 form > section {
@@ -303,19 +310,14 @@ form > section {
 
 #game-restart {
   background:
-    url(./public/icons/return_figma16x16.svg) center/75% no-repeat,
-    indianred;
+    url(./public/icons/return_figma16x16.svg) center/100% 60% no-repeat,
+    var(--gamemode-color, pink);
 }
 
 #ai-turn {
   background:
-    url(./public/icons/wrist_figma16x16.svg) center/75% no-repeat,
-    indianred;
-}
-
-#game-restart:hover,
-#ai-turn:hover {
-  background-color: pink;
+    url(./public/icons/wrist_figma16x16.svg) center/100% 60% no-repeat,
+    var(--gamemode-color, pink);
 }
 
 #game-mode + label::after {
@@ -342,7 +344,6 @@ form > section {
 }
 
 .screen-toggle-btn > input:checked + label {
-  background: indianred;
   border-radius: 0.25rem;
   transition: all 0.1s;
 }
@@ -362,9 +363,20 @@ form > section {
   width: calc(var(--content-padding) * 4);
 }
 
+.screen-btn > button:hover,
+.screen-toggle-btn > label:hover {
+  box-shadow: inset 0px 0px 0.5rem 0px rgb(0, 0, 0, 0.15);
+}
+
+.screen-btn > button:active,
+.screen-toggle-btn > label:active {
+  box-shadow: none;
+}
+
 .screen-btn > button {
   padding: 0;
   border: 0;
+  border-radius: 50%;
 
   width: 50%;
   height: 100%;
@@ -384,7 +396,7 @@ form > section {
 
   cursor: pointer;
 
-  background: pink;
+  background: var(--gamemode-color, pink);
 }
 
 .screen-toggle-btn > label::after {
