@@ -589,6 +589,14 @@ const game = (function () {
 
       const getFocusItem = () => focusItem;
 
+      const getCurrentAttribute = () =>
+        document
+          .querySelector(`.screen-item-${i + 1} > label`)
+          .getAttribute("for");
+
+      const setCurrentAttribute = () =>
+        getScreenCursor().setAttribute("for", getCurrentAttribute());
+
       const scrollDown = () => {
         if (i === 3) i = -1;
 
@@ -597,6 +605,7 @@ const game = (function () {
         i++;
         focusItem = getItems()[i];
 
+        setCurrentAttribute();
         getFocusItem().classList.add("screen-focus-item");
         getScreenCursor().style.cssText = `grid-area: ${i + 1} / 1`;
       };
@@ -609,6 +618,7 @@ const game = (function () {
         i--;
         focusItem = getItems()[i];
 
+        setCurrentAttribute();
         getFocusItem().classList.add("screen-focus-item");
         getScreenCursor().style.cssText = `grid-area: ${i + 1} / 1`;
       };
@@ -654,15 +664,36 @@ const game = (function () {
         });
       };
 
+      (function closeModal() {
+        const modal = document.querySelector("dialog");
+        const closeBtn = document.querySelector(".close-btn-modal");
+
+        closeBtn.addEventListener("click", () => {
+          modal.classList.remove("game-modal");
+          modal.close();
+        });
+
+        window.addEventListener("click", (event) => {
+          if (event.target !== modal) {
+            return;
+          }
+
+          modal.classList.remove("game-modal");
+          modal.close();
+        });
+      })();
+
       (function init() {
         getFocusItem().classList.add("screen-focus-item");
 
         getBottomBtn().addEventListener("click", scrollDown);
         getUpperBtn().addEventListener("click", scrollUp);
+
         window.addEventListener("keydown", (event) => {
           if (event.key === "ArrowUp") scrollUp();
           if (event.key === "ArrowDown") scrollDown();
         });
+
         colorGameMode();
       })();
     })();
