@@ -14,7 +14,8 @@
         <button
           type="button"
           class="additional-btn-console rounded-btn-console"
-          aria-label="close window"
+          aria-label="open settings"
+          id="settings-btn-console"
         ></button>
 
         <section class="d-pad">
@@ -42,7 +43,7 @@
             <button type="button" class="xl"></button>
           </div>
 
-          <dialog class="game-modal display-none" open>
+          <dialog class="settings-modal display-none">
             <form class="menu-screen" method="dialog">
               <h2 class="absolute title">settings</h2>
               <button
@@ -59,11 +60,11 @@
                 aria-hidden="true"
               ></label>
 
-              <section class="screen-item-1">
+              <section class="screen-item-1 screen-focus-item">
                 <label for="game-mode">mode</label>
 
                 <div class="screen-toggle-btn">
-                  <input id="game-mode" type="checkbox" checked />
+                  <input id="game-mode" type="checkbox" autofocus />
                   <label for="game-mode" aria-hidden="true"></label>
                 </div>
               </section>
@@ -103,13 +104,15 @@
 
             <section class="screen-item-1">
               <div class="start-menu-btn">
-                <button type="submit" id="playVsPlayer">vs player</button>
+                <button type="submit" id="play-vs-player" autofocus>
+                  vs player
+                </button>
               </div>
             </section>
 
             <section class="screen-item-2">
               <div class="start-menu-btn">
-                <button type="submit" id="playVsAi">vs ai</button>
+                <button type="submit" id="play-vs-ai">vs ai</button>
               </div>
             </section>
           </form>
@@ -121,6 +124,7 @@
           type="button"
           class="additional-btn-console rounded-btn-console"
           aria-label="close window"
+          id="close-btn-console"
         ></button>
 
         <button

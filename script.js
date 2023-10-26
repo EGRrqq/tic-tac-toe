@@ -527,14 +527,15 @@ const game = (function () {
 
   const visualController = (function () {
     (function startMenu() {
-      const getVsPlayerBtn = () => document.getElementById("playVsPlayer");
-      const getVsAiBtn = () => document.getElementById("playVsAi");
+      const getVsPlayerBtn = () => document.getElementById("play-vs-player");
+      const getVsAiBtn = () => document.getElementById("play-vs-ai");
       const getStartMenu = () => document.querySelector(".start-menu-screen");
       const getPlayScreen = () => document.querySelector(".play-screen");
 
       function toggleScreen() {
         getStartMenu().remove();
         getPlayScreen().classList.remove("display-none");
+        settingsMenu();
       }
 
       function playVsPlayer(event) {
@@ -558,6 +559,63 @@ const game = (function () {
       getVsPlayerBtn().addEventListener("click", playVsPlayer);
       getVsAiBtn().addEventListener("click", playVsAi);
     })();
+
+    function settingsMenu() {
+      const getSettingsConsoleBtn = () =>
+        document.getElementById("settings-btn-console");
+
+      const getCloseConsoleBtn = () =>
+        document.getElementById("close-btn-console");
+
+      const getCloseModalBtn = () => document.querySelector(".close-btn-modal");
+
+      const getSettingsModal = () => document.querySelector(".settings-modal");
+
+      function closeModalByWindow(event) {
+        if (event.target !== getSettingsModal()) {
+          return;
+        }
+
+        closeModal();
+      }
+
+      function closeModalByEsc(event) {
+        if (event.key === "Escape") closeModal();
+      }
+
+      function openModalByEsc(event) {
+        if (event.key === "Escape") openSettings();
+      }
+
+      function openSettings() {
+        getSettingsModal().classList.remove("display-none");
+        getSettingsModal().show();
+
+        getSettingsConsoleBtn().removeEventListener("click", openSettings);
+        window.removeEventListener("keydown", openModalByEsc);
+
+        getCloseConsoleBtn().addEventListener("click", closeModal);
+        getCloseModalBtn().addEventListener("click", closeModal);
+        window.addEventListener("click", closeModalByWindow);
+        window.addEventListener("keydown", closeModalByEsc);
+      }
+
+      function closeModal() {
+        getSettingsModal().classList.add("display-none");
+        getSettingsModal().close();
+
+        getCloseConsoleBtn().removeEventListener("click", closeModal);
+        getCloseModalBtn().removeEventListener("click", closeModal);
+        window.removeEventListener("click", closeModalByWindow);
+        window.removeEventListener("keydown", closeModalByEsc);
+
+        getSettingsConsoleBtn().addEventListener("click", openSettings);
+        window.addEventListener("keydown", openModalByEsc);
+      }
+
+      getSettingsConsoleBtn().addEventListener("click", openSettings);
+      window.addEventListener("keydown", openModalByEsc);
+    }
   })();
 
   return {

@@ -47,6 +47,7 @@
   --purple-300: #ae70df;
   --purple-400: #5634b4;
   --purple-500: #412491;
+  --purple-700: #211952;
 
   --green-400: #4fc59a;
   --green-500: #2c9670;
@@ -316,11 +317,11 @@ button[data-position="left"]:active {
   justify-self: center;
 }
 
-.game-modal {
+.settings-modal {
   width: 100%;
   height: 100%;
   display: grid;
-  background-color: transparent;
+  background-color: color-mix(in srgb, var(--blue-800), transparent 25%);
 }
 
 form > section {
@@ -363,8 +364,6 @@ form > section {
 }
 
 .screen-toggle-btn > input {
-  visibility: hidden;
-
   width: 100%;
   height: 100%;
 }
@@ -473,7 +472,7 @@ form > section {
   padding-top: var(--modal-top-padding);
   padding-bottom: var(--modal-padding);
   justify-content: center;
-  background-color: color-mix(in srgb, var(--blue-800), transparent);
+  background-color: var(--purple-700);
 }
 
 .title {
