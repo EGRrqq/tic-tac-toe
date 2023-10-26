@@ -96,6 +96,18 @@
   border: 0;
 
   font-size: var(--main-font-size);
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
 }
 
 body {
@@ -135,7 +147,7 @@ button:focus-within {
   padding: var(--section-padding);
   border-radius: 1rem;
   border: 0.15rem solid var(--blue-800);
-  min-width: var(--console-w);
+  min-width: calc(var(--console-w) * 2);
 
   background-color: var(--blue-400);
 
@@ -293,7 +305,7 @@ button[data-position="left"]:active {
 .screen-cursor-btn {
   background: url(./public/icons/cursor16x16.svg) center/75% no-repeat;
   border-color: transparent;
-  width: 75%;
+  width: calc(var(--console-btn-w) / 1.5);
   justify-self: center;
 }
 
@@ -361,7 +373,7 @@ form > section {
 }
 
 .screen-toggle-btn,
-.screen-btn {
+.settings-btn {
   display: inline-grid;
   position: relative;
 
@@ -370,17 +382,17 @@ form > section {
   width: calc(var(--content-padding) * 4);
 }
 
-.screen-btn > button:hover,
+.settings-btn > button:hover,
 .screen-toggle-btn > label:hover {
   box-shadow: inset 0px 0px 0.5rem 0px rgb(0, 0, 0, 0.15);
 }
 
-.screen-btn > button:active,
+.settings-btn > button:active,
 .screen-toggle-btn > label:active {
   box-shadow: none;
 }
 
-.screen-btn > button {
+.settings-btn > button {
   padding: 0;
   border: 0;
   border-radius: 50%;
@@ -442,13 +454,19 @@ form > section {
 
 .menu-screen {
   display: grid;
-  grid-template-columns: 0.2fr 1fr 0.2fr;
+  grid-template-columns: minmax(calc(var(--console-btn-w) / 1.5), 0.2fr) 1fr minmax(
+      calc(var(--console-btn-w) / 1.5),
+      0.2fr
+    );
+
   margin: var(--modal-margin);
   border: 0.15rem solid var(--green-400);
   border-radius: 0.25rem;
-  background-color: color-mix(in srgb, var(--blue-800), transparent);
+
   padding-top: var(--modal-top-padding);
   padding-bottom: var(--modal-padding);
+  justify-content: center;
+  background-color: color-mix(in srgb, var(--blue-800), transparent);
 }
 
 .title {
@@ -539,6 +557,8 @@ form > section {
   .console {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
+
+    min-width: var(--console-w);
   }
 
   .screen-frame {
