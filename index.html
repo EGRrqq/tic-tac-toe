@@ -11,21 +11,23 @@
 
 <body>
   <article class="console">
-    <section class="move-side">
-      <button data-position="left" aria-label="move left"></button>
-      <button data-position="top" aria-label="move up"></button>
+    <section class="left-side">
+      <button type="button" class="additional-btn-console rounded-btn-console" aria-label="close window"></button>
 
-      <div data-position="middle">
-        <div class="circle"></div>
-      </div>
+      <section class="d-pad">
+        <button data-position="left" aria-label="move left"></button>
+        <button data-position="top" aria-label="move up"></button>
 
-      <button data-position="right" aria-label="move right"></button>
-      <button data-position="bottom" aria-label="move down"></button>
+        <div data-position="middle"></div>
+
+        <button data-position="right" aria-label="move right"></button>
+        <button data-position="bottom" aria-label="move down"></button>
+      </section>
     </section>
 
     <section class="screen-frame">
       <div class="screen">
-        <div class="play-screen">
+        <div class="play-screen display-none">
           <button type="button" class="xl"></button>
           <button type="button" class="xl"></button>
           <button type="button" class="xl"></button>
@@ -82,10 +84,10 @@
       </div>
     </section>
 
-    <section class="submit-side">
-      <button type="button" class="close-btn-console" aria-label="close window"></button>
+    <section class="right-side">
+      <button type="button" class="additional-btn-console rounded-btn-console" aria-label="close window"></button>
 
-      <button type="button" class="click-btn-console"></button>
+      <button type="button" class="click-btn-console rounded-btn-console"></button>
     </section>
   </article>
 </body>

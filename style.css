@@ -133,8 +133,8 @@ button {
   display: none !important;
 }
 
-button:hover,
-button:focus-within {
+.play-screen > button:hover,
+.play-screen > button:focus-within {
   background-color: #d0d0d0;
 }
 
@@ -159,11 +159,16 @@ button:focus-within {
     0.2rem 0.2rem 0.2rem 0rem rgba(0, 0, 0, 0.25);
 }
 
-.move-side {
+.left-side {
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.d-pad {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  place-self: center;
 
   box-shadow: 0rem 0rem 0.05rem 0.05rem rgb(0, 0, 0, 0.35);
   border: 0.15rem solid var(--blue-800);
@@ -172,7 +177,7 @@ button:focus-within {
   padding: 1rem;
 }
 
-.move-side > button {
+.d-pad > button {
   background-color: var(--blue-600);
   border: 0.15rem solid var(--blue-600);
   box-shadow: 0.075rem 0.1rem 0.1rem rgba(0, 0, 0, 0.7);
@@ -220,19 +225,17 @@ button[data-position="right"]:active {
 }
 
 div[data-position="middle"] {
-  background: var(--blue-600);
+  background: radial-gradient(
+    circle at center,
+    var(--blue-700) 60%,
+    var(--blue-700) 65%,
+    var(--blue-600) 70%
+  );
   grid-area: 2 / 2;
 
   display: flex;
 
   z-index: 1;
-}
-
-div.circle {
-  height: 100%;
-  flex: 1;
-  background-color: var(--blue-700);
-  border-radius: 50%;
 }
 
 button[data-position="bottom"] {
@@ -495,15 +498,15 @@ form > section {
   background-color: var(--red-400);
 }
 
-.submit-side {
+.right-side {
   display: grid;
   position: relative;
   place-items: center;
 }
 
-.submit-side > .close-btn-console {
+.additional-btn-console {
   position: absolute;
-  right: 5%;
+  transform: translate(0, -100%);
   top: calc(var(--btn-md));
 
   background-color: var(--blue-600);
@@ -513,7 +516,15 @@ form > section {
   min-height: calc(var(--btn-md) / 2);
 }
 
-.submit-side > .click-btn-console {
+.left-side .additional-btn-console {
+  right: 5%;
+}
+
+.right-side .additional-btn-console {
+  left: 5%;
+}
+
+.right-side > .click-btn-console {
   min-height: var(--btn-md);
   min-width: var(--btn-md);
   border-radius: 50%;
@@ -525,7 +536,7 @@ form > section {
   );
 }
 
-.submit-side > button {
+.rounded-btn-console {
   padding: 0;
   border: 0.15rem solid var(--blue-800);
 
@@ -537,7 +548,7 @@ form > section {
     0rem 0rem 0.05rem 0.05rem rgb(0, 0, 0, 0.35);
 }
 
-.submit-side > button:hover {
+.rounded-btn-console:hover {
   background-color: var(--blue-600);
 
   box-shadow:
@@ -546,7 +557,7 @@ form > section {
     0rem 0rem 0.05rem 0.05rem rgb(0, 0, 0, 0.35);
 }
 
-.submit-side > button:active {
+.rounded-btn-console:active {
   box-shadow:
     inset -0.05rem -0.1rem 0.05rem rgb(0, 0, 0, 0.35),
     inset 0rem 0.125rem 0rem 0rem var(--blue-100),
