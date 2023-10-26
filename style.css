@@ -298,6 +298,10 @@ button[data-position="left"]:active {
   background-color: var(--purple-500);
 }
 
+.start-menu-screen {
+  align-content: center;
+}
+
 .menu-screen .screen-focus-item {
   border: 0.15rem solid var(--green-400);
   border-radius: 0.25rem;
@@ -562,6 +566,11 @@ form > section {
     inset -0.05rem -0.1rem 0.05rem rgb(0, 0, 0, 0.35),
     inset 0rem 0.125rem 0rem 0rem var(--blue-100),
     0rem 0rem 0.05rem 0.05rem rgb(0, 0, 0, 0.35);
+}
+
+.start-menu-btn > button {
+  border: 0;
+  padding: 0;
 }
 
 @media screen and (max-width: 1200px) {

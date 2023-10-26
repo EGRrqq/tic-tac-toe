@@ -525,7 +525,40 @@ const game = (function () {
     };
   })();
 
-  const visualController = (function () {})();
+  const visualController = (function () {
+    (function startMenu() {
+      const getVsPlayerBtn = () => document.getElementById("playVsPlayer");
+      const getVsAiBtn = () => document.getElementById("playVsAi");
+      const getStartMenu = () => document.querySelector(".start-menu-screen");
+      const getPlayScreen = () => document.querySelector(".play-screen");
+
+      function toggleScreen() {
+        getStartMenu().remove();
+        getPlayScreen().classList.remove("display-none");
+      }
+
+      function playVsPlayer(event) {
+        event.preventDefault();
+
+        getVsPlayerBtn().removeEventListener("click", playVsPlayer);
+        playController.playerVsPlayer();
+
+        toggleScreen();
+      }
+
+      function playVsAi(event) {
+        event.preventDefault();
+
+        getVsAiBtn().removeEventListener("click", playVsAi);
+        playController.playerVsAi();
+
+        toggleScreen();
+      }
+
+      getVsPlayerBtn().addEventListener("click", playVsPlayer);
+      getVsAiBtn().addEventListener("click", playVsAi);
+    })();
+  })();
 
   return {
     play: consoleController.consolePlayRound,
