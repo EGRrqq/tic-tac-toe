@@ -335,7 +335,7 @@ form > section {
   gap: var(--content-padding);
 }
 
-#game-restart {
+#restart-btn {
   background:
     url(./public/icons/return_figma16x16.svg) center/100% 60% no-repeat,
     var(--gamemode-color, pink);

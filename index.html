@@ -1,137 +1,116 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./style.css" />
-    <script src="./script.js" defer></script>
-    <title>Tic Tac Toe</title>
-  </head>
 
-  <body>
-    <article class="console">
-      <section class="left-side">
-        <button
-          type="button"
-          class="additional-btn-console rounded-btn-console"
-          aria-label="open settings"
-          id="settings-btn-console"
-        ></button>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./style.css" />
+  <script src="./script.js" defer></script>
+  <title>Tic Tac Toe</title>
+</head>
 
-        <section class="d-pad">
-          <button data-position="left" aria-label="move left"></button>
-          <button data-position="top" aria-label="move up"></button>
+<body>
+  <article class="console">
+    <section class="left-side">
+      <button type="button" class="additional-btn-console rounded-btn-console" aria-label="open settings"
+        id="settings-btn-console"></button>
 
-          <div data-position="middle"></div>
+      <section class="d-pad">
+        <button data-position="left" aria-label="move left"></button>
+        <button data-position="top" aria-label="move up"></button>
 
-          <button data-position="right" aria-label="move right"></button>
-          <button data-position="bottom" aria-label="move down"></button>
-        </section>
+        <div data-position="middle"></div>
+
+        <button data-position="right" aria-label="move right"></button>
+        <button data-position="bottom" aria-label="move down"></button>
       </section>
+    </section>
 
-      <section class="screen-frame">
-        <div class="screen">
-          <div class="play-screen display-none">
-            <button type="button" class="xl"></button>
-            <button type="button" class="xl"></button>
-            <button type="button" class="xl"></button>
-            <button type="button" class="xl"></button>
-            <button type="button" class="xl"></button>
-            <button type="button" class="xl"></button>
-            <button type="button" class="xl"></button>
-            <button type="button" class="xl"></button>
-            <button type="button" class="xl"></button>
-          </div>
+    <section class="screen-frame">
+      <div class="screen">
+        <div class="play-screen display-none">
+          <button type="button" class="xl"></button>
+          <button type="button" class="xl"></button>
+          <button type="button" class="xl"></button>
+          <button type="button" class="xl"></button>
+          <button type="button" class="xl"></button>
+          <button type="button" class="xl"></button>
+          <button type="button" class="xl"></button>
+          <button type="button" class="xl"></button>
+          <button type="button" class="xl"></button>
+        </div>
 
-          <dialog class="settings-modal display-none">
-            <form class="menu-screen" method="dialog">
-              <h2 class="absolute title">settings</h2>
-              <button
-                type="button"
-                class="absolute close-btn-modal"
-                formnovalidate
-              >
-                X
-              </button>
+        <dialog id="settings-modal" class="settings-modal display-none">
+          <form class="menu-screen" method="dialog">
+            <h2 class="absolute title">settings</h2>
+            <button type="button" class="absolute close-btn-modal" formnovalidate>
+              X
+            </button>
 
-              <label
-                class="screen-cursor-btn"
-                for="game-mode"
-                aria-hidden="true"
-              ></label>
+            <label class="screen-cursor-btn" for="game-mode" aria-hidden="true"></label>
 
-              <section class="screen-item-1 screen-focus-item">
-                <label for="game-mode">mode</label>
+            <section class="screen-item-1 screen-focus-item">
+              <label for="game-mode">mode</label>
 
-                <div class="screen-toggle-btn">
-                  <input id="game-mode" type="checkbox" autofocus />
-                  <label for="game-mode" aria-hidden="true"></label>
-                </div>
-              </section>
-
-              <section class="screen-item-2">
-                <label for="game-restart">restart</label>
-                <div class="settings-btn">
-                  <button id="game-restart" type="submit"></button>
-                </div>
-              </section>
-
-              <section class="screen-item-3">
-                <label for="change-mark">mark</label>
-
-                <div class="screen-toggle-btn">
-                  <input id="change-mark" type="checkbox" />
-                  <label for="change-mark" aria-hidden="true"></label>
-                </div>
-              </section>
-
-              <section class="screen-item-4">
-                <label for="ai-turn">ai-turn</label>
-                <div class="settings-btn">
-                  <button id="ai-turn" type="submit"></button>
-                </div>
-              </section>
-            </form>
-          </dialog>
-
-          <form class="start-menu-screen menu-screen" method="dialog">
-            <h1 class="absolute title">gamemode</h1>
-            <label
-              class="screen-cursor-btn"
-              for="game-mode"
-              aria-hidden="true"
-            ></label>
-
-            <section class="screen-item-1">
-              <div class="start-menu-btn">
-                <button type="submit" id="play-vs-player" autofocus>
-                  vs player
-                </button>
+              <div class="screen-toggle-btn">
+                <input id="game-mode" type="checkbox" autofocus />
+                <label for="game-mode" aria-hidden="true"></label>
               </div>
             </section>
 
             <section class="screen-item-2">
-              <div class="start-menu-btn">
-                <button type="submit" id="play-vs-ai">vs ai</button>
+              <label for="restart-btn">restart</label>
+              <div class="settings-btn">
+                <button id="restart-btn" type="submit"></button>
+              </div>
+            </section>
+
+            <section class="screen-item-3">
+              <label for="change-mark">mark</label>
+
+              <div class="screen-toggle-btn">
+                <input id="change-mark" type="checkbox" />
+                <label for="change-mark" aria-hidden="true"></label>
+              </div>
+            </section>
+
+            <section class="screen-item-4">
+              <label for="ai-turn">ai-turn</label>
+              <div class="settings-btn">
+                <button id="ai-turn" type="submit"></button>
               </div>
             </section>
           </form>
-        </div>
-      </section>
+        </dialog>
 
-      <section class="right-side">
-        <button
-          type="button"
-          class="additional-btn-console rounded-btn-console"
-          aria-label="close window"
-          id="close-btn-console"
-        ></button>
+        <form class="start-menu-screen menu-screen" method="dialog">
+          <h1 class="absolute title">gamemode</h1>
+          <label class="screen-cursor-btn" for="game-mode" aria-hidden="true"></label>
 
-        <button
-          type="button"
-          class="click-btn-console rounded-btn-console"
-        ></button>
-      </section>
-    </article>
-  </body>
+          <section class="screen-item-1">
+            <div class="start-menu-btn">
+              <button type="submit" id="play-vs-player" autofocus>
+                vs player
+              </button>
+            </div>
+          </section>
+
+          <section class="screen-item-2">
+            <div class="start-menu-btn">
+              <button type="submit" id="play-vs-ai">vs ai</button>
+            </div>
+          </section>
+        </form>
+      </div>
+    </section>
+
+    <section class="right-side">
+      <button type="button" class="additional-btn-console rounded-btn-console" aria-label="close window"
+        id="close-btn-console"></button>
+
+      <button type="button" class="click-btn-console rounded-btn-console"></button>
+    </section>
+  </article>
+</body>
+
 </html>

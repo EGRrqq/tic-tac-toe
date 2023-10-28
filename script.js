@@ -346,6 +346,7 @@ const game = (function () {
             playController.getPlayRound()(i, j);
 
             setTextContent(node);
+            visualController.currentMarkChecked();
           });
         }),
       );
@@ -526,6 +527,30 @@ const game = (function () {
   })();
 
   const visualController = (function () {
+    let initGameMode;
+    const getInitGameMode = () => initGameMode;
+
+    const getMarkInput = () => document.getElementById("change-mark");
+
+    function currentMarkChecked() {
+      switch (
+        screenController.markValidation(
+          playController.getActivePlayer().getMark(),
+        )
+      ) {
+        case "X":
+          getMarkInput().setAttribute("checked", "true");
+          break;
+
+        case "O":
+          getMarkInput().removeAttribute("checked");
+          break;
+
+        default:
+          break;
+      }
+    }
+
     (function startMenu() {
       const getVsPlayerBtn = () => document.getElementById("play-vs-player");
       const getVsAiBtn = () => document.getElementById("play-vs-ai");
@@ -543,6 +568,7 @@ const game = (function () {
 
         getVsPlayerBtn().removeEventListener("click", playVsPlayer);
         playController.playerVsPlayer();
+        initGameMode = playController.playerVsPlayer;
 
         toggleScreen();
       }
@@ -552,6 +578,7 @@ const game = (function () {
 
         getVsAiBtn().removeEventListener("click", playVsAi);
         playController.playerVsAi();
+        initGameMode = playController.playerVsAi;
 
         toggleScreen();
       }
@@ -568,44 +595,65 @@ const game = (function () {
         document.getElementById("close-btn-console");
 
       const getCloseModalBtn = () => document.querySelector(".close-btn-modal");
+      const getSettingsModal = () => document.getElementById("settings-modal");
 
-      const getSettingsModal = () => document.querySelector(".settings-modal");
+      const getGameModeInput = () => document.getElementById("game-mode");
+      const getRestartbtn = () => document.getElementById("restart-btn");
+      const getAiTurnBtn = () => document.getElementById("ai-turn");
+
+      (function init() {
+        if (getInitGameMode() === playController.playerVsAi) {
+          getGameModeInput().toggleAttribute("checked");
+        }
+
+        currentMarkChecked();
+      })();
 
       function closeModalByWindow(event) {
         if (event.target !== getSettingsModal()) {
           return;
         }
 
-        closeModal();
+        closeSettings();
       }
 
       function closeModalByEsc(event) {
-        if (event.key === "Escape") closeModal();
+        if (event.key === "Escape") closeSettings();
       }
 
       function openModalByEsc(event) {
         if (event.key === "Escape") openSettings();
       }
 
+      function openModal(modal) {
+        modal.classList.remove("display-none");
+        modal.show();
+      }
+
+      function closeModal(modal) {
+        modal.classList.add("display-none");
+        modal.show();
+      }
+
       function openSettings() {
-        getSettingsModal().classList.remove("display-none");
-        getSettingsModal().show();
+        openModal(getSettingsModal());
 
         getSettingsConsoleBtn().removeEventListener("click", openSettings);
         window.removeEventListener("keydown", openModalByEsc);
 
-        getCloseConsoleBtn().addEventListener("click", closeModal);
-        getCloseModalBtn().addEventListener("click", closeModal);
+        getCloseConsoleBtn().addEventListener("click", closeSettings);
+        getCloseModalBtn().addEventListener("click", closeSettings);
         window.addEventListener("click", closeModalByWindow);
         window.addEventListener("keydown", closeModalByEsc);
+
+        settingsItems();
       }
 
-      function closeModal() {
-        getSettingsModal().classList.add("display-none");
-        getSettingsModal().close();
+      function closeSettings() {
+        closeModal(getSettingsModal());
 
-        getCloseConsoleBtn().removeEventListener("click", closeModal);
-        getCloseModalBtn().removeEventListener("click", closeModal);
+        getCloseConsoleBtn().removeEventListener("click", closeSettings);
+        getCloseModalBtn().removeEventListener("click", closeSettings);
         window.removeEventListener("click", closeModalByWindow);
         window.removeEventListener("keydown", closeModalByEsc);
 
@@ -613,9 +661,74 @@ const game = (function () {
         window.addEventListener("keydown", openModalByEsc);
       }
 
+      function toggleGameMode(event) {
+        if (event.target.checked) {
+          playController.restartRound();
+          playController.playerVsAi();
+
+          closeSettings();
+        } else {
+          playController.restartRound();
+          playController.playerVsPlayer();
+
+          closeSettings();
+        }
+
+        getGameModeInput().removeEventListener("change", toggleGameMode);
+      }
+
+      function pressRestart() {
+        playController.restartRound();
+        closeSettings();
+
+        getRestartbtn().removeEventListener("click", pressRestart);
+      }
+
+      function toggleMark(event) {
+        if (event.target.checked) {
+          playController.restartRound();
+          playController.reverseMark();
+
+          closeSettings();
+        } else {
+          playController.restartRound();
+          playController.reverseMark();
+
+          closeSettings();
+        }
+
+        getMarkInput().removeEventListener("change", toggleMark);
+      }
+
+      function pressAiTurn() {
+        if (gameBoard.getEmptyCells(gameBoard.getBoardValues()).length === 9) {
+          playController.aiPlay();
+          screenController.setAiTextContent();
+
+          closeSettings();
+        } else {
+          playController.restartRound();
+          playController.aiPlay();
+          screenController.setAiTextContent();
+
+          closeSettings();
+        }
+
+        getAiTurnBtn().removeEventListener("click", pressAiTurn);
+      }
+
+      function settingsItems() {
+        getGameModeInput().addEventListener("change", toggleGameMode);
+        getRestartbtn().addEventListener("click", pressRestart);
+        getMarkInput().addEventListener("change", toggleMark);
+        getAiTurnBtn().addEventListener("click", pressAiTurn);
+      }
+
       getSettingsConsoleBtn().addEventListener("click", openSettings);
       window.addEventListener("keydown", openModalByEsc);
     }
+
+    return { currentMarkChecked };
   })();
 
   return {
