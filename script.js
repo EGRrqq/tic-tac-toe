@@ -339,19 +339,6 @@ const game = (function () {
       );
     })();
 
-    (function renderMark() {
-      gameBoard.getBoard().forEach((row, i) =>
-        row.forEach((node, j) => {
-          node.getBtn().addEventListener("click", () => {
-            playController.getPlayRound()(i, j);
-
-            setTextContent(node);
-            visualController.currentMarkChecked();
-          });
-        }),
-      );
-    })();
-
     function setTextContent(node) {
       setPlayerTextContent(node);
       setAiTextContent();
@@ -530,27 +517,6 @@ const game = (function () {
     let initGameMode;
     const getInitGameMode = () => initGameMode;
 
-    const getMarkInput = () => document.getElementById("change-mark");
-
-    function currentMarkChecked() {
-      switch (
-        screenController.markValidation(
-          playController.getActivePlayer().getMark(),
-        )
-      ) {
-        case "X":
-          getMarkInput().setAttribute("checked", "true");
-          break;
-
-        case "O":
-          getMarkInput().removeAttribute("checked");
-          break;
-
-        default:
-          break;
-      }
-    }
-
     (function startMenu() {
       const getVsPlayerBtn = () => document.getElementById("play-vs-player");
       const getVsAiBtn = () => document.getElementById("play-vs-ai");
@@ -594,12 +560,57 @@ const game = (function () {
       const getCloseConsoleBtn = () =>
         document.getElementById("close-btn-console");
 
-      const getCloseModalBtn = () => document.querySelector(".close-btn-modal");
+      const getCloseModalBtn = () =>
+        document.querySelector(".settings-modal .close-btn-modal");
       const getSettingsModal = () => document.getElementById("settings-modal");
+
+      const getResultModal = () => document.getElementById("result-modal");
+      const getCloseResModalBtn = () =>
+        document.querySelector("#result-modal .close-btn-modal");
 
       const getGameModeInput = () => document.getElementById("game-mode");
       const getRestartbtn = () => document.getElementById("restart-btn");
+      const getMarkInput = () => document.getElementById("change-mark");
       const getAiTurnBtn = () => document.getElementById("ai-turn");
+
+      (function renderMark() {
+        gameBoard.getBoard().forEach((row, i) =>
+          row.forEach((node, j) => {
+            node.getBtn().addEventListener("click", () => {
+              playController.getPlayRound()(i, j);
+
+              screenController.setTextContent(node);
+
+              currentMarkChecked();
+              showResults();
+            });
+          }),
+        );
+      })();
+
+      function currentMarkChecked() {
+        switch (
+          screenController.markValidation(
+            playController.getActivePlayer().getMark(),
+          )
+        ) {
+          case "X":
+            getMarkInput().setAttribute("checked", "true");
+            break;
+
+          case "O":
+            getMarkInput().removeAttribute("checked");
+            break;
+
+          default:
+            break;
+        }
+      }
+
+      function initModalSettings() {
+        getSettingsConsoleBtn().addEventListener("click", openSettings);
+        window.addEventListener("keydown", openModalByEsc);
+      }
 
       (function init() {
         if (getInitGameMode() === playController.playerVsAi) {
@@ -607,7 +618,18 @@ const game = (function () {
         }
 
         currentMarkChecked();
+        initModalSettings();
       })();
+
+      function openModal(modal) {
+        modal.classList.remove("display-none");
+        modal.show();
+      }
+
+      function closeModal(modal) {
+        modal.classList.add("display-none");
+        modal.show();
+      }
 
       function closeModalByWindow(event) {
         if (event.target !== getSettingsModal()) {
@@ -621,18 +643,20 @@ const game = (function () {
         if (event.key === "Escape") closeSettings();
       }
 
+      function closeResModalByWindow(event) {
+        if (event.target !== getResultModal()) {
+          return;
+        }
+
+        closeResults();
+      }
+
+      function closeResModalByEsc(event) {
+        if (event.key === "Escape") closeResults();
+      }
+
       function openModalByEsc(event) {
         if (event.key === "Escape") openSettings();
-      }
-
-      function openModal(modal) {
-        modal.classList.remove("display-none");
-        modal.show();
-      }
-
-      function closeModal(modal) {
-        modal.classList.add("display-none");
-        modal.show();
       }
 
       function openSettings() {
@@ -657,8 +681,7 @@ const game = (function () {
         window.removeEventListener("click", closeModalByWindow);
         window.removeEventListener("keydown", closeModalByEsc);
 
-        getSettingsConsoleBtn().addEventListener("click", openSettings);
-        window.addEventListener("keydown", openModalByEsc);
+        initModalSettings();
       }
 
       function toggleGameMode(event) {
@@ -724,11 +747,29 @@ const game = (function () {
         getAiTurnBtn().addEventListener("click", pressAiTurn);
       }
 
-      getSettingsConsoleBtn().addEventListener("click", openSettings);
-      window.addEventListener("keydown", openModalByEsc);
-    }
+      function showResults() {
+        openModal(getResultModal());
 
-    return { currentMarkChecked };
+        getSettingsConsoleBtn().removeEventListener("click", openSettings);
+        window.removeEventListener("keydown", openModalByEsc);
+
+        getCloseConsoleBtn().addEventListener("click", closeResults);
+        getCloseResModalBtn().addEventListener("click", closeResults);
+        window.addEventListener("click", closeResModalByWindow);
+        window.addEventListener("keydown", closeResModalByEsc);
+      }
+
+      function closeResults() {
+        closeModal(getResultModal());
+
+        getCloseConsoleBtn().removeEventListener("click", closeResults);
+        getCloseResModalBtn().removeEventListener("click", closeResults);
+        window.removeEventListener("click", closeResModalByWindow);
+        window.removeEventListener("keydown", closeResModalByEsc);
+
+        initModalSettings();
+      }
+    }
   })();
 
   return {

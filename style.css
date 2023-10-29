@@ -299,6 +299,10 @@ button[data-position="left"]:active {
   background-color: var(--purple-500);
 }
 
+.additional-menu {
+  align-content: center;
+}
+
 .start-menu-screen {
   align-content: center;
 }
