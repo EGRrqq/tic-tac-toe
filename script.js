@@ -517,17 +517,62 @@ const game = (function () {
     let initGameMode;
     const getInitGameMode = () => initGameMode;
 
+    let focusedIndex = 0;
+    const getDPad = () => document.querySelector(".d-pad");
+    const getClickBtn = () => document.querySelector(".click-btn-console");
+
+    let activeMenuBtns = document.querySelectorAll(
+      ".start-menu-screen > section button",
+    );
+    const getActiveMenuBtns = () => activeMenuBtns;
+
+    function scrollUpMenu(btns) {
+      if (focusedIndex === 0) {
+        focusedIndex = btns().length - 1;
+      } else {
+        focusedIndex--;
+      }
+
+      btns()[focusedIndex].focus();
+    }
+
+    function scrollDownMenu(btns) {
+      if (focusedIndex === btns().length - 1) {
+        focusedIndex = 0;
+      } else {
+        focusedIndex++;
+      }
+
+      btns()[focusedIndex].focus();
+    }
+
+    function windowScroll(event) {
+      switch (event.key) {
+        case "ArrowUp":
+          scrollUpMenu(getActiveMenuBtns);
+          console.log("up", focusedIndex);
+          break;
+        case "ArrowDown":
+          scrollDownMenu(getActiveMenuBtns);
+          console.log("down", focusedIndex);
+          break;
+        default:
+          break;
+      }
+    }
+
+    function clickBtn(event) {
+      event.preventDefault();
+
+      console.log(getActiveMenuBtns());
+      getActiveMenuBtns()[focusedIndex].click();
+    }
+
     (function startMenu() {
       const getVsPlayerBtn = () => document.getElementById("play-vs-player");
       const getVsAiBtn = () => document.getElementById("play-vs-ai");
       const getStartMenu = () => document.querySelector(".start-menu-screen");
       const getPlayScreen = () => document.querySelector(".play-screen");
-
-      const getStartMenuBtns = () =>
-        getStartMenu().querySelectorAll("section button");
-      const getDPad = () => document.querySelector(".d-pad");
-      const getClickBtn = () => document.querySelector(".click-btn-console");
-      let focusedIndex = 0;
 
       (function init() {
         window.addEventListener("keydown", windowScroll);
@@ -535,56 +580,19 @@ const game = (function () {
         getClickBtn().addEventListener("click", clickBtn);
       })();
 
-      function clickBtn() {
-        getStartMenuBtns()[focusedIndex].click();
-      }
-
       function dPadScroll(event) {
         const position = event.target.getAttribute("data-position");
 
         switch (position) {
           case "top":
-            scrollUp();
+            scrollUpMenu(getActiveMenuBtns);
             break;
           case "bottom":
-            scrollDown();
+            scrollDownMenu(getActiveMenuBtns);
             break;
           default:
             break;
         }
-      }
-
-      function windowScroll(event) {
-        switch (event.key) {
-          case "ArrowUp":
-            scrollUp();
-            break;
-          case "ArrowDown":
-            scrollDown();
-            break;
-          default:
-            break;
-        }
-      }
-
-      function scrollUp() {
-        if (focusedIndex === 0) {
-          focusedIndex = getStartMenuBtns().length - 1;
-        } else {
-          focusedIndex--;
-        }
-
-        getStartMenuBtns()[focusedIndex].focus();
-      }
-
-      function scrollDown() {
-        if (focusedIndex === getStartMenuBtns().length - 1) {
-          focusedIndex = 0;
-        } else {
-          focusedIndex++;
-        }
-
-        getStartMenuBtns()[focusedIndex].focus();
       }
 
       function toggleScreen() {
@@ -601,6 +609,9 @@ const game = (function () {
         getDPad().removeEventListener("click", dPadScroll);
         getClickBtn().removeEventListener("click", clickBtn);
 
+        focusedIndex = 0;
+        activeMenuBtns = null;
+
         playController.playerVsPlayer();
         initGameMode = playController.playerVsPlayer;
 
@@ -614,6 +625,9 @@ const game = (function () {
         window.removeEventListener("keydown", windowScroll);
         getDPad().removeEventListener("click", dPadScroll);
         getClickBtn().removeEventListener("click", clickBtn);
+
+        focusedIndex = 0;
+        activeMenuBtns = null;
 
         playController.playerVsAi();
         initGameMode = playController.playerVsAi;
@@ -641,9 +655,13 @@ const game = (function () {
         document.querySelector("#result-modal .close-btn-modal");
 
       const getGameModeInput = () => document.getElementById("game-mode");
-      const getRestartbtn = () => document.getElementById("restart-btn");
+      const getSettingsRestartBtn = () =>
+        getSettingsModal().querySelector("#restart-btn");
       const getMarkInput = () => document.getElementById("change-mark");
       const getAiTurnBtn = () => document.getElementById("ai-turn");
+
+      const getResRestartBtn = () =>
+        getResultModal().querySelector("#restart-btn");
 
       (function renderMark() {
         gameBoard.getBoard().forEach((row, i) =>
@@ -772,11 +790,16 @@ const game = (function () {
         getGameModeInput().removeEventListener("change", toggleGameMode);
       }
 
-      function pressRestart() {
+      function pressRestart(event) {
         playController.restartRound();
-        closeSettings();
 
-        getRestartbtn().removeEventListener("click", pressRestart);
+        if (event.target.closest("dialog") === getSettingsModal()) {
+          closeSettings();
+        } else {
+          closeResults();
+        }
+
+        event.target.removeEventListener("click", pressRestart);
       }
 
       function toggleMark(event) {
@@ -814,9 +837,13 @@ const game = (function () {
 
       function settingsItems() {
         getGameModeInput().addEventListener("change", toggleGameMode);
-        getRestartbtn().addEventListener("click", pressRestart);
+        getSettingsRestartBtn().addEventListener("click", pressRestart);
         getMarkInput().addEventListener("change", toggleMark);
         getAiTurnBtn().addEventListener("click", pressAiTurn);
+      }
+
+      function resultItems() {
+        getResRestartBtn().addEventListener("click", pressRestart);
       }
 
       function showResults() {
@@ -829,6 +856,11 @@ const game = (function () {
         getCloseResModalBtn().addEventListener("click", closeResults);
         window.addEventListener("click", closeResModalByWindow);
         window.addEventListener("keydown", closeResModalByEsc);
+
+        resultItems();
+
+        activeMenuBtns = [getResRestartBtn()];
+        getClickBtn().addEventListener("click", clickBtn);
       }
 
       function closeResults() {
@@ -840,6 +872,10 @@ const game = (function () {
         window.removeEventListener("keydown", closeResModalByEsc);
 
         initModalSettings();
+
+        activeMenuBtns = null;
+        focusedIndex = 0;
+        getClickBtn().removeEventListener("click", clickBtn);
       }
     }
   })();
