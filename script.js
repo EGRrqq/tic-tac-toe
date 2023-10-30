@@ -526,7 +526,7 @@ const game = (function () {
     );
     const getActiveMenuBtns = () => activeMenuBtns;
 
-    function scrollUpMenu(btns) {
+    function moveUpMenu(btns) {
       if (focusedIndex === 0) {
         focusedIndex = btns().length - 1;
       } else {
@@ -536,7 +536,7 @@ const game = (function () {
       btns()[focusedIndex].focus();
     }
 
-    function scrollDownMenu(btns) {
+    function moveDownMenu(btns) {
       if (focusedIndex === btns().length - 1) {
         focusedIndex = 0;
       } else {
@@ -546,15 +546,13 @@ const game = (function () {
       btns()[focusedIndex].focus();
     }
 
-    function windowScroll(event) {
+    function windowMenuMove(event) {
       switch (event.key) {
         case "ArrowUp":
-          scrollUpMenu(getActiveMenuBtns);
-          console.log("up", focusedIndex);
+          moveUpMenu(getActiveMenuBtns);
           break;
         case "ArrowDown":
-          scrollDownMenu(getActiveMenuBtns);
-          console.log("down", focusedIndex);
+          moveDownMenu(getActiveMenuBtns);
           break;
         default:
           break;
@@ -568,15 +566,95 @@ const game = (function () {
       getActiveMenuBtns()[focusedIndex].click();
     }
 
-    function dPadScroll(event) {
+    function dPadMenuMove(event) {
       const position = event.target.getAttribute("data-position");
 
       switch (position) {
         case "top":
-          scrollUpMenu(getActiveMenuBtns);
+          moveUpMenu(getActiveMenuBtns);
           break;
         case "bottom":
-          scrollDownMenu(getActiveMenuBtns);
+          moveDownMenu(getActiveMenuBtns);
+          break;
+        default:
+          break;
+      }
+    }
+
+    function moveUpScreen(btns) {
+      if (focusedIndex === 0 || focusedIndex === 1 || focusedIndex === 2) {
+        focusedIndex += 6;
+      } else {
+        focusedIndex -= 3;
+      }
+
+      btns()[focusedIndex].focus();
+    }
+
+    function moveDownScreen(btns) {
+      if (focusedIndex === 6 || focusedIndex === 7 || focusedIndex === 8) {
+        focusedIndex -= 6;
+      } else {
+        focusedIndex += 3;
+      }
+
+      btns()[focusedIndex].focus();
+    }
+
+    function moveRightScreen(btns) {
+      if (focusedIndex === 2 || focusedIndex === 5 || focusedIndex === 8) {
+        focusedIndex -= 2;
+      } else {
+        focusedIndex++;
+      }
+
+      btns()[focusedIndex].focus();
+    }
+
+    function moveLeftScreen(btns) {
+      if (focusedIndex === 0 || focusedIndex === 3 || focusedIndex === 6) {
+        focusedIndex += 2;
+      } else {
+        focusedIndex--;
+      }
+
+      btns()[focusedIndex].focus();
+    }
+
+    function windowScreenMove(event) {
+      switch (event.key) {
+        case "ArrowUp":
+          moveUpScreen(getActiveMenuBtns);
+          break;
+        case "ArrowRight":
+          moveRightScreen(getActiveMenuBtns);
+          break;
+        case "ArrowDown":
+          moveDownScreen(getActiveMenuBtns);
+          break;
+        case "ArrowLeft":
+          moveLeftScreen(getActiveMenuBtns);
+          break;
+        default:
+          break;
+      }
+    }
+
+    function dPadMenuScreen(event) {
+      const position = event.target.getAttribute("data-position");
+
+      switch (position) {
+        case "top":
+          moveUpScreen(getActiveMenuBtns);
+          break;
+        case "right":
+          moveRightScreen(getActiveMenuBtns);
+          break;
+        case "bottom":
+          moveDownScreen(getActiveMenuBtns);
+          break;
+        case "left":
+          moveLeftScreen(getActiveMenuBtns);
           break;
         default:
           break;
@@ -590,8 +668,8 @@ const game = (function () {
       const getPlayScreen = () => document.querySelector(".play-screen");
 
       (function init() {
-        window.addEventListener("keydown", windowScroll);
-        getDPad().addEventListener("click", dPadScroll);
+        window.addEventListener("keydown", windowMenuMove);
+        getDPad().addEventListener("click", dPadMenuMove);
         getClickBtn().addEventListener("click", clickBtn);
       })();
 
@@ -605,8 +683,8 @@ const game = (function () {
         event.preventDefault();
 
         getVsPlayerBtn().removeEventListener("click", playVsPlayer);
-        window.removeEventListener("keydown", windowScroll);
-        getDPad().removeEventListener("click", dPadScroll);
+        window.removeEventListener("keydown", windowMenuMove);
+        getDPad().removeEventListener("click", dPadMenuMove);
         getClickBtn().removeEventListener("click", clickBtn);
 
         focusedIndex = 0;
@@ -622,8 +700,8 @@ const game = (function () {
         event.preventDefault();
 
         getVsAiBtn().removeEventListener("click", playVsAi);
-        window.removeEventListener("keydown", windowScroll);
-        getDPad().removeEventListener("click", dPadScroll);
+        window.removeEventListener("keydown", windowMenuMove);
+        getDPad().removeEventListener("click", dPadMenuMove);
         getClickBtn().removeEventListener("click", clickBtn);
 
         focusedIndex = 0;
@@ -667,6 +745,9 @@ const game = (function () {
 
       const getSettingsItems = () =>
         getSettingsModal().querySelectorAll(".settings-item");
+
+      const getPlayScreenBtns = () =>
+        document.querySelectorAll(".play-screen > button");
 
       (function renderMark() {
         gameBoard.getBoard().forEach((row, i) =>
@@ -735,6 +816,25 @@ const game = (function () {
       function initModalSettings() {
         getSettingsConsoleBtn().addEventListener("click", openSettings);
         window.addEventListener("keydown", openModalByEsc);
+
+        focusedIndex = 4;
+        activeMenuBtns = getPlayScreenBtns();
+
+        window.addEventListener("keydown", windowScreenMove);
+        getDPad().addEventListener("click", dPadMenuScreen);
+        getClickBtn().addEventListener("click", clickBtn);
+      }
+
+      function removeInitModalSetings() {
+        getSettingsConsoleBtn().removeEventListener("click", openSettings);
+        window.removeEventListener("keydown", openModalByEsc);
+
+        focusedIndex = 0;
+        activeMenuBtns = null;
+
+        window.removeEventListener("keydown", windowScreenMove);
+        getDPad().removeEventListener("click", dPadMenuScreen);
+        getClickBtn().removeEventListener("click", clickBtn);
       }
 
       (function init() {
@@ -787,8 +887,7 @@ const game = (function () {
       function openSettings() {
         openModal(getSettingsModal());
 
-        getSettingsConsoleBtn().removeEventListener("click", openSettings);
-        window.removeEventListener("keydown", openModalByEsc);
+        removeInitModalSetings();
 
         getCloseConsoleBtn().addEventListener("click", closeSettings);
         getCloseModalBtn().addEventListener("click", closeSettings);
@@ -798,8 +897,8 @@ const game = (function () {
         settingsItems();
 
         activeMenuBtns = getSettingsItems();
-        window.addEventListener("keydown", windowScroll);
-        getDPad().addEventListener("click", dPadScroll);
+        window.addEventListener("keydown", windowMenuMove);
+        getDPad().addEventListener("click", dPadMenuMove);
         getClickBtn().addEventListener("click", clickBtn);
       }
 
@@ -811,14 +910,14 @@ const game = (function () {
         window.removeEventListener("click", closeModalByWindow);
         window.removeEventListener("keydown", closeModalByEsc);
 
-        initModalSettings();
-
         activeMenuBtns = null;
         focusedIndex = 0;
 
-        window.removeEventListener("keydown", windowScroll);
-        getDPad().removeEventListener("click", dPadScroll);
+        window.removeEventListener("keydown", windowMenuMove);
+        getDPad().removeEventListener("click", dPadMenuMove);
         getClickBtn().removeEventListener("click", clickBtn);
+
+        initModalSettings();
       }
 
       function toggleGameMode(event) {
@@ -896,8 +995,7 @@ const game = (function () {
       function showResults() {
         openModal(getResultModal());
 
-        getSettingsConsoleBtn().removeEventListener("click", openSettings);
-        window.removeEventListener("keydown", openModalByEsc);
+        removeInitModalSetings();
 
         getCloseConsoleBtn().addEventListener("click", closeResults);
         getCloseResModalBtn().addEventListener("click", closeResults);
@@ -907,8 +1005,8 @@ const game = (function () {
         resultItems();
 
         activeMenuBtns = [getResRestartBtn()];
-        window.addEventListener("keydown", windowScroll);
-        getDPad().addEventListener("click", dPadScroll);
+        window.addEventListener("keydown", windowMenuMove);
+        getDPad().addEventListener("click", dPadMenuMove);
         getClickBtn().addEventListener("click", clickBtn);
       }
 
@@ -920,14 +1018,14 @@ const game = (function () {
         window.removeEventListener("click", closeResModalByWindow);
         window.removeEventListener("keydown", closeResModalByEsc);
 
-        initModalSettings();
-
         activeMenuBtns = null;
         focusedIndex = 0;
 
-        window.removeEventListener("keydown", windowScroll);
-        getDPad().removeEventListener("click", dPadScroll);
+        window.removeEventListener("keydown", windowMenuMove);
+        getDPad().removeEventListener("click", dPadMenuMove);
         getClickBtn().removeEventListener("click", clickBtn);
+
+        initModalSettings();
       }
     }
   })();
