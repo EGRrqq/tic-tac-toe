@@ -523,6 +523,70 @@ const game = (function () {
       const getStartMenu = () => document.querySelector(".start-menu-screen");
       const getPlayScreen = () => document.querySelector(".play-screen");
 
+      const getStartMenuBtns = () =>
+        getStartMenu().querySelectorAll("section button");
+      const getDPad = () => document.querySelector(".d-pad");
+      const getClickBtn = () => document.querySelector(".click-btn-console");
+      let focusedIndex = 0;
+
+      (function init() {
+        window.addEventListener("keydown", windowScroll);
+        getDPad().addEventListener("click", dPadScroll);
+        getClickBtn().addEventListener("click", clickBtn);
+      })();
+
+      function clickBtn() {
+        getStartMenuBtns()[focusedIndex].click();
+      }
+
+      function dPadScroll(event) {
+        const position = event.target.getAttribute("data-position");
+
+        switch (position) {
+          case "top":
+            scrollUp();
+            break;
+          case "bottom":
+            scrollDown();
+            break;
+          default:
+            break;
+        }
+      }
+
+      function windowScroll(event) {
+        switch (event.key) {
+          case "ArrowUp":
+            scrollUp();
+            break;
+          case "ArrowDown":
+            scrollDown();
+            break;
+          default:
+            break;
+        }
+      }
+
+      function scrollUp() {
+        if (focusedIndex === 0) {
+          focusedIndex = getStartMenuBtns().length - 1;
+        } else {
+          focusedIndex--;
+        }
+
+        getStartMenuBtns()[focusedIndex].focus();
+      }
+
+      function scrollDown() {
+        if (focusedIndex === getStartMenuBtns().length - 1) {
+          focusedIndex = 0;
+        } else {
+          focusedIndex++;
+        }
+
+        getStartMenuBtns()[focusedIndex].focus();
+      }
+
       function toggleScreen() {
         getStartMenu().remove();
         getPlayScreen().classList.remove("display-none");
@@ -533,6 +597,10 @@ const game = (function () {
         event.preventDefault();
 
         getVsPlayerBtn().removeEventListener("click", playVsPlayer);
+        window.removeEventListener("keydown", windowScroll);
+        getDPad().removeEventListener("click", dPadScroll);
+        getClickBtn().removeEventListener("click", clickBtn);
+
         playController.playerVsPlayer();
         initGameMode = playController.playerVsPlayer;
 
@@ -543,6 +611,10 @@ const game = (function () {
         event.preventDefault();
 
         getVsAiBtn().removeEventListener("click", playVsAi);
+        window.removeEventListener("keydown", windowScroll);
+        getDPad().removeEventListener("click", dPadScroll);
+        getClickBtn().removeEventListener("click", clickBtn);
+
         playController.playerVsAi();
         initGameMode = playController.playerVsAi;
 
