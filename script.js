@@ -665,6 +665,9 @@ const game = (function () {
 
       const getResEm = () => getResultModal().querySelector("em");
 
+      const getSettingsItems = () =>
+        getSettingsModal().querySelectorAll(".settings-item");
+
       (function renderMark() {
         gameBoard.getBoard().forEach((row, i) =>
           row.forEach((node, j) => {
@@ -793,6 +796,11 @@ const game = (function () {
         window.addEventListener("keydown", closeModalByEsc);
 
         settingsItems();
+
+        activeMenuBtns = getSettingsItems();
+        window.addEventListener("keydown", windowScroll);
+        getDPad().addEventListener("click", dPadScroll);
+        getClickBtn().addEventListener("click", clickBtn);
       }
 
       function closeSettings() {
@@ -804,6 +812,13 @@ const game = (function () {
         window.removeEventListener("keydown", closeModalByEsc);
 
         initModalSettings();
+
+        activeMenuBtns = null;
+        focusedIndex = 0;
+
+        window.removeEventListener("keydown", windowScroll);
+        getDPad().removeEventListener("click", dPadScroll);
+        getClickBtn().removeEventListener("click", clickBtn);
       }
 
       function toggleGameMode(event) {
