@@ -568,6 +568,21 @@ const game = (function () {
       getActiveMenuBtns()[focusedIndex].click();
     }
 
+    function dPadScroll(event) {
+      const position = event.target.getAttribute("data-position");
+
+      switch (position) {
+        case "top":
+          scrollUpMenu(getActiveMenuBtns);
+          break;
+        case "bottom":
+          scrollDownMenu(getActiveMenuBtns);
+          break;
+        default:
+          break;
+      }
+    }
+
     (function startMenu() {
       const getVsPlayerBtn = () => document.getElementById("play-vs-player");
       const getVsAiBtn = () => document.getElementById("play-vs-ai");
@@ -579,21 +594,6 @@ const game = (function () {
         getDPad().addEventListener("click", dPadScroll);
         getClickBtn().addEventListener("click", clickBtn);
       })();
-
-      function dPadScroll(event) {
-        const position = event.target.getAttribute("data-position");
-
-        switch (position) {
-          case "top":
-            scrollUpMenu(getActiveMenuBtns);
-            break;
-          case "bottom":
-            scrollDownMenu(getActiveMenuBtns);
-            break;
-          default:
-            break;
-        }
-      }
 
       function toggleScreen() {
         getStartMenu().remove();
@@ -663,6 +663,8 @@ const game = (function () {
       const getResRestartBtn = () =>
         getResultModal().querySelector("#restart-btn");
 
+      const getResEm = () => getResultModal().querySelector("em");
+
       (function renderMark() {
         gameBoard.getBoard().forEach((row, i) =>
           row.forEach((node, j) => {
@@ -672,7 +674,37 @@ const game = (function () {
               screenController.setTextContent(node);
 
               currentMarkChecked();
-              showResults();
+
+              if (
+                gameBoard.getEmptyCells(gameBoard.getBoardValues()).length ===
+                  0 &&
+                !gameController.gameOverAll(
+                  gameBoard.getBoardValues(),
+                  playController.getActivePlayer().getMark(),
+                )
+              ) {
+                getResEm().textContent = "Tie!";
+
+                showResults();
+              }
+
+              if (
+                gameController.gameOver(
+                  gameBoard.getBoardValues(),
+                  -playController.getActivePlayer().getMark(),
+                )
+              ) {
+                getResEm().textContent = `Player ${screenController.markValidation(
+                  playController
+                    .getPlayers()
+                    .find(
+                      (player) => player !== playController.getActivePlayer(),
+                    )
+                    .getMark(),
+                )} wins!`;
+
+                showResults();
+              }
             });
           }),
         );
@@ -860,6 +892,8 @@ const game = (function () {
         resultItems();
 
         activeMenuBtns = [getResRestartBtn()];
+        window.addEventListener("keydown", windowScroll);
+        getDPad().addEventListener("click", dPadScroll);
         getClickBtn().addEventListener("click", clickBtn);
       }
 
@@ -875,6 +909,9 @@ const game = (function () {
 
         activeMenuBtns = null;
         focusedIndex = 0;
+
+        window.removeEventListener("keydown", windowScroll);
+        getDPad().removeEventListener("click", dPadScroll);
         getClickBtn().removeEventListener("click", clickBtn);
       }
     }

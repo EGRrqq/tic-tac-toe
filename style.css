@@ -344,6 +344,10 @@ button[data-position="left"]:active {
   justify-self: center;
 }
 
+.result-menu .screen-cursor-btn {
+  grid-area: 2 / 1;
+}
+
 .settings-modal {
   width: 100%;
   height: 100%;
