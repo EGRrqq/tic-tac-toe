@@ -126,6 +126,12 @@ button {
   cursor: pointer;
 }
 
+.em {
+  text-decoration: underline;
+  font-size: calc(var(--main-font-size) / 1.2);
+  color: var(--green-400);
+}
+
 .xl {
   min-height: var(--btn-min-h);
 }
@@ -299,12 +305,17 @@ button[data-position="left"]:active {
   background-color: var(--purple-500);
 }
 
-.additional-menu {
-  align-content: center;
+.settings-modal .result-menu > section {
+  justify-content: center;
 }
 
-.start-menu-screen {
-  align-content: center;
+.menu-screen > section {
+  justify-content: space-between;
+  padding: 0;
+}
+
+.menu-screen > section button:focus-visible {
+  outline: 0.15rem solid var(--green-400);
 }
 
 .menu-screen .screen-focus-item {
@@ -312,6 +323,10 @@ button[data-position="left"]:active {
   border-radius: 0.25rem;
   padding: calc(var(--content-padding) / 4);
   background-color: var(--blue-500);
+}
+
+.start-menu-screen .screen-focus-item {
+  padding: 0;
 }
 
 .screen-cursor-btn {
@@ -335,7 +350,6 @@ form > section {
   border: 0.15rem solid transparent;
   border-radius: 0.25rem;
   align-items: center;
-  justify-content: space-between;
   gap: var(--content-padding);
 }
 
@@ -476,6 +490,7 @@ form > section {
   padding-top: var(--modal-top-padding);
   padding-bottom: var(--modal-padding);
   justify-content: center;
+  align-content: space-evenly;
   background-color: var(--purple-700);
 }
 
@@ -572,8 +587,16 @@ form > section {
 }
 
 .start-menu-btn > button {
-  border: 0;
-  padding: 0;
+  border: 0.05rem solid transparent;
+  padding: calc(var(--content-padding) / 4);
+  border-radius: 0.1rem;
+  width: 100%;
+  background-color: transparent;
+  color: var(--blue-100);
+}
+
+.start-menu-btn {
+  width: 100%;
 }
 
 @media screen and (max-width: 1200px) {

@@ -84,19 +84,25 @@
         </dialog>
 
         <dialog id="result-modal" class="settings-modal display-none">
-          <form class="menu-screen additional-menu" method="dialog">
+          <form class="menu-screen result-menu" method="dialog">
             <h2 class="absolute title">result</h2>
-            <button type="button" class="absolute close-btn-modal" formnovalidate>
+            <button type="button" class="absolute close-btn-modal" formnovalidate="">
               X
             </button>
 
             <label class="screen-cursor-btn" for="game-mode" aria-hidden="true"></label>
 
-            <section class="screen-item-1 screen-focus-item">
-              <label for="restart-btn">yo</label>
+            <section class="screen-item-1">
+              <em class="em">player n won</em>
+            </section>
 
+            <section class="screen-item-2">
+              <label for="restart-btn">restart game</label>
+            </section>
+
+            <section class="screen-item-3 screen-focus-item">
               <div class="settings-btn">
-                <button id="restart-btn" type="submit"></button>
+                <button id="restart-btn" type="submit" autofocus></button>
               </div>
             </section>
           </form>
@@ -106,7 +112,7 @@
           <h1 class="absolute title">gamemode</h1>
           <label class="screen-cursor-btn" for="game-mode" aria-hidden="true"></label>
 
-          <section class="screen-item-1">
+          <section class="screen-item-1 screen-focus-item">
             <div class="start-menu-btn">
               <button type="submit" id="play-vs-player" autofocus>
                 vs player
