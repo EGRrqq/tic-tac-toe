@@ -530,12 +530,17 @@ const game = (function () {
         .closest("form")
         .querySelector(".screen-cursor-btn");
 
+    const getBtnId = () => getActiveMenuBtns()[focusedIndex].getAttribute("id");
+    const setCursorFor = () =>
+      getScreenCursor().setAttribute("for", getBtnId());
+
     function modalInit() {
       getScreenCursor().style.cssText = `grid-area: ${focusedIndex + 1} / 1`;
       getActiveMenuBtns()
         [focusedIndex].closest("section")
         .classList.add("screen-focus-item");
 
+      setCursorFor();
       getActiveMenuBtns()[focusedIndex].focus();
     }
 
@@ -554,6 +559,7 @@ const game = (function () {
         [focusedIndex].closest("section")
         .classList.add("screen-focus-item");
 
+      setCursorFor();
       btns()[focusedIndex].focus();
       getScreenCursor().style.cssText = `grid-area: ${focusedIndex + 1} / 1`;
     }
@@ -573,6 +579,7 @@ const game = (function () {
         [focusedIndex].closest("section")
         .classList.add("screen-focus-item");
 
+      setCursorFor();
       btns()[focusedIndex].focus();
       getScreenCursor().style.cssText = `grid-area: ${focusedIndex + 1} / 1`;
     }
