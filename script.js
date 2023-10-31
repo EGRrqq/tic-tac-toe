@@ -411,6 +411,8 @@ const game = (function () {
         return "use game.restart() first";
       }
 
+      visualController.toggleMarkConsole();
+
       return playController.reverseMark();
     };
 
@@ -423,6 +425,8 @@ const game = (function () {
         return "you`re already playing vs ai";
       }
 
+      visualController.toggleGameModeConsole();
+
       return playController.playerVsAi();
     };
 
@@ -434,6 +438,8 @@ const game = (function () {
       if (!playController.getAiPlayer()) {
         return "you`re already playing vs player";
       }
+
+      visualController.toggleGameModeConsole();
 
       return playController.playerVsPlayer();
     };
@@ -452,6 +458,7 @@ const game = (function () {
       }
 
       playController.getPlayRound()(row, column);
+      visualController.currentMarkChecked();
 
       const node = gameBoard.getBoard()[row][column];
       screenController.setTextContent(node);
@@ -533,6 +540,36 @@ const game = (function () {
     const getBtnId = () => getActiveMenuBtns()[focusedIndex].getAttribute("id");
     const setCursorFor = () =>
       getScreenCursor().setAttribute("for", getBtnId());
+
+    const getMarkInput = () => document.getElementById("change-mark");
+    const getGameModeInput = () => document.getElementById("game-mode");
+
+    function toggleGameModeConsole() {
+      getGameModeInput().toggleAttribute("checked");
+    }
+
+    function toggleMarkConsole() {
+      getMarkInput().toggleAttribute("checked");
+    }
+
+    function currentMarkChecked() {
+      switch (
+        screenController.markValidation(
+          playController.getActivePlayer().getMark(),
+        )
+      ) {
+        case "X":
+          getMarkInput().setAttribute("checked", "true");
+          break;
+
+        case "O":
+          getMarkInput().removeAttribute("checked");
+          break;
+
+        default:
+          break;
+      }
+    }
 
     function modalInit() {
       getScreenCursor().style.cssText = `grid-area: ${focusedIndex + 1} / 1`;
@@ -703,14 +740,64 @@ const game = (function () {
       const getVsAiBtn = () => document.getElementById("play-vs-ai");
       const getStartMenu = () => document.querySelector(".start-menu-screen");
       const getPlayScreen = () => document.querySelector(".play-screen");
+      const getPlayerIcon = () => document.querySelector(".player-icon");
+      const getAiIcon = () => document.querySelector(".ai-icon");
 
       (function init() {
         modalInit();
+        switchIcons();
 
-        window.addEventListener("keydown", windowMenuMove);
-        getDPad().addEventListener("click", dPadMenuMove);
+        window.addEventListener("keydown", startMenuWindowMove);
+        getDPad().addEventListener("click", startMenuDPadMove);
         getClickBtn().addEventListener("click", clickBtn);
       })();
+
+      function startMenuWindowMove(event) {
+        switch (event.key) {
+          case "ArrowUp":
+            moveUpMenu(getActiveMenuBtns);
+            switchIcons();
+            break;
+          case "ArrowDown":
+            moveDownMenu(getActiveMenuBtns);
+            switchIcons();
+            break;
+          default:
+            break;
+        }
+      }
+
+      function startMenuDPadMove(event) {
+        const position = event.target.getAttribute("data-position");
+
+        switch (position) {
+          case "top":
+            moveUpMenu(getActiveMenuBtns);
+            switchIcons();
+            break;
+          case "bottom":
+            moveDownMenu(getActiveMenuBtns);
+            switchIcons();
+            break;
+          default:
+            break;
+        }
+      }
+
+      function switchIcons() {
+        switch (focusedIndex) {
+          case 0:
+            getPlayerIcon().classList.remove("display-none");
+            getAiIcon().classList.add("display-none");
+            break;
+          case 1:
+            getAiIcon().classList.remove("display-none");
+            getPlayerIcon().classList.add("display-none");
+            break;
+          default:
+            break;
+        }
+      }
 
       function toggleScreen() {
         getStartMenu().remove();
@@ -722,8 +809,8 @@ const game = (function () {
         event.preventDefault();
 
         getVsPlayerBtn().removeEventListener("click", playVsPlayer);
-        window.removeEventListener("keydown", windowMenuMove);
-        getDPad().removeEventListener("click", dPadMenuMove);
+        window.removeEventListener("keydown", startMenuWindowMove);
+        getDPad().removeEventListener("click", startMenuDPadMove);
         getClickBtn().removeEventListener("click", clickBtn);
 
         focusedIndex = 0;
@@ -741,8 +828,8 @@ const game = (function () {
         event.preventDefault();
 
         getVsAiBtn().removeEventListener("click", playVsAi);
-        window.removeEventListener("keydown", windowMenuMove);
-        getDPad().removeEventListener("click", dPadMenuMove);
+        window.removeEventListener("keydown", startMenuWindowMove);
+        getDPad().removeEventListener("click", startMenuDPadMove);
         getClickBtn().removeEventListener("click", clickBtn);
 
         focusedIndex = 0;
@@ -775,10 +862,8 @@ const game = (function () {
       const getCloseResModalBtn = () =>
         document.querySelector("#result-modal .close-btn-modal");
 
-      const getGameModeInput = () => document.getElementById("game-mode");
       const getSettingsRestartBtn = () =>
         getSettingsModal().querySelector("#restart-btn");
-      const getMarkInput = () => document.getElementById("change-mark");
       const getAiTurnBtn = () => document.getElementById("ai-turn");
 
       const getResRestartBtn = () =>
@@ -862,25 +947,6 @@ const game = (function () {
           );
         }
       };
-
-      function currentMarkChecked() {
-        switch (
-          screenController.markValidation(
-            playController.getActivePlayer().getMark(),
-          )
-        ) {
-          case "X":
-            getMarkInput().setAttribute("checked", "true");
-            break;
-
-          case "O":
-            getMarkInput().removeAttribute("checked");
-            break;
-
-          default:
-            break;
-        }
-      }
 
       function initModalSettings() {
         getSettingsConsoleBtn().addEventListener("click", openSettings);
@@ -983,6 +1049,10 @@ const game = (function () {
         getCloseModalBtn().removeEventListener("click", closeSettings);
         window.removeEventListener("click", closeModalByWindow);
         window.removeEventListener("keydown", closeModalByEsc);
+
+        getActiveMenuBtns()
+          [focusedIndex].closest("section")
+          .classList.remove("screen-focus-item");
 
         activeMenuBtns = null;
         focusedIndex = 0;
@@ -1102,6 +1172,8 @@ const game = (function () {
         initModalSettings();
       }
     }
+
+    return { currentMarkChecked, toggleGameModeConsole, toggleMarkConsole };
   })();
 
   return {

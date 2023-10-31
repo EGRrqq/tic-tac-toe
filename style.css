@@ -336,13 +336,30 @@ button[data-position="left"]:active {
 
 .screen-cursor-btn {
   background: url(./public/icons/cursor16x16.svg) center/75% no-repeat;
-  border-color: transparent;
+}
+
+.additional-play-screen-item {
   width: calc(var(--console-btn-w) / 1.5);
   justify-self: center;
 }
 
 .result-menu .screen-cursor-btn {
   grid-area: 2 / 1;
+}
+
+.player-icon {
+  background: url(./public/icons/person16x16.svg) center/75% no-repeat;
+  grid-area: 1 / 3;
+}
+
+.ai-icon {
+  background: url(./public/icons/robo16x16.svg) center/75% no-repeat;
+  grid-area: 2 / 3;
+}
+
+.player-icon,
+.ai-icon {
+  opacity: 0.75;
 }
 
 .settings-modal {
