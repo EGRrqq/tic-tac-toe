@@ -886,6 +886,7 @@ const game = (function () {
               screenController.setTextContent(node);
 
               currentMarkChecked();
+              getActiveMenuBtns()[focusedIndex].focus();
 
               if (
                 gameBoard.getEmptyCells(gameBoard.getBoardValues()).length ===
