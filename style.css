@@ -126,6 +126,10 @@ button {
   cursor: pointer;
 }
 
+dialog[open] {
+  animation: fade-in 0.1s ease-in-out;
+}
+
 .em {
   text-decoration: underline;
   font-size: calc(var(--main-font-size) / 1.2);
@@ -666,5 +670,14 @@ form.start-menu-screen > section:focus-within {
 
   .screen-frame {
     grid-area: 1 / span 2;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
