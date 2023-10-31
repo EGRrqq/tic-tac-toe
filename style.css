@@ -363,12 +363,12 @@ form > p {
   gap: var(--content-padding);
 }
 
-form > section:focus-within {
-  border: 0.15rem solid var(--green-400);
-  border-radius: 0.25rem;
-  padding: calc(var(--content-padding) / 4);
-  background-color: var(--blue-500);
-}
+/* form > section:focus-within { */
+/*   border: 0.15rem solid var(--green-400); */
+/*   border-radius: 0.25rem; */
+/*   padding: calc(var(--content-padding) / 4); */
+/*   background-color: var(--blue-500); */
+/* } */
 
 form.start-menu-screen > section:focus-within {
   padding: 0;
@@ -545,6 +545,25 @@ form.start-menu-screen > section:focus-within {
   display: grid;
   position: relative;
   place-items: center;
+}
+
+.additional-label-console {
+  position: absolute;
+  transform: translate(0, 5%);
+  top: calc(var(--btn-md));
+
+  min-width: calc(var(--btn-md) * 1.35);
+
+  text-align: center;
+  font-size: calc(var(--main-font-size) / 2);
+}
+
+.left-side .additional-label-console {
+  right: 0;
+}
+
+.right-side .additional-label-console {
+  left: 0;
 }
 
 .additional-btn-console {
