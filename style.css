@@ -660,7 +660,7 @@ form.start-menu-screen > section:focus-within {
   width: 100%;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 719px) {
   .console {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
