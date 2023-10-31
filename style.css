@@ -305,25 +305,22 @@ button[data-position="left"]:active {
   background-color: var(--purple-500);
 }
 
-.settings-modal .result-menu > section {
+.settings-modal .result-menu > section,
+.settings-modal .result-menu > p {
   justify-content: center;
 }
 
 .menu-screen > section {
   justify-content: space-between;
+}
+
+.start-menu-screen > section {
   padding: 0;
 }
 
-.menu-screen > section button:focus-visible {
-  outline: 0.15rem solid var(--blue-100);
-}
-
-.menu-screen > section button:focus {
-  outline: 0.15rem solid var(--blue-100);
-}
-
-.menu-screen > section button:focus-within {
-  outline: 0.15rem solid var(--blue-100);
+.menu-screen > section button:focus,
+.menu-screen > section input:focus {
+  outline: none;
 }
 
 .menu-screen .screen-focus-item {
@@ -355,7 +352,8 @@ button[data-position="left"]:active {
   background-color: color-mix(in srgb, var(--blue-800), transparent 25%);
 }
 
-form > section {
+form > section,
+form > p {
   display: flex;
   color: var(--blue-100);
   padding: calc(var(--content-padding) / 4);
@@ -363,6 +361,17 @@ form > section {
   border-radius: 0.25rem;
   align-items: center;
   gap: var(--content-padding);
+}
+
+form > section:focus-within {
+  border: 0.15rem solid var(--green-400);
+  border-radius: 0.25rem;
+  padding: calc(var(--content-padding) / 4);
+  background-color: var(--blue-500);
+}
+
+form.start-menu-screen > section:focus-within {
+  padding: 0;
 }
 
 #restart-btn {

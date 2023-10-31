@@ -525,25 +525,56 @@ const game = (function () {
       ".start-menu-screen > section button",
     );
     const getActiveMenuBtns = () => activeMenuBtns;
+    const getScreenCursor = () =>
+      getActiveMenuBtns()[0]
+        .closest("form")
+        .querySelector(".screen-cursor-btn");
+
+    function modalInit() {
+      getScreenCursor().style.cssText = `grid-area: ${focusedIndex + 1} / 1`;
+      getActiveMenuBtns()
+        [focusedIndex].closest("section")
+        .classList.add("screen-focus-item");
+
+      getActiveMenuBtns()[focusedIndex].focus();
+    }
 
     function moveUpMenu(btns) {
+      btns()
+        [focusedIndex].closest("section")
+        .classList.remove("screen-focus-item");
+
       if (focusedIndex === 0) {
         focusedIndex = btns().length - 1;
       } else {
         focusedIndex--;
       }
 
+      btns()
+        [focusedIndex].closest("section")
+        .classList.add("screen-focus-item");
+
       btns()[focusedIndex].focus();
+      getScreenCursor().style.cssText = `grid-area: ${focusedIndex + 1} / 1`;
     }
 
     function moveDownMenu(btns) {
+      btns()
+        [focusedIndex].closest("section")
+        .classList.remove("screen-focus-item");
+
       if (focusedIndex === btns().length - 1) {
         focusedIndex = 0;
       } else {
         focusedIndex++;
       }
 
+      btns()
+        [focusedIndex].closest("section")
+        .classList.add("screen-focus-item");
+
       btns()[focusedIndex].focus();
+      getScreenCursor().style.cssText = `grid-area: ${focusedIndex + 1} / 1`;
     }
 
     function windowMenuMove(event) {
@@ -562,7 +593,6 @@ const game = (function () {
     function clickBtn(event) {
       event.preventDefault();
 
-      console.log(getActiveMenuBtns());
       getActiveMenuBtns()[focusedIndex].click();
     }
 
@@ -668,6 +698,8 @@ const game = (function () {
       const getPlayScreen = () => document.querySelector(".play-screen");
 
       (function init() {
+        modalInit();
+
         window.addEventListener("keydown", windowMenuMove);
         getDPad().addEventListener("click", dPadMenuMove);
         getClickBtn().addEventListener("click", clickBtn);
@@ -694,6 +726,8 @@ const game = (function () {
         initGameMode = playController.playerVsPlayer;
 
         toggleScreen();
+
+        getActiveMenuBtns()[focusedIndex].focus();
       }
 
       function playVsAi(event) {
@@ -711,6 +745,8 @@ const game = (function () {
         initGameMode = playController.playerVsAi;
 
         toggleScreen();
+
+        getActiveMenuBtns()[focusedIndex].focus();
       }
 
       getVsPlayerBtn().addEventListener("click", playVsPlayer);
@@ -767,7 +803,7 @@ const game = (function () {
                   playController.getActivePlayer().getMark(),
                 )
               ) {
-                getResEm().textContent = "Tie!";
+                getResEm().textContent = "Tie";
 
                 showResults();
               }
@@ -785,7 +821,7 @@ const game = (function () {
                       (player) => player !== playController.getActivePlayer(),
                     )
                     .getMark(),
-                )} wins!`;
+                )} wins`;
 
                 showResults();
               }
@@ -823,6 +859,8 @@ const game = (function () {
         window.addEventListener("keydown", windowScreenMove);
         getDPad().addEventListener("click", dPadMenuScreen);
         getClickBtn().addEventListener("click", clickBtn);
+
+        getActiveMenuBtns()[focusedIndex].focus();
       }
 
       function removeInitModalSetings() {
@@ -900,6 +938,8 @@ const game = (function () {
         window.addEventListener("keydown", windowMenuMove);
         getDPad().addEventListener("click", dPadMenuMove);
         getClickBtn().addEventListener("click", clickBtn);
+
+        modalInit();
       }
 
       function closeSettings() {
@@ -1005,9 +1045,11 @@ const game = (function () {
         resultItems();
 
         activeMenuBtns = [getResRestartBtn()];
-        window.addEventListener("keydown", windowMenuMove);
-        getDPad().addEventListener("click", dPadMenuMove);
         getClickBtn().addEventListener("click", clickBtn);
+
+        modalInit();
+
+        getScreenCursor().style.cssText = `grid-area: ${focusedIndex + 2} / 1`;
       }
 
       function closeResults() {
@@ -1021,8 +1063,6 @@ const game = (function () {
         activeMenuBtns = null;
         focusedIndex = 0;
 
-        window.removeEventListener("keydown", windowMenuMove);
-        getDPad().removeEventListener("click", dPadMenuMove);
         getClickBtn().removeEventListener("click", clickBtn);
 
         initModalSettings();
