@@ -837,6 +837,32 @@ const game = (function () {
         );
       })();
 
+      const colorGameMode = () => {
+        const getMode = () => document.querySelector("#game-mode");
+
+        const getPurple300 = () =>
+          getComputedStyle(document.documentElement).getPropertyValue(
+            "--purple-300",
+          );
+
+        const getYellow200 = () =>
+          getComputedStyle(document.documentElement).getPropertyValue(
+            "--yellow-200",
+          );
+
+        if (getMode().checked) {
+          document.documentElement.style.setProperty(
+            "--gamemode-color",
+            `${getPurple300()}`,
+          );
+        } else {
+          document.documentElement.style.setProperty(
+            "--gamemode-color",
+            `${getYellow200()}`,
+          );
+        }
+      };
+
       function currentMarkChecked() {
         switch (
           screenController.markValidation(
@@ -940,6 +966,7 @@ const game = (function () {
         window.addEventListener("keydown", closeModalByEsc);
 
         settingsItems();
+        colorGameMode();
 
         activeMenuBtns = getSettingsItems();
         window.addEventListener("keydown", windowMenuMove);
