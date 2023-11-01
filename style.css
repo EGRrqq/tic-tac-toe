@@ -339,7 +339,7 @@ button[data-position="left"]:active {
 }
 
 .screen-cursor-btn {
-  background: url(./public/icons/cursor16x16.svg) center/75% no-repeat;
+  background: url(./public/icons/cursor.svg) center/75% no-repeat;
 }
 
 .additional-play-screen-item {
@@ -352,12 +352,12 @@ button[data-position="left"]:active {
 }
 
 .player-icon {
-  background: url(./public/icons/person16x16.svg) center/75% no-repeat;
+  background: url(./public/icons/person_front.svg) center/75% no-repeat;
   grid-area: 1 / 3;
 }
 
 .ai-icon {
-  background: url(./public/icons/robo16x16.svg) center/75% no-repeat;
+  background: url(./public/icons/robo_front.svg) center/75% no-repeat;
   grid-area: 2 / 3;
 }
 
@@ -397,7 +397,7 @@ form.start-menu-screen > section:focus-within {
 
 #restart-btn {
   background:
-    url(./public/icons/return_figma16x16.svg) center/100% 60% no-repeat,
+    url(./public/icons/return.svg) center/100% 60% no-repeat,
     var(--gamemode-color, pink);
 }
 
@@ -408,19 +408,19 @@ form.start-menu-screen > section:focus-within {
 }
 
 #game-mode + label::after {
-  background: url(./public/icons/person16x16.svg) center/96% no-repeat;
+  background: url(./public/icons/person.svg) center/96% no-repeat;
 }
 
 #game-mode:checked + label::after {
-  background: url(./public/icons/robo16x16.svg) center/98% no-repeat;
+  background: url(./public/icons/robo.svg) center/98% no-repeat;
 }
 
 #change-mark + label::after {
-  background: url(./public/icons/o_temp16x16.svg) center/75% no-repeat;
+  background: url(./public/icons/o_mark.svg) center/75% no-repeat;
 }
 
 #change-mark:checked + label::after {
-  background: url(./public/icons/x_temp16x16.svg) center/75% no-repeat;
+  background: url(./public/icons/x_mark.svg) center/75% no-repeat;
 }
 
 .screen-toggle-btn > input {

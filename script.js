@@ -545,11 +545,11 @@ const game = (function () {
     const getGameModeInput = () => document.getElementById("game-mode");
 
     function toggleGameModeConsole() {
-      getGameModeInput().toggleAttribute("checked");
+      getGameModeInput().checked = !getGameModeInput().checked;
     }
 
     function toggleMarkConsole() {
-      getMarkInput().toggleAttribute("checked");
+      getMarkInput().checked = !getMarkInput().checked;
     }
 
     function currentMarkChecked() {
@@ -559,11 +559,11 @@ const game = (function () {
         )
       ) {
         case "X":
-          getMarkInput().setAttribute("checked", "true");
+          getMarkInput().checked = true;
           break;
 
         case "O":
-          getMarkInput().removeAttribute("checked");
+          getMarkInput().checked = false;
           break;
 
         default:
@@ -744,6 +744,9 @@ const game = (function () {
       const getAiIcon = () => document.querySelector(".ai-icon");
 
       (function init() {
+        getGameModeInput().checked = false;
+        getMarkInput().checked = false;
+
         modalInit();
         switchIcons();
 
@@ -924,8 +927,6 @@ const game = (function () {
       })();
 
       const colorGameMode = () => {
-        const getMode = () => document.querySelector("#game-mode");
-
         const getPurple300 = () =>
           getComputedStyle(document.documentElement).getPropertyValue(
             "--purple-300",
@@ -936,7 +937,7 @@ const game = (function () {
             "--yellow-200",
           );
 
-        if (getMode().checked) {
+        if (getGameModeInput().checked) {
           document.documentElement.style.setProperty(
             "--gamemode-color",
             `${getPurple300()}`,
@@ -977,7 +978,9 @@ const game = (function () {
 
       (function init() {
         if (getInitGameMode() === playController.playerVsAi) {
-          getGameModeInput().toggleAttribute("checked");
+          getGameModeInput().checked = true;
+        } else {
+          getGameModeInput().checked = false;
         }
 
         currentMarkChecked();
@@ -991,7 +994,7 @@ const game = (function () {
 
       function closeModal(modal) {
         modal.classList.add("display-none");
-        modal.show();
+        modal.close();
       }
 
       function closeModalByWindow(event) {
@@ -1068,11 +1071,13 @@ const game = (function () {
       function toggleGameMode(event) {
         if (event.target.checked) {
           playController.restartRound();
+          initGameMode = playController.playerVsAi;
           playController.playerVsAi();
 
           closeSettings();
         } else {
           playController.restartRound();
+          initGameMode = playController.playerVsPlayer;
           playController.playerVsPlayer();
 
           closeSettings();
@@ -1130,7 +1135,13 @@ const game = (function () {
         getGameModeInput().addEventListener("change", toggleGameMode);
         getSettingsRestartBtn().addEventListener("click", pressRestart);
         getMarkInput().addEventListener("change", toggleMark);
-        getAiTurnBtn().addEventListener("click", pressAiTurn);
+
+        if (getInitGameMode() === playController.playerVsAi) {
+          getAiTurnBtn().closest("section").classList.remove("display-none");
+          getAiTurnBtn().addEventListener("click", pressAiTurn);
+        } else {
+          getAiTurnBtn().closest("section").classList.add("display-none");
+        }
       }
 
       function resultItems() {
