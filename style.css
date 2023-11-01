@@ -1,7 +1,7 @@
 :root {
   --content-padding: calc(0.5rem + max(0.5vh, 0.5vw));
   --section-padding: clamp(1rem, calc(1.5rem + 1vw), 3vw);
-  --section-item-gap: calc(1rem + 0.5vw);
+  --section-item-gap: calc(1rem + max(0.5vh, 0.5vw));
 
   --main-font-size: calc(0.75rem + max(1vw, 1vh));
 
@@ -384,13 +384,6 @@ form > p {
   gap: var(--content-padding);
 }
 
-/* form > section:focus-within { */
-/*   border: 0.15rem solid var(--green-400); */
-/*   border-radius: 0.25rem; */
-/*   padding: calc(var(--content-padding) / 4); */
-/*   background-color: var(--blue-500); */
-/* } */
-
 form.start-menu-screen > section:focus-within {
   padding: 0;
 }
@@ -660,7 +653,7 @@ form.start-menu-screen > section:focus-within {
   width: 100%;
 }
 
-@media screen and (max-width: 719px) {
+@media screen and (max-width: 639px) {
   .console {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);

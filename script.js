@@ -735,6 +735,18 @@ const game = (function () {
       }
     }
 
+    function tabFocus(event) {
+      getActiveMenuBtns()
+        [focusedIndex].closest("section")
+        .classList.remove("screen-focus-item");
+
+      focusedIndex = Array.from(getActiveMenuBtns()).findIndex(
+        (item) => item.id === event.target.id,
+      );
+
+      event.target.closest("section").classList.add("screen-focus-item");
+    }
+
     (function startMenu() {
       const getVsPlayerBtn = () => document.getElementById("play-vs-player");
       const getVsAiBtn = () => document.getElementById("play-vs-ai");
@@ -750,10 +762,21 @@ const game = (function () {
         modalInit();
         switchIcons();
 
+        getActiveMenuBtns().forEach((btn) =>
+          btn.addEventListener("focus", startMenuTabFocus),
+        );
+
         window.addEventListener("keydown", startMenuWindowMove);
         getDPad().addEventListener("click", startMenuDPadMove);
         getClickBtn().addEventListener("click", clickBtn);
       })();
+
+      function startMenuTabFocus(event) {
+        tabFocus(event);
+
+        switchIcons();
+        getScreenCursor().style.cssText = `grid-area: ${focusedIndex + 1} / 1`;
+      }
 
       function startMenuWindowMove(event) {
         switch (event.key) {
@@ -811,6 +834,10 @@ const game = (function () {
       function playVsPlayer(event) {
         event.preventDefault();
 
+        getActiveMenuBtns().forEach((btn) =>
+          btn.removeEventListener("focus", startMenuTabFocus),
+        );
+
         getVsPlayerBtn().removeEventListener("click", playVsPlayer);
         window.removeEventListener("keydown", startMenuWindowMove);
         getDPad().removeEventListener("click", startMenuDPadMove);
@@ -829,6 +856,10 @@ const game = (function () {
 
       function playVsAi(event) {
         event.preventDefault();
+
+        getActiveMenuBtns().forEach((btn) =>
+          btn.removeEventListener("focus", startMenuTabFocus),
+        );
 
         getVsAiBtn().removeEventListener("click", playVsAi);
         window.removeEventListener("keydown", startMenuWindowMove);
@@ -875,7 +906,11 @@ const game = (function () {
       const getResEm = () => getResultModal().querySelector("em");
 
       const getSettingsItems = () =>
-        getSettingsModal().querySelectorAll(".settings-item");
+        Array.from(
+          getSettingsModal().querySelectorAll(".settings-item"),
+        ).filter(
+          (item) => !item.closest("section").classList.contains("display-none"),
+        );
 
       const getPlayScreenBtns = () =>
         document.querySelectorAll(".play-screen > button");
@@ -1025,6 +1060,12 @@ const game = (function () {
         if (event.key === "Escape") openSettings();
       }
 
+      function settingsTabFocus(event) {
+        tabFocus(event);
+
+        getScreenCursor().style.cssText = `grid-area: ${focusedIndex + 1} / 1`;
+      }
+
       function openSettings() {
         openModal(getSettingsModal());
 
@@ -1043,6 +1084,10 @@ const game = (function () {
         getDPad().addEventListener("click", dPadMenuMove);
         getClickBtn().addEventListener("click", clickBtn);
 
+        getActiveMenuBtns().forEach((btn) =>
+          btn.addEventListener("focus", settingsTabFocus),
+        );
+
         modalInit();
       }
 
@@ -1057,6 +1102,10 @@ const game = (function () {
         getActiveMenuBtns()
           [focusedIndex].closest("section")
           .classList.remove("screen-focus-item");
+
+        getActiveMenuBtns().forEach((btn) =>
+          btn.removeEventListener("focus", settingsTabFocus),
+        );
 
         activeMenuBtns = null;
         focusedIndex = 0;
@@ -1159,6 +1208,7 @@ const game = (function () {
         window.addEventListener("keydown", closeResModalByEsc);
 
         resultItems();
+        colorGameMode();
 
         activeMenuBtns = [getResRestartBtn()];
         getClickBtn().addEventListener("click", clickBtn);
