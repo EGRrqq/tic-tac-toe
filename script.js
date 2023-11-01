@@ -537,6 +537,12 @@ const game = (function () {
         .closest("form")
         .querySelector(".screen-cursor-btn");
 
+    const getSettingsConsoleBtn = () =>
+      document.getElementById("settings-btn-console");
+
+    const getCloseConsoleBtn = () =>
+      document.getElementById("close-btn-console");
+
     const getBtnId = () => getActiveMenuBtns()[focusedIndex].getAttribute("id");
     const setCursorFor = () =>
       getScreenCursor().setAttribute("for", getBtnId());
@@ -762,6 +768,8 @@ const game = (function () {
         modalInit();
         switchIcons();
 
+        window.addEventListener("keydown", encapsulateStartMenuFocus);
+
         getActiveMenuBtns().forEach((btn) =>
           btn.addEventListener("focus", startMenuTabFocus),
         );
@@ -770,6 +778,20 @@ const game = (function () {
         getDPad().addEventListener("click", startMenuDPadMove);
         getClickBtn().addEventListener("click", clickBtn);
       })();
+
+      function encapsulateStartMenuFocus(event) {
+        if (!event.shiftKey && event.key === "Tab") {
+          if (focusedIndex === getActiveMenuBtns().length - 1) {
+            document.querySelector('button[data-position="bottom"]').focus();
+          }
+        }
+
+        if (event.shiftKey && event.key === "Tab") {
+          if (focusedIndex === 0) {
+            getCloseConsoleBtn().focus();
+          }
+        }
+      }
 
       function startMenuTabFocus(event) {
         tabFocus(event);
@@ -840,8 +862,24 @@ const game = (function () {
 
         getVsPlayerBtn().removeEventListener("click", playVsPlayer);
         window.removeEventListener("keydown", startMenuWindowMove);
+        window.removeEventListener("keydown", encapsulateStartMenuFocus);
         getDPad().removeEventListener("click", startMenuDPadMove);
         getClickBtn().removeEventListener("click", clickBtn);
+        window.addEventListener("keydown", encapsulatePlayScreen);
+
+        function encapsulatePlayScreen(event) {
+          if (!event.shiftKey && event.key === "Tab") {
+            if (focusedIndex === getActiveMenuBtns().length - 1) {
+              document.querySelector('button[data-position="bottom"]').focus();
+            }
+          }
+
+          if (event.shiftKey && event.key === "Tab") {
+            if (focusedIndex === 0) {
+              getCloseConsoleBtn().focus();
+            }
+          }
+        }
 
         focusedIndex = 0;
         activeMenuBtns = null;
@@ -863,6 +901,7 @@ const game = (function () {
 
         getVsAiBtn().removeEventListener("click", playVsAi);
         window.removeEventListener("keydown", startMenuWindowMove);
+        window.removeEventListener("keydown", encapsulateStartMenuFocus);
         getDPad().removeEventListener("click", startMenuDPadMove);
         getClickBtn().removeEventListener("click", clickBtn);
 
@@ -882,12 +921,6 @@ const game = (function () {
     })();
 
     function settingsMenu() {
-      const getSettingsConsoleBtn = () =>
-        document.getElementById("settings-btn-console");
-
-      const getCloseConsoleBtn = () =>
-        document.getElementById("close-btn-console");
-
       const getCloseModalBtn = () =>
         document.querySelector(".settings-modal .close-btn-modal");
       const getSettingsModal = () => document.getElementById("settings-modal");
@@ -1066,6 +1099,20 @@ const game = (function () {
         getScreenCursor().style.cssText = `grid-area: ${focusedIndex + 1} / 1`;
       }
 
+      function encapsulateSettingsFocus(event) {
+        if (!event.shiftKey && event.key === "Tab") {
+          if (focusedIndex === getActiveMenuBtns().length - 1) {
+            getCloseModalBtn().focus();
+          }
+        }
+
+        if (event.shiftKey && event.key === "Tab") {
+          if (focusedIndex === 0) {
+            getCloseConsoleBtn().focus();
+          }
+        }
+      }
+
       function openSettings() {
         openModal(getSettingsModal());
 
@@ -1075,6 +1122,7 @@ const game = (function () {
         getCloseModalBtn().addEventListener("click", closeSettings);
         window.addEventListener("click", closeModalByWindow);
         window.addEventListener("keydown", closeModalByEsc);
+        window.addEventListener("keydown", encapsulateSettingsFocus);
 
         settingsItems();
         colorGameMode();
@@ -1098,6 +1146,7 @@ const game = (function () {
         getCloseModalBtn().removeEventListener("click", closeSettings);
         window.removeEventListener("click", closeModalByWindow);
         window.removeEventListener("keydown", closeModalByEsc);
+        window.removeEventListener("keydown", encapsulateSettingsFocus);
 
         getActiveMenuBtns()
           [focusedIndex].closest("section")
@@ -1197,6 +1246,20 @@ const game = (function () {
         getResRestartBtn().addEventListener("click", pressRestart);
       }
 
+      function encapsulateResultsFocus(event) {
+        if (!event.shiftKey && event.key === "Tab") {
+          if (focusedIndex === getActiveMenuBtns().length - 1) {
+            getCloseResModalBtn().focus();
+          }
+        }
+
+        if (event.shiftKey && event.key === "Tab") {
+          if (focusedIndex === 0) {
+            getCloseConsoleBtn().focus();
+          }
+        }
+      }
+
       function showResults() {
         openModal(getResultModal());
 
@@ -1206,6 +1269,7 @@ const game = (function () {
         getCloseResModalBtn().addEventListener("click", closeResults);
         window.addEventListener("click", closeResModalByWindow);
         window.addEventListener("keydown", closeResModalByEsc);
+        window.addEventListener("keydown", encapsulateResultsFocus);
 
         resultItems();
         colorGameMode();
@@ -1225,6 +1289,7 @@ const game = (function () {
         getCloseResModalBtn().removeEventListener("click", closeResults);
         window.removeEventListener("click", closeResModalByWindow);
         window.removeEventListener("keydown", closeResModalByEsc);
+        window.removeEventListener("keydown", encapsulateResultsFocus);
 
         activeMenuBtns = null;
         focusedIndex = 0;

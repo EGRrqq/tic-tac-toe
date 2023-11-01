@@ -348,7 +348,7 @@ button[data-position="left"]:active {
 }
 
 .result-menu .screen-cursor-btn {
-  grid-area: 2 / 1;
+  grid-area: 2 / 1 !important;
 }
 
 .player-icon {
