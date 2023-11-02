@@ -248,7 +248,7 @@ const game = (function () {
 
     function playerVsPlayer() {
       getPlayers().splice(0);
-      getPlayers().push(gamePlayer("juh", -1), gamePlayer("wuh", 1));
+      getPlayers().push(gamePlayer("Player", -1), gamePlayer("Player", 1));
       activePlayer = getPlayers()[0];
 
       const playerVsPlayerRound = (row, col) => {
@@ -262,7 +262,7 @@ const game = (function () {
 
     function playerVsAi() {
       getPlayers().splice(0);
-      getPlayers().push(gamePlayer("juh", -1), aiPlayer("cortana", 1));
+      getPlayers().push(gamePlayer("Player", -1), aiPlayer("Ai", 1));
       activePlayer = getPlayers()[0];
 
       const playerVsAIRound = (row, col) => {
@@ -978,7 +978,10 @@ const game = (function () {
                   -playController.getActivePlayer().getMark(),
                 )
               ) {
-                getResEm().textContent = `Player ${screenController.markValidation(
+                getResEm().textContent = `${playController
+                  .getPlayers()
+                  .find((player) => player !== playController.getActivePlayer())
+                  .getName()}-${screenController.markValidation(
                   playController
                     .getPlayers()
                     .find(

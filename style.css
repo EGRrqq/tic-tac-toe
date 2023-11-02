@@ -134,6 +134,7 @@ dialog[open] {
   text-decoration: underline;
   font-size: calc(var(--main-font-size) / 1.2);
   color: var(--green-400);
+  text-align: center;
 }
 
 .xl {
