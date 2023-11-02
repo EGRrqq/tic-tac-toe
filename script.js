@@ -1103,8 +1103,15 @@ const game = (function () {
       }
 
       function closeModal(modal) {
-        modal.classList.add("display-none");
-        modal.close();
+        modal.classList.add("close-dialog");
+
+        modal.addEventListener("animationend", function closesweetymodal() {
+          modal.classList.add("display-none");
+          modal.classList.remove("close-dialog");
+          modal.close();
+
+          modal.removeEventListener("animationend", closesweetymodal);
+        });
       }
 
       function closeModalByWindow(event) {

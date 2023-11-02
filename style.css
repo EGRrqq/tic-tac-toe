@@ -130,6 +130,10 @@ dialog[open] {
   animation: fade-in 0.1s ease-in-out;
 }
 
+dialog.close-dialog {
+  animation: fade-out 0.1s ease-in-out;
+}
+
 .em {
   text-decoration: underline;
   font-size: calc(var(--main-font-size) / 1.2);
@@ -673,5 +677,14 @@ form.start-menu-screen > section:focus-within {
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }
