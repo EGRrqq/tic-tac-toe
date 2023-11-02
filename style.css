@@ -349,7 +349,7 @@ button[data-position="left"]:active {
 }
 
 .result-menu .screen-cursor-btn {
-  grid-area: 2 / 1 !important;
+  grid-area: 2 / 1;
 }
 
 .player-icon {

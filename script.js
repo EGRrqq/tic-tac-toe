@@ -544,7 +544,8 @@ const game = (function () {
     const getCloseConsoleBtn = () =>
       document.getElementById("close-btn-console");
 
-    const getBtnId = () => getActiveMenuBtns()[focusedIndex].getAttribute("id");
+    const getBtnId = () =>
+      getActiveMenuBtns()[getFocusedIndex()].getAttribute("id");
     const setCursorFor = () =>
       getScreenCursor().setAttribute("for", getBtnId());
 
@@ -579,53 +580,59 @@ const game = (function () {
     }
 
     function modalInit() {
-      getScreenCursor().style.cssText = `grid-area: ${focusedIndex + 1} / 1`;
+      getScreenCursor().style.cssText = `grid-area: ${
+        getFocusedIndex() + 1
+      } / 1`;
       getActiveMenuBtns()
-        [focusedIndex].closest("section")
+        [getFocusedIndex()].closest("section")
         .classList.add("screen-focus-item");
 
       setCursorFor();
-      getActiveMenuBtns()[focusedIndex].focus();
+      getActiveMenuBtns()[getFocusedIndex()].focus();
     }
 
     function moveUpMenu(btns) {
       btns()
-        [focusedIndex].closest("section")
+        [getFocusedIndex()].closest("section")
         .classList.remove("screen-focus-item");
 
-      if (focusedIndex === 0) {
+      if (getFocusedIndex() === 0) {
         focusedIndex = btns().length - 1;
       } else {
         focusedIndex--;
       }
 
       btns()
-        [focusedIndex].closest("section")
+        [getFocusedIndex()].closest("section")
         .classList.add("screen-focus-item");
 
       setCursorFor();
-      btns()[focusedIndex].focus();
-      getScreenCursor().style.cssText = `grid-area: ${focusedIndex + 1} / 1`;
+      btns()[getFocusedIndex()].focus();
+      getScreenCursor().style.cssText = `grid-area: ${
+        getFocusedIndex() + 1
+      } / 1`;
     }
 
     function moveDownMenu(btns) {
       btns()
-        [focusedIndex].closest("section")
+        [getFocusedIndex()].closest("section")
         .classList.remove("screen-focus-item");
 
-      if (focusedIndex === btns().length - 1) {
+      if (getFocusedIndex() === btns().length - 1) {
         focusedIndex = 0;
       } else {
         focusedIndex++;
       }
 
       btns()
-        [focusedIndex].closest("section")
+        [getFocusedIndex()].closest("section")
         .classList.add("screen-focus-item");
 
       setCursorFor();
-      btns()[focusedIndex].focus();
-      getScreenCursor().style.cssText = `grid-area: ${focusedIndex + 1} / 1`;
+      btns()[getFocusedIndex()].focus();
+      getScreenCursor().style.cssText = `grid-area: ${
+        getFocusedIndex() + 1
+      } / 1`;
     }
 
     function windowMenuMove(event) {
@@ -644,7 +651,7 @@ const game = (function () {
     function clickBtn(event) {
       event.preventDefault();
 
-      getActiveMenuBtns()[focusedIndex].click();
+      getActiveMenuBtns()[getFocusedIndex()].click();
     }
 
     function dPadMenuMove(event) {
@@ -663,43 +670,59 @@ const game = (function () {
     }
 
     function moveUpScreen(btns) {
-      if (focusedIndex === 0 || focusedIndex === 1 || focusedIndex === 2) {
+      if (
+        getFocusedIndex() === 0 ||
+        getFocusedIndex() === 1 ||
+        getFocusedIndex() === 2
+      ) {
         focusedIndex += 6;
       } else {
         focusedIndex -= 3;
       }
 
-      btns()[focusedIndex].focus();
+      btns()[getFocusedIndex()].focus();
     }
 
     function moveDownScreen(btns) {
-      if (focusedIndex === 6 || focusedIndex === 7 || focusedIndex === 8) {
+      if (
+        getFocusedIndex() === 6 ||
+        getFocusedIndex() === 7 ||
+        getFocusedIndex() === 8
+      ) {
         focusedIndex -= 6;
       } else {
         focusedIndex += 3;
       }
 
-      btns()[focusedIndex].focus();
+      btns()[getFocusedIndex()].focus();
     }
 
     function moveRightScreen(btns) {
-      if (focusedIndex === 2 || focusedIndex === 5 || focusedIndex === 8) {
+      if (
+        getFocusedIndex() === 2 ||
+        getFocusedIndex() === 5 ||
+        getFocusedIndex() === 8
+      ) {
         focusedIndex -= 2;
       } else {
         focusedIndex++;
       }
 
-      btns()[focusedIndex].focus();
+      btns()[getFocusedIndex()].focus();
     }
 
     function moveLeftScreen(btns) {
-      if (focusedIndex === 0 || focusedIndex === 3 || focusedIndex === 6) {
+      if (
+        getFocusedIndex() === 0 ||
+        getFocusedIndex() === 3 ||
+        getFocusedIndex() === 6
+      ) {
         focusedIndex += 2;
       } else {
         focusedIndex--;
       }
 
-      btns()[focusedIndex].focus();
+      btns()[getFocusedIndex()].focus();
     }
 
     function windowScreenMove(event) {
@@ -719,8 +742,6 @@ const game = (function () {
         default:
           break;
       }
-
-      console.log("arrow", focusedIndex);
     }
 
     function dPadMenuScreen(event) {
@@ -746,7 +767,7 @@ const game = (function () {
 
     function tabFocus(event) {
       getActiveMenuBtns()
-        [focusedIndex].closest("section")
+        [getFocusedIndex()].closest("section")
         .classList.remove("screen-focus-item");
 
       focusedIndex = Array.from(getActiveMenuBtns()).findIndex(
@@ -784,13 +805,13 @@ const game = (function () {
 
       function encapsulateStartMenuFocus(event) {
         if (!event.shiftKey && event.key === "Tab") {
-          if (focusedIndex === getActiveMenuBtns().length - 1) {
+          if (getFocusedIndex() === getActiveMenuBtns().length - 1) {
             document.querySelector('button[data-position="bottom"]').focus();
           }
         }
 
         if (event.shiftKey && event.key === "Tab") {
-          if (focusedIndex === 0) {
+          if (getFocusedIndex() === 0) {
             getCloseConsoleBtn().focus();
           }
         }
@@ -800,7 +821,9 @@ const game = (function () {
         tabFocus(event);
 
         switchIcons();
-        getScreenCursor().style.cssText = `grid-area: ${focusedIndex + 1} / 1`;
+        getScreenCursor().style.cssText = `grid-area: ${
+          getFocusedIndex() + 1
+        } / 1`;
       }
 
       function startMenuWindowMove(event) {
@@ -836,7 +859,7 @@ const game = (function () {
       }
 
       function switchIcons() {
-        switch (focusedIndex) {
+        switch (getFocusedIndex()) {
           case 0:
             getPlayerIcon().classList.remove("display-none");
             getAiIcon().classList.add("display-none");
@@ -877,7 +900,7 @@ const game = (function () {
 
         toggleScreen();
 
-        getActiveMenuBtns()[focusedIndex].focus();
+        getActiveMenuBtns()[getFocusedIndex()].focus();
       }
 
       function playVsAi(event) {
@@ -901,7 +924,7 @@ const game = (function () {
 
         toggleScreen();
 
-        getActiveMenuBtns()[focusedIndex].focus();
+        getActiveMenuBtns()[getFocusedIndex()].focus();
       }
 
       getVsPlayerBtn().addEventListener("click", playVsPlayer);
@@ -945,7 +968,7 @@ const game = (function () {
               screenController.setTextContent(node);
 
               currentMarkChecked();
-              getActiveMenuBtns()[focusedIndex].focus();
+              getActiveMenuBtns()[getFocusedIndex()].focus();
 
               if (
                 gameBoard.getEmptyCells(gameBoard.getBoardValues()).length ===
@@ -1010,7 +1033,7 @@ const game = (function () {
       };
 
       function playScreenTabFocus(event) {
-        focusedIndex = event.target.dataset.index;
+        focusedIndex = parseInt(event.target.dataset.index);
 
         console.log("tab", getFocusedIndex());
       }
@@ -1030,19 +1053,19 @@ const game = (function () {
         getDPad().addEventListener("click", dPadMenuScreen);
         getClickBtn().addEventListener("click", clickBtn);
 
-        getActiveMenuBtns()[focusedIndex].focus();
+        getActiveMenuBtns()[getFocusedIndex()].focus();
       }
 
       function removeInitModalSetings() {
         getSettingsConsoleBtn().removeEventListener("click", openSettings);
         window.removeEventListener("keydown", openModalByEsc);
 
-        focusedIndex = 0;
-        activeMenuBtns = null;
-
         getActiveMenuBtns().forEach((btn) =>
           btn.removeEventListener("focus", playScreenTabFocus),
         );
+
+        focusedIndex = 0;
+        activeMenuBtns = null;
 
         window.removeEventListener("keydown", windowScreenMove);
         getDPad().removeEventListener("click", dPadMenuScreen);
@@ -1101,18 +1124,20 @@ const game = (function () {
       function settingsTabFocus(event) {
         tabFocus(event);
 
-        getScreenCursor().style.cssText = `grid-area: ${focusedIndex + 1} / 1`;
+        getScreenCursor().style.cssText = `grid-area: ${
+          getFocusedIndex() + 1
+        } / 1`;
       }
 
       function encapsulateSettingsFocus(event) {
         if (!event.shiftKey && event.key === "Tab") {
-          if (focusedIndex === getActiveMenuBtns().length - 1) {
+          if (getFocusedIndex() === getActiveMenuBtns().length - 1) {
             getCloseModalBtn().focus();
           }
         }
 
         if (event.shiftKey && event.key === "Tab") {
-          if (focusedIndex === 0) {
+          if (getFocusedIndex() === 0) {
             getCloseConsoleBtn().focus();
           }
         }
@@ -1154,7 +1179,7 @@ const game = (function () {
         window.removeEventListener("keydown", encapsulateSettingsFocus);
 
         getActiveMenuBtns()
-          [focusedIndex].closest("section")
+          [getFocusedIndex()].closest("section")
           .classList.remove("screen-focus-item");
 
         getActiveMenuBtns().forEach((btn) =>
@@ -1253,13 +1278,13 @@ const game = (function () {
 
       function encapsulateResultsFocus(event) {
         if (!event.shiftKey && event.key === "Tab") {
-          if (focusedIndex === getActiveMenuBtns().length - 1) {
+          if (getFocusedIndex() === getActiveMenuBtns().length - 1) {
             getCloseResModalBtn().focus();
           }
         }
 
         if (event.shiftKey && event.key === "Tab") {
-          if (focusedIndex === 0) {
+          if (getFocusedIndex() === 0) {
             getCloseConsoleBtn().focus();
           }
         }
@@ -1284,7 +1309,9 @@ const game = (function () {
 
         modalInit();
 
-        getScreenCursor().style.cssText = `grid-area: ${focusedIndex + 2} / 1`;
+        getScreenCursor().style.cssText = `grid-area: ${
+          getFocusedIndex() + 2
+        } / 1`;
       }
 
       function closeResults() {
