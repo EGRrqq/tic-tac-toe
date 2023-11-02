@@ -1034,8 +1034,20 @@ const game = (function () {
 
       function playScreenTabFocus(event) {
         focusedIndex = parseInt(event.target.dataset.index);
+      }
 
-        console.log("tab", getFocusedIndex());
+      function encapsulatePlayScreenFocus(event) {
+        if (!event.shiftKey && event.key === "Tab") {
+          if (getFocusedIndex() === getActiveMenuBtns().length - 1) {
+            document.querySelector('button[data-position="bottom"]').focus();
+          }
+        }
+
+        if (event.shiftKey && event.key === "Tab") {
+          if (getFocusedIndex() === 0) {
+            getCloseConsoleBtn().focus();
+          }
+        }
       }
 
       function initModalSettings() {
@@ -1050,6 +1062,7 @@ const game = (function () {
         );
 
         window.addEventListener("keydown", windowScreenMove);
+        window.addEventListener("keydown", encapsulatePlayScreenFocus);
         getDPad().addEventListener("click", dPadMenuScreen);
         getClickBtn().addEventListener("click", clickBtn);
 
@@ -1068,6 +1081,7 @@ const game = (function () {
         activeMenuBtns = null;
 
         window.removeEventListener("keydown", windowScreenMove);
+        window.removeEventListener("keydown", encapsulatePlayScreenFocus);
         getDPad().removeEventListener("click", dPadMenuScreen);
         getClickBtn().removeEventListener("click", clickBtn);
       }
