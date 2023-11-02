@@ -525,6 +525,7 @@ const game = (function () {
     const getInitGameMode = () => initGameMode;
 
     let focusedIndex = 0;
+    const getFocusedIndex = () => focusedIndex;
     const getDPad = () => document.querySelector(".d-pad");
     const getClickBtn = () => document.querySelector(".click-btn-console");
 
@@ -718,6 +719,8 @@ const game = (function () {
         default:
           break;
       }
+
+      console.log("arrow", focusedIndex);
     }
 
     function dPadMenuScreen(event) {
@@ -865,21 +868,6 @@ const game = (function () {
         window.removeEventListener("keydown", encapsulateStartMenuFocus);
         getDPad().removeEventListener("click", startMenuDPadMove);
         getClickBtn().removeEventListener("click", clickBtn);
-        window.addEventListener("keydown", encapsulatePlayScreen);
-
-        function encapsulatePlayScreen(event) {
-          if (!event.shiftKey && event.key === "Tab") {
-            if (focusedIndex === getActiveMenuBtns().length - 1) {
-              document.querySelector('button[data-position="bottom"]').focus();
-            }
-          }
-
-          if (event.shiftKey && event.key === "Tab") {
-            if (focusedIndex === 0) {
-              getCloseConsoleBtn().focus();
-            }
-          }
-        }
 
         focusedIndex = 0;
         activeMenuBtns = null;
@@ -1021,12 +1009,22 @@ const game = (function () {
         }
       };
 
+      function playScreenTabFocus(event) {
+        focusedIndex = event.target.dataset.index;
+
+        console.log("tab", getFocusedIndex());
+      }
+
       function initModalSettings() {
         getSettingsConsoleBtn().addEventListener("click", openSettings);
         window.addEventListener("keydown", openModalByEsc);
 
         focusedIndex = 4;
         activeMenuBtns = getPlayScreenBtns();
+
+        getActiveMenuBtns().forEach((btn) =>
+          btn.addEventListener("focus", playScreenTabFocus),
+        );
 
         window.addEventListener("keydown", windowScreenMove);
         getDPad().addEventListener("click", dPadMenuScreen);
@@ -1041,6 +1039,10 @@ const game = (function () {
 
         focusedIndex = 0;
         activeMenuBtns = null;
+
+        getActiveMenuBtns().forEach((btn) =>
+          btn.removeEventListener("focus", playScreenTabFocus),
+        );
 
         window.removeEventListener("keydown", windowScreenMove);
         getDPad().removeEventListener("click", dPadMenuScreen);
