@@ -1,7 +1,7 @@
 # Tic-Tac-Toe
 
 <p align="center">
-  <a align="center" target="_blank" href="https://egrrqq.github.io/tic-tac-toe">Live Story</a>
+  <a align="center" target="_blank" href="https://egrrqq.github.io/tic-tac-toe">Live Version</a>
 </p>
 
 ## Good to know
