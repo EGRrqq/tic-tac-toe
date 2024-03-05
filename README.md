@@ -13,22 +13,103 @@
 
 > Project:
 
-| [![](https://i.ibb.co/FbZJxSk/figmaiteration.png)](https://www.figma.com/file/hJdWU9I8FTFfyd0fDmgNs0/gameboy_tct?type=design&node-id=35%3A36380&mode=design&t=qx9HBYvzRwqLcfZX-1) |     | [![](https://i.ibb.co/Wc8BtF8/mysweetconsole.png)](https://egrrqq.github.io/tic-tac-toe/) |      
-|----------------------------------------------------------------------------------------------------|-----|----------------------------------------------------------------------------------------------------|      
-| [**Figma Iteration**](https://www.figma.com/file/hJdWU9I8FTFfyd0fDmgNs0/gameboy_tct?type=design&node-id=35%3A36380&mode=design&t=qx9HBYvzRwqLcfZX-1)                                                             |     | [**Final Result**](https://egrrqq.github.io/tic-tac-toe/)                                                               | 
+<table>
+  <tr>
+    <td>
+        <img src="https://EGRrqq.github.io/picx-images-hosting/TCT_assets/figmaiteration.54xi2a1kx0.webp" alt="figma project iteration">
+    </td>
+    <td>
+        <img src="https://EGRrqq.github.io/picx-images-hosting/TCT_assets/mysweetconsole.4n7gdp07ci.webp" alt="final project result">
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><strong>
+      <a href="https://www.figma.com/file/hJdWU9I8FTFfyd0fDmgNs0/gameboy_tct?type=design&node-id=35%3A36380&mode=design&t=qx9HBYvzRwqLcfZX-1">Figma Iteration</a>
+    </strong></td>
+    <td align="center"><strong>
+      <a href="https://egrrqq.github.io/tic-tac-toe/">Final Result</a>
+    </strong></td>
+  </tr>
+</table>    
 
 <br>
 
 > Icons
 
-| [![](https://i.ibb.co/dQ6nRt2/robo-front.png)](public/icons/robo_front.svg) |     | [![](https://i.ibb.co/7CFGnC7/robo.png)](public/icons/robo.svg) |      
-|----------------------------------------------------------------------------------------------------|-----|----------------------------------------------------------------------------------------------------|   
+<table>
+  <tr>
+    <td>
+        <img src="https://EGRrqq.github.io/picx-images-hosting/TCT_assets/robo_front.5mnjqv2yio.svg" width="200" height="200" alt="ai icon front view">
+    </td>
+    <td>
+        <img src="https://EGRrqq.github.io/picx-images-hosting/TCT_assets/robo.7i04jhfe4j.svg" 
+         width="200" height="200" alt="ai icon side view">
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><strong>
+      AI front view
+    </strong></td>
+    <td align="center"><strong>
+      AI side view
+    </strong></td>
+  </tr>
+</table>    
 
-| [![](https://i.ibb.co/svW4X8c/person-front.png)](public/icons/person_front.svg) |     | [![](https://i.ibb.co/2vLHhLw/person.png)](public/icons/person.svg) |      
-|----------------------------------------------------------------------------------------------------|-----|----------------------------------------------------------------------------------------------------|         
+<br>
 
-| [![](https://i.ibb.co/Kx8Kfwn/cursor.png)](public/icons/cursor.svg) |     | [![](https://i.ibb.co/94QNmhW/o-mark.png)](public/icons/o_mark.svg) |      | [![](https://i.ibb.co/54tfKc7/x-mark.png)](public/icons/x_mark.svg) |       | [![](https://i.ibb.co/fpL88bk/return.png)](public/icons/return.svg) |    
-|----------------------------------------|-----|----------------------------------------------|--|----------------------------------------------|--|----------------------------------------------|     
+<table>
+  <tr>
+    <td>
+        <img src="https://EGRrqq.github.io/picx-images-hosting/TCT_assets/person_front.6bgtavqhje.svg" width="200" height="200" alt="person icon front view">
+    </td>
+    <td>
+        <img src="https://EGRrqq.github.io/picx-images-hosting/TCT_assets/person.1754llqkb1.svg" 
+         width="200" height="200" alt="person icon side view">
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><strong>
+      Person front view
+    </strong></td>
+    <td align="center"><strong>
+      Person side view
+    </strong></td>
+  </tr>
+</table>    
+
+<br>
+
+<table>
+  <tr>
+    <td>
+        <img src="https://EGRrqq.github.io/picx-images-hosting/TCT_assets/cursor.7p3cex1jkj.svg" width="100" height="100" alt="cursor icon">
+    </td>
+    <td>
+        <img src="https://EGRrqq.github.io/picx-images-hosting/TCT_assets/o_mark.8ojfs34aq8.svg" width="100" height="100" alt="O mark icon">
+    </td>
+    <td>
+        <img src="https://EGRrqq.github.io/picx-images-hosting/TCT_assets/x_mark.2a4twhme60.svg" width="100" height="100" alt="X mark icon">
+    </td>
+    <td>
+        <img src="https://EGRrqq.github.io/picx-images-hosting/TCT_assets/return.5q75okw18n.svg" width="100" height="100" alt="restart icon">
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><strong>
+      Cursor
+    </strong></td>
+    <td align="center"><strong>
+      O mark
+    </strong></td>
+    <td align="center"><strong>
+      X mark
+    </strong></td>
+    <td align="center"><strong>
+      Restart
+    </strong></td>
+  </tr>
+</table>    
 
 <br>
 <br>
