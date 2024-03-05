@@ -1,6 +1,8 @@
 # Tic-Tac-Toe
 
-[Live Version](https://egrrqq.github.io/tic-tac-toe/)
+<p align="center">
+  <a align="center" target="_blank" href="https://egrrqq.github.io/tic-tac-toe">Live Story</a>
+</p>
 
 ## Good to know
 
@@ -24,10 +26,10 @@
   </tr>
   <tr>
     <td align="center"><strong>
-      <a href="https://www.figma.com/file/hJdWU9I8FTFfyd0fDmgNs0/gameboy_tct?type=design&node-id=35%3A36380&mode=design&t=qx9HBYvzRwqLcfZX-1">Figma Iteration</a>
+      <a target="_blank" href="https://www.figma.com/file/hJdWU9I8FTFfyd0fDmgNs0/gameboy_tct?type=design&node-id=35%3A36380&mode=design&t=qx9HBYvzRwqLcfZX-1">Figma Iteration</a>
     </strong></td>
     <td align="center"><strong>
-      <a href="https://egrrqq.github.io/tic-tac-toe/">Final Result</a>
+      <a target="_blank" href="https://egrrqq.github.io/tic-tac-toe/">Final Result</a>
     </strong></td>
   </tr>
 </table>    
