@@ -13,18 +13,42 @@
 
 ## Showcases
 
-> Project:
+
+> Shorts:
+
+<table>
+  <tr>
+    <td>
+      <video src="https://github.com/user-attachments/assets/b4916550-8370-40fa-9122-3f8f8950a22d"></video>
+    </td>
+    <td>
+      <video src="https://github.com/user-attachments/assets/08a49d11-87e4-468e-8c55-d2cb568c0d40"></video>     
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><strong>
+Features
+    </strong></td>
+    <td align="center"><strong>
+      UI
+    </strong></td>
+  </tr>
+</table>    
+
+<br>
+
+> Mobile Design:
 
 <table>
   <tr>
     <td>
       <a target="_blank" href="https://www.figma.com/file/hJdWU9I8FTFfyd0fDmgNs0/gameboy_tct?type=design&node-id=35%3A36380&mode=design&t=qx9HBYvzRwqLcfZX-1">
-        <img src="https://EGRrqq.github.io/picx-images-hosting/TCT_assets/figmaiteration.54xi2a1kx0.webp" alt="figma project iteration">
+        <img   src="https://EGRrqq.github.io/picx-images-hosting/TCT_assets/gb_iteration.70aljqwyv4.webp" alt="figma project iteration">
       </a>
     </td>
     <td>
       <a target="_blank" href="https://egrrqq.github.io/tic-tac-toe/">
-        <img src="https://EGRrqq.github.io/picx-images-hosting/TCT_assets/mysweetconsole.4n7gdp07ci.webp" alt="final project result">
+        <img  src="https://EGRrqq.github.io/picx-images-hosting/TCT_assets/gb_final_result.70aljpgezi.webp" alt="final project result">
       </a>
     </td>
   </tr>
@@ -32,6 +56,37 @@
     <td align="center"><strong>
       <a target="_blank" href="https://www.figma.com/file/hJdWU9I8FTFfyd0fDmgNs0/gameboy_tct?type=design&node-id=35%3A36380&mode=design&t=qx9HBYvzRwqLcfZX-1">Figma Iteration</a>
     </strong></td>
+    <td align="center"><strong>
+      <a target="_blank" href="https://egrrqq.github.io/tic-tac-toe/">Final Result</a>
+    </strong></td>
+  </tr>
+</table>    
+
+<br>
+
+> Desktop Design:
+
+<table>
+  <tr>
+    <td>
+      <a target="_blank" href="https://www.figma.com/file/hJdWU9I8FTFfyd0fDmgNs0/gameboy_tct?type=design&node-id=35%3A36380&mode=design&t=qx9HBYvzRwqLcfZX-1">
+        <img  width="1080" src="https://EGRrqq.github.io/picx-images-hosting/TCT_assets/psp_iteration.5q7odf22hn.webp" alt="figma project iteration">
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><strong>
+      <a target="_blank" href="https://www.figma.com/file/hJdWU9I8FTFfyd0fDmgNs0/gameboy_tct?type=design&node-id=35%3A36380&mode=design&t=qx9HBYvzRwqLcfZX-1">Figma Iteration</a>
+    </strong></td>
+  </tr>
+  <tr>
+    <td>
+      <a target="_blank" href="https://egrrqq.github.io/tic-tac-toe/">
+        <img  width="1080" src="https://EGRrqq.github.io/picx-images-hosting/TCT_assets/psp_final_result.8adiq2213t.webp" alt="final project result">
+      </a>
+    </td>
+  </tr>
+  <tr>
     <td align="center"><strong>
       <a target="_blank" href="https://egrrqq.github.io/tic-tac-toe/">Final Result</a>
     </strong></td>
